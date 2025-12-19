@@ -1,0 +1,6 @@
+Hypothesis Test: Impact of Pool Quality on SalePrice for Properties with Pools
+Description: Reassess PoolQC impact on SalePrice for properties with pools only.
+
+F-Statistic: 1.0761
+P-Value: 4.4432e-01
+Significance: No significant differences detected among PoolQC categories.

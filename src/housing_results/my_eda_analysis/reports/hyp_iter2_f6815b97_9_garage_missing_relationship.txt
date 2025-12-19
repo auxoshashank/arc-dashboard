@@ -1,0 +1,6 @@
+Hypothesis Test: Effect of Missing Data in Garage Features on SalePrice
+Description: Investigating the relationship between properties missing garage-related data and SalePrice.
+
+T-Statistic: 17.9471
+P-Value: 2.4513e-34
+Significance: Significant difference detected.

@@ -1,0 +1,7 @@
+Hypothesis Test: Correlation Between Numerical Features
+Description: Generating a correlation heatmap to identify multicollinearity and feature groups.
+
+Top Correlated Features:
+Empty DataFrame
+Columns: []
+Index: [OverallQual, YearBuilt, TotalBsmtSF, 1stFlrSF, GrLivArea, TotRmsAbvGrd, GarageYrBlt, GarageCars, GarageArea, SalePrice]

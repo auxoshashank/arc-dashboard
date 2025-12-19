@@ -1,0 +1,45 @@
+Hypothesis Test: Conditional Density Plots for SalePrice
+Description: Generate density plots of SalePrice based on Neighborhood and OverallQual categories.
+
+Mean SalePrice by Neighborhood:
+                  SalePrice
+Neighborhood               
+Blmngtn       191468.400000
+Blueste       124000.000000
+BrDale        100915.384615
+BrkSide       122640.000000
+ClearCr       221842.105263
+CollgCr       201112.008696
+Crawfor       211587.204545
+Edwards       127908.850575
+Gilbert       196540.646154
+IDOTRR        106623.076923
+MeadowV       101890.000000
+Mitchel       156968.400000
+NAmes         147408.204420
+NPkVill       144392.857143
+NWAmes        189500.075758
+NoRidge       323185.090909
+NridgHt       312157.098361
+OldTown       132886.901099
+SWISU         144823.047619
+Sawyer        136867.810345
+SawyerW       180457.590909
+Somerst       226403.797101
+StoneBr       302605.700000
+Timber        236141.535714
+Veenker       251944.444444
+
+Mean SalePrice by OverallQual:
+                 SalePrice
+OverallQual               
+1             50150.000000
+2             60000.000000
+3             88560.937500
+4            109701.704545
+5            134189.441558
+6            162659.151125
+7            206157.825581
+8            275040.274074
+9            361384.305556
+10           418950.846154

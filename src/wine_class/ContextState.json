@@ -1,0 +1,788 @@
+{
+  "project_name": "wine_class",
+  "stage": "error",
+  "current_attempt": 0,
+  "max_attempts": 3,
+  "user_brief": "have a dataset containing physicochemical properties of wines such as acidity, residual sugar, chlorides, sulfur dioxide, density, pH, sulphates, and alcohol content. Each wine sample also has a quality score between 1 to 10, which is the target variable. I want to build a machine learning model that can predict the quality of wine based on these features. The goal is to analyze how different chemical properties influence wine quality and to classify the wine quality score.",
+  "data_profile": {
+    "rows": 1143,
+    "columns": 13,
+    "missing_values": {
+      "fixed acidity": 0,
+      "volatile acidity": 0,
+      "citric acid": 0,
+      "residual sugar": 0,
+      "chlorides": 0,
+      "free sulfur dioxide": 0,
+      "total sulfur dioxide": 0,
+      "density": 0,
+      "pH": 0,
+      "sulphates": 0,
+      "alcohol": 0,
+      "Id": 0,
+      "quality": 0
+    },
+    "dtypes": {
+      "fixed acidity": "float64",
+      "volatile acidity": "float64",
+      "citric acid": "float64",
+      "residual sugar": "float64",
+      "chlorides": "float64",
+      "free sulfur dioxide": "float64",
+      "total sulfur dioxide": "float64",
+      "density": "float64",
+      "pH": "float64",
+      "sulphates": "float64",
+      "alcohol": "float64",
+      "Id": "int64",
+      "quality": "int64"
+    },
+    "nunique": {
+      "fixed acidity": 91,
+      "volatile acidity": 135,
+      "citric acid": 77,
+      "residual sugar": 80,
+      "chlorides": 131,
+      "free sulfur dioxide": 53,
+      "total sulfur dioxide": 138,
+      "density": 388,
+      "pH": 87,
+      "sulphates": 89,
+      "alcohol": 61,
+      "Id": 1143,
+      "quality": 6
+    },
+    "target_column": null,
+    "feature_columns": [
+      "fixed acidity",
+      "volatile acidity",
+      "citric acid",
+      "residual sugar",
+      "chlorides",
+      "free sulfur dioxide",
+      "total sulfur dioxide",
+      "density",
+      "pH",
+      "sulphates",
+      "alcohol",
+      "Id",
+      "quality"
+    ],
+    "categorical_columns": [],
+    "numerical_columns": [
+      "fixed acidity",
+      "volatile acidity",
+      "citric acid",
+      "residual sugar",
+      "chlorides",
+      "free sulfur dioxide",
+      "total sulfur dioxide",
+      "density",
+      "pH",
+      "sulphates",
+      "alcohol",
+      "quality"
+    ],
+    "column_overview_md": "Dataset Summary:\n- Rows: 1,143\n- Columns: 13\n\nColumn Overview:\n              column   dtype  nunique  nunique_ratio  missing_pct    min       max     mean      std         sample_values\n       fixed acidity float64       91         0.0796          0.0 4.6000   15.9000   8.3111   1.7476        7.4, 7.8, 11.2\n    volatile acidity float64      135         0.1181          0.0 0.1200    1.5800   0.5313   0.1796       0.7, 0.88, 0.76\n         citric acid float64       77         0.0674          0.0 0.0000    1.0000   0.2684   0.1967       0.0, 0.04, 0.56\n      residual sugar float64       80         0.0700          0.0 0.9000   15.5000   2.5322   1.3559         1.9, 2.6, 2.3\n           chlorides float64      131         0.1146          0.0 0.0120    0.6110   0.0869   0.0473   0.076, 0.098, 0.092\n free sulfur dioxide float64       53         0.0464          0.0 1.0000   68.0000  15.6155  10.2505      11.0, 25.0, 15.0\ntotal sulfur dioxide float64      138         0.1207          0.0 6.0000  289.0000  45.9147  32.7821      34.0, 67.0, 54.0\n             density float64      388         0.3395          0.0 0.9901    1.0037   0.9967   0.0019 0.9978, 0.9968, 0.997\n                  pH float64       87         0.0761          0.0 2.7400    4.0100   3.3110   0.1567       3.51, 3.2, 3.26\n           sulphates float64       89         0.0779          0.0 0.3300    2.0000   0.6577   0.1704      0.56, 0.68, 0.65\n             alcohol float64       61         0.0534          0.0 8.4000   14.9000  10.4421   1.0822        9.4, 9.8, 10.0\n                  Id   int64     1143         1.0000          0.0 0.0000 1597.0000 804.9694 463.9971               0, 1, 2\n             quality   int64        6         0.0052          0.0 3.0000    8.0000   5.6570   0.8058               5, 6, 7",
+    "profile_text": "=== RAW DATASET PROFILE ===\nDataset Summary:\n- Rows: 1,143\n- Columns: 13\n\nColumn Overview:\n              column   dtype  nunique  nunique_ratio  missing_pct    min       max     mean      std         sample_values\n       fixed acidity float64       91         0.0796          0.0 4.6000   15.9000   8.3111   1.7476        7.4, 7.8, 11.2\n    volatile acidity float64      135         0.1181          0.0 0.1200    1.5800   0.5313   0.1796       0.7, 0.88, 0.76\n         citric acid float64       77         0.0674          0.0 0.0000    1.0000   0.2684   0.1967       0.0, 0.04, 0.56\n      residual sugar float64       80         0.0700          0.0 0.9000   15.5000   2.5322   1.3559         1.9, 2.6, 2.3\n           chlorides float64      131         0.1146          0.0 0.0120    0.6110   0.0869   0.0473   0.076, 0.098, 0.092\n free sulfur dioxide float64       53         0.0464          0.0 1.0000   68.0000  15.6155  10.2505      11.0, 25.0, 15.0\ntotal sulfur dioxide float64      138         0.1207          0.0 6.0000  289.0000  45.9147  32.7821      34.0, 67.0, 54.0\n             density float64      388         0.3395          0.0 0.9901    1.0037   0.9967   0.0019 0.9978, 0.9968, 0.997\n                  pH float64       87         0.0761          0.0 2.7400    4.0100   3.3110   0.1567       3.51, 3.2, 3.26\n           sulphates float64       89         0.0779          0.0 0.3300    2.0000   0.6577   0.1704      0.56, 0.68, 0.65\n             alcohol float64       61         0.0534          0.0 8.4000   14.9000  10.4421   1.0822        9.4, 9.8, 10.0\n                  Id   int64     1143         1.0000          0.0 0.0000 1597.0000 804.9694 463.9971               0, 1, 2\n             quality   int64        6         0.0052          0.0 3.0000    8.0000   5.6570   0.8058               5, 6, 7\n\n--- FIRST 5 ROWS (first 30 columns) ---\n   fixed acidity  volatile acidity  citric acid  residual sugar  chlorides  free sulfur dioxide  total sulfur dioxide  density    pH  sulphates  alcohol  Id  quality\n0            7.4              0.70         0.00             1.9      0.076                 11.0                  34.0   0.9978  3.51       0.56      9.4   0        5\n1            7.8              0.88         0.00             2.6      0.098                 25.0                  67.0   0.9968  3.20       0.68      9.8   1        5\n2            7.8              0.76         0.04             2.3      0.092                 15.0                  54.0   0.9970  3.26       0.65      9.8   2        5\n3           11.2              0.28         0.56             1.9      0.075                 17.0                  60.0   0.9980  3.16       0.58      9.8   3        6\n4            7.4              0.70         0.00             1.9      0.076                 11.0                  34.0   0.9978  3.51       0.56      9.4   4        5\n\n--- DATA TYPES & NON-NULL COUNTS (df.info) ---\n<class 'pandas.core.frame.DataFrame'>\nRangeIndex: 1143 entries, 0 to 1142\nData columns (total 13 columns):\n #   Column                Non-Null Count  Dtype  \n---  ------                --------------  -----  \n 0   fixed acidity         1143 non-null   float64\n 1   volatile acidity      1143 non-null   float64\n 2   citric acid           1143 non-null   float64\n 3   residual sugar        1143 non-null   float64\n 4   chlorides             1143 non-null   float64\n 5   free sulfur dioxide   1143 non-null   float64\n 6   total sulfur dioxide  1143 non-null   float64\n 7   density               1143 non-null   float64\n 8   pH                    1143 non-null   float64\n 9   sulphates             1143 non-null   float64\n 10  alcohol               1143 non-null   float64\n 11  Id                    1143 non-null   int64  \n 12  quality               1143 non-null   int64  \ndtypes: float64(11), int64(2)\nmemory usage: 116.2 KB\n\n\n--- NUMERICAL SUMMARY (df.describe) ---\n       fixed acidity  volatile acidity  citric acid  residual sugar    chlorides  free sulfur dioxide  total sulfur dioxide      density           pH    sulphates      alcohol           Id      quality\ncount    1143.000000       1143.000000  1143.000000     1143.000000  1143.000000          1143.000000           1143.000000  1143.000000  1143.000000  1143.000000  1143.000000  1143.000000  1143.000000\nmean        8.311111          0.531339     0.268364        2.532152     0.086933            15.615486             45.914698     0.996730     3.311015     0.657708    10.442111   804.969379     5.657043\nstd         1.747595          0.179633     0.196686        1.355917     0.047267            10.250486             32.782130     0.001925     0.156664     0.170399     1.082196   463.997116     0.805824\nmin         4.600000          0.120000     0.000000        0.900000     0.012000             1.000000              6.000000     0.990070     2.740000     0.330000     8.400000     0.000000     3.000000\n25%         7.100000          0.392500     0.090000        1.900000     0.070000             7.000000             21.000000     0.995570     3.205000     0.550000     9.500000   411.000000     5.000000\n50%         7.900000          0.520000     0.250000        2.200000     0.079000            13.000000             37.000000     0.996680     3.310000     0.620000    10.200000   794.000000     6.000000\n75%         9.100000          0.640000     0.420000        2.600000     0.090000            21.000000             61.000000     0.997845     3.400000     0.730000    11.100000  1209.500000     6.000000\nmax        15.900000          1.580000     1.000000       15.500000     0.611000            68.000000            289.000000     1.003690     4.010000     2.000000    14.900000  1597.000000     8.000000\n"
+  },
+  "input_data_path": "/Users/shashankshah/CODE_REPOS/RDAgentExperiments/RDAgentExperiments/input_data/wine_class/data",
+  "raw_data_file": "/Users/shashankshah/CODE_REPOS/RDAgentExperiments/RDAgentExperiments/input_data/wine_class/data/wine.csv",
+  "output_path": "/Users/shashankshah/CODE_REPOS/RDAgentExperiments/RDAgentExperiments/output/wine_class",
+  "train_path": "/Users/shashankshah/CODE_REPOS/RDAgentExperiments/RDAgentExperiments/RD-Agent/ds_data/wine_class/train/train.csv",
+  "test_path": "/Users/shashankshah/CODE_REPOS/RDAgentExperiments/RDAgentExperiments/RD-Agent/ds_data/wine_class/test/test.csv",
+  "plan": [
+    "Confirm the target variable 'quality' and its range of values (3 to 8).",
+    "Configure the validation strategy using StratifiedShuffleSplit with an 80/20 split.",
+    "Ensure the test set does not contain the target variable 'quality'.",
+    "Create train.csv and test.csv files with appropriate structure and split.",
+    "Verify that all features are numerical and properly formatted for modeling."
+  ],
+  "execution_log": [],
+  "blueprint_metadata": {
+    "notes": "Ensure the stratified split maintains class proportions in both training and testing sets. Test set must exclude the target variable to prevent leakage.",
+    "brain_version": "v1",
+    "generated_at": "2023-10-10T12:00:00Z"
+  },
+  "state_guard_log": [],
+  "issues": [
+    "Pipeline interrupted by user (KeyboardInterrupt)"
+  ],
+  "ambiguities": [],
+  "human_feedback": [
+    "Plan approved by user."
+  ],
+  "problem_overview": {
+    "ml_task_type": "Wine Quality Score Classification (Multi-Class Classification)",
+    "problem_description": "The goal is to predict the quality score of wine samples, ranging from 3 to 8, based on their physicochemical properties such as acidity, residual sugar, chlorides, sulfur dioxide, density, pH, sulphates, and alcohol content. This will help analyze how different chemical properties influence wine quality and classify wines into quality categories.",
+    "business_objective": "To understand the relationship between chemical properties and wine quality, enabling better quality control and production optimization in the wine industry.",
+    "assumptions": [
+      "The quality score is an accurate representation of wine quality as assessed by experts.",
+      "The dataset is representative of the wine samples and their physicochemical properties.",
+      "No significant data leakage exists between features and the target variable."
+    ]
+  },
+  "ml_task_type": "Wine Quality Score Classification (Multi-Class Classification)",
+  "target_variable": "quality",
+  "data_schema_state": {
+    "target_variable": "quality",
+    "target_description": "The quality score of the wine sample, ranging from 3 to 8, representing expert-assessed wine quality.",
+    "feature_descriptions": {
+      "fixed acidity": "The concentration of fixed acids in the wine, measured in g/dm³.",
+      "volatile acidity": "The concentration of volatile acids in the wine, measured in g/dm³.",
+      "citric acid": "The concentration of citric acid in the wine, measured in g/dm³.",
+      "residual sugar": "The amount of sugar remaining after fermentation, measured in g/dm³.",
+      "chlorides": "The concentration of chlorides (salt) in the wine, measured in g/dm³.",
+      "free sulfur dioxide": "The concentration of free sulfur dioxide in the wine, measured in mg/dm³.",
+      "total sulfur dioxide": "The total concentration of sulfur dioxide in the wine, measured in mg/dm³.",
+      "density": "The density of the wine, measured in g/cm³.",
+      "pH": "The pH level of the wine, indicating its acidity.",
+      "sulphates": "The concentration of sulphates in the wine, measured in g/dm³.",
+      "alcohol": "The alcohol content of the wine, measured in %.",
+      "Id": "Unique identifier for each wine sample."
+    }
+  },
+  "model_feasibility_state": {
+    "is_suitable_for_modeling": true,
+    "justification": "The dataset contains sufficient rows (1,143) and features (12 excluding Id) with no missing values. The target variable is well-defined and has a manageable number of unique classes (6). The features are numerical and appear to be relevant to the prediction task."
+  },
+  "metrics_plan": {
+    "primary_metric_name": "Accuracy",
+    "primary_metric_description": "Measures the proportion of correctly classified wine samples out of the total samples.",
+    "secondary_metrics": [
+      {
+        "name": "F1-Score",
+        "description": "Balances precision and recall, especially useful for imbalanced class distributions."
+      },
+      {
+        "name": "Confusion Matrix",
+        "description": "Provides detailed insights into the classification performance for each quality score."
+      }
+    ]
+  },
+  "validation_strategy_state": {
+    "split_method": "StratifiedShuffleSplit",
+    "split_ratio": "80/20",
+    "stratification_target": "quality",
+    "description": "The dataset will be split into training and testing sets using stratified sampling to ensure all quality classes are proportionally represented in both sets.",
+    "split_config": {
+      "type": "stratified",
+      "n_splits": 1,
+      "test_size": 0.2,
+      "random_state": 42
+    },
+    "split_validation": null
+  },
+  "submission_format_state": {
+    "format_type": "CSV",
+    "required_columns": [
+      "Id",
+      "predicted_quality"
+    ],
+    "file_example": "Id,predicted_quality\n0,5\n1,6\n2,5\n3,7\n4,5"
+  },
+  "prediction_strategy_state": {
+    "method": "Batch Inference",
+    "workflow": "Predictions will be generated periodically by running the model on a batch of wine samples and exporting the results to a CSV file.",
+    "usage_context": "Results will be consumed by quality control teams and production managers for analysis and decision-making."
+  },
+  "prediction_strategy": "Batch Inference",
+  "business_impact_state": {
+    "business_value_kpis": [
+      {
+        "kpi_name": "Prediction Accuracy",
+        "description": "Percentage of correctly classified wine samples."
+      },
+      {
+        "kpi_name": "Quality Classification Consistency",
+        "description": "Consistency in classification across different batches of wine samples."
+      },
+      {
+        "kpi_name": "Production Optimization",
+        "description": "Improvement in production processes based on insights from physicochemical properties."
+      }
+    ]
+  },
+  "analysis_results": {
+    "context_state": {
+      "meta": {
+        "project_name": "wine_class",
+        "ingestion_timestamp": "2025-12-11T10:44:54.181533Z",
+        "agent_version": "1.0.0"
+      },
+      "status": "INGESTION_COMPLETE",
+      "mode": "SPLIT_AND_VALIDATE",
+      "detected_files": {
+        "data_files": [
+          "wine.csv"
+        ],
+        "brief_file": "wine.txt"
+      },
+      "user_brief": "have a dataset containing physicochemical properties of wines such as acidity, residual sugar, chlorides, sulfur dioxide, density, pH, sulphates, and alcohol content. Each wine sample also has a quality score between 1 to 10, which is the target variable. I want to build a machine learning model that can predict the quality of wine based on these features. The goal is to analyze how different chemical properties influence wine quality and to classify the wine quality score.",
+      "profile": {
+        "dataset_label": "raw",
+        "rows": 1143,
+        "cols": 13,
+        "memory_mb": 0.1135,
+        "duplicate_rows": 0,
+        "alerts": [],
+        "potential_targets": [
+          "quality"
+        ],
+        "columns_sample": [
+          "fixed acidity",
+          "volatile acidity",
+          "citric acid",
+          "residual sugar",
+          "chlorides",
+          "free sulfur dioxide",
+          "total sulfur dioxide",
+          "density",
+          "pH",
+          "sulphates",
+          "alcohol",
+          "Id",
+          "quality"
+        ],
+        "column_overview_md": "Dataset Summary:\n- Rows: 1,143\n- Columns: 13\n\nColumn Overview:\n              column   dtype  nunique  nunique_ratio  missing_pct    min       max     mean      std         sample_values\n       fixed acidity float64       91         0.0796          0.0 4.6000   15.9000   8.3111   1.7476        7.4, 7.8, 11.2\n    volatile acidity float64      135         0.1181          0.0 0.1200    1.5800   0.5313   0.1796       0.7, 0.88, 0.76\n         citric acid float64       77         0.0674          0.0 0.0000    1.0000   0.2684   0.1967       0.0, 0.04, 0.56\n      residual sugar float64       80         0.0700          0.0 0.9000   15.5000   2.5322   1.3559         1.9, 2.6, 2.3\n           chlorides float64      131         0.1146          0.0 0.0120    0.6110   0.0869   0.0473   0.076, 0.098, 0.092\n free sulfur dioxide float64       53         0.0464          0.0 1.0000   68.0000  15.6155  10.2505      11.0, 25.0, 15.0\ntotal sulfur dioxide float64      138         0.1207          0.0 6.0000  289.0000  45.9147  32.7821      34.0, 67.0, 54.0\n             density float64      388         0.3395          0.0 0.9901    1.0037   0.9967   0.0019 0.9978, 0.9968, 0.997\n                  pH float64       87         0.0761          0.0 2.7400    4.0100   3.3110   0.1567       3.51, 3.2, 3.26\n           sulphates float64       89         0.0779          0.0 0.3300    2.0000   0.6577   0.1704      0.56, 0.68, 0.65\n             alcohol float64       61         0.0534          0.0 8.4000   14.9000  10.4421   1.0822        9.4, 9.8, 10.0\n                  Id   int64     1143         1.0000          0.0 0.0000 1597.0000 804.9694 463.9971               0, 1, 2\n             quality   int64        6         0.0052          0.0 3.0000    8.0000   5.6570   0.8058               5, 6, 7"
+      },
+      "errors": [],
+      "plan": null
+    },
+    "brain_result_raw": {
+      "problem_overview": {
+        "ml_task_type": "Wine Quality Score Classification (Multi-Class Classification)",
+        "problem_description": "The goal is to predict the quality score of wine samples, ranging from 3 to 8, based on their physicochemical properties such as acidity, residual sugar, chlorides, sulfur dioxide, density, pH, sulphates, and alcohol content. This will help analyze how different chemical properties influence wine quality and classify wines into quality categories.",
+        "business_objective": "To understand the relationship between chemical properties and wine quality, enabling better quality control and production optimization in the wine industry.",
+        "assumptions": [
+          "The quality score is an accurate representation of wine quality as assessed by experts.",
+          "The dataset is representative of the wine samples and their physicochemical properties.",
+          "No significant data leakage exists between features and the target variable."
+        ]
+      },
+      "data_schema": {
+        "target_variable": {
+          "name": "quality",
+          "description": "The quality score of the wine sample, ranging from 3 to 8, representing expert-assessed wine quality."
+        },
+        "feature_descriptions": [
+          {
+            "name": "fixed acidity",
+            "description": "The concentration of fixed acids in the wine, measured in g/dm³."
+          },
+          {
+            "name": "volatile acidity",
+            "description": "The concentration of volatile acids in the wine, measured in g/dm³."
+          },
+          {
+            "name": "citric acid",
+            "description": "The concentration of citric acid in the wine, measured in g/dm³."
+          },
+          {
+            "name": "residual sugar",
+            "description": "The amount of sugar remaining after fermentation, measured in g/dm³."
+          },
+          {
+            "name": "chlorides",
+            "description": "The concentration of chlorides (salt) in the wine, measured in g/dm³."
+          },
+          {
+            "name": "free sulfur dioxide",
+            "description": "The concentration of free sulfur dioxide in the wine, measured in mg/dm³."
+          },
+          {
+            "name": "total sulfur dioxide",
+            "description": "The total concentration of sulfur dioxide in the wine, measured in mg/dm³."
+          },
+          {
+            "name": "density",
+            "description": "The density of the wine, measured in g/cm³."
+          },
+          {
+            "name": "pH",
+            "description": "The pH level of the wine, indicating its acidity."
+          },
+          {
+            "name": "sulphates",
+            "description": "The concentration of sulphates in the wine, measured in g/dm³."
+          },
+          {
+            "name": "alcohol",
+            "description": "The alcohol content of the wine, measured in %."
+          },
+          {
+            "name": "Id",
+            "description": "Unique identifier for each wine sample."
+          }
+        ]
+      },
+      "model_feasibility": {
+        "is_suitable_for_modeling": true,
+        "justification": "The dataset contains sufficient rows (1,143) and features (12 excluding Id) with no missing values. The target variable is well-defined and has a manageable number of unique classes (6). The features are numerical and appear to be relevant to the prediction task."
+      },
+      "evaluation_plan": {
+        "primary_metric": {
+          "name": "Accuracy",
+          "description": "Measures the proportion of correctly classified wine samples out of the total samples."
+        },
+        "secondary_metrics": [
+          {
+            "name": "F1-Score",
+            "description": "Balances precision and recall, especially useful for imbalanced class distributions."
+          },
+          {
+            "name": "Confusion Matrix",
+            "description": "Provides detailed insights into the classification performance for each quality score."
+          }
+        ]
+      },
+      "validation_strategy": {
+        "split_method": "StratifiedShuffleSplit",
+        "split_ratio": "80/20",
+        "stratification_target": "quality",
+        "description": "The dataset will be split into training and testing sets using stratified sampling to ensure all quality classes are proportionally represented in both sets.",
+        "split_config": {
+          "type": "stratified",
+          "n_splits": 1,
+          "test_size": 0.2,
+          "random_state": 42
+        }
+      },
+      "submission_format": {
+        "format_type": "CSV",
+        "required_columns": [
+          "Id",
+          "predicted_quality"
+        ],
+        "file_example": "Id,predicted_quality\n0,5\n1,6\n2,5\n3,7\n4,5"
+      },
+      "prediction_strategy": {
+        "method": "Batch Inference",
+        "workflow": "Predictions will be generated periodically by running the model on a batch of wine samples and exporting the results to a CSV file.",
+        "usage_context": "Results will be consumed by quality control teams and production managers for analysis and decision-making."
+      },
+      "business_impact": {
+        "kpis": [
+          {
+            "kpi_name": "Prediction Accuracy",
+            "description": "Percentage of correctly classified wine samples."
+          },
+          {
+            "kpi_name": "Quality Classification Consistency",
+            "description": "Consistency in classification across different batches of wine samples."
+          },
+          {
+            "kpi_name": "Production Optimization",
+            "description": "Improvement in production processes based on insights from physicochemical properties."
+          }
+        ]
+      },
+      "technical_plan": {
+        "steps": [
+          "Confirm the target variable 'quality' and its range of values (3 to 8).",
+          "Configure the validation strategy using StratifiedShuffleSplit with an 80/20 split.",
+          "Ensure the test set does not contain the target variable 'quality'.",
+          "Create train.csv and test.csv files with appropriate structure and split.",
+          "Verify that all features are numerical and properly formatted for modeling."
+        ],
+        "notes": "Ensure the stratified split maintains class proportions in both training and testing sets. Test set must exclude the target variable to prevent leakage."
+      },
+      "ambiguities": [],
+      "meta": {
+        "brain_version": "v1",
+        "generated_at": "2023-10-10T12:00:00Z"
+      }
+    },
+    "execution_summary": {
+      "total_steps": 5,
+      "successful_steps": 2,
+      "success_rate": 0.4,
+      "issues_count": 0
+    }
+  },
+  "validation_results": {
+    "train_quality": {
+      "overall_quality": "Good",
+      "quality_issues": [],
+      "missing_stats": {
+        "fixed acidity": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "volatile acidity": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "citric acid": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "residual sugar": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "chlorides": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "free sulfur dioxide": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "total sulfur dioxide": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "density": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "pH": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "sulphates": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "alcohol": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "Id": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "quality": {
+          "count": 0,
+          "percentage": 0.0
+        }
+      },
+      "missing_percentage": 0.0,
+      "duplicate_count": 0,
+      "duplicate_percentage": 0.0,
+      "constant_columns": [],
+      "outlier_stats": {
+        "fixed acidity": {
+          "count": 37,
+          "percentage": 4.05,
+          "bounds": [
+            4.1,
+            12.1
+          ]
+        },
+        "volatile acidity": {
+          "count": 11,
+          "percentage": 1.2,
+          "bounds": [
+            0.015000000000000013,
+            1.0150000000000001
+          ]
+        },
+        "citric acid": {
+          "count": 1,
+          "percentage": 0.11,
+          "bounds": [
+            -0.3799999999999999,
+            0.8999999999999999
+          ]
+        },
+        "residual sugar": {
+          "count": 89,
+          "percentage": 9.74,
+          "bounds": [
+            0.8499999999999996,
+            3.6500000000000004
+          ]
+        },
+        "chlorides": {
+          "count": 60,
+          "percentage": 6.56,
+          "bounds": [
+            0.04000000000000002,
+            0.11999999999999998
+          ]
+        },
+        "free sulfur dioxide": {
+          "count": 13,
+          "percentage": 1.42,
+          "bounds": [
+            -14.0,
+            42.0
+          ]
+        },
+        "total sulfur dioxide": {
+          "count": 32,
+          "percentage": 3.5,
+          "bounds": [
+            -39.0,
+            121.0
+          ]
+        },
+        "density": {
+          "count": 23,
+          "percentage": 2.52,
+          "bounds": [
+            0.9921974999999998,
+            1.0011975000000002
+          ]
+        },
+        "pH": {
+          "count": 20,
+          "percentage": 2.19,
+          "bounds": [
+            2.925,
+            3.6849999999999996
+          ]
+        },
+        "sulphates": {
+          "count": 37,
+          "percentage": 4.05,
+          "bounds": [
+            0.29500000000000015,
+            0.9749999999999999
+          ]
+        },
+        "alcohol": {
+          "count": 9,
+          "percentage": 0.98,
+          "bounds": [
+            7.1000000000000005,
+            13.5
+          ]
+        },
+        "Id": {
+          "count": 0,
+          "percentage": 0.0,
+          "bounds": [
+            -768.5,
+            2385.5
+          ]
+        },
+        "quality": {
+          "count": 18,
+          "percentage": 1.97,
+          "bounds": [
+            3.5,
+            7.5
+          ]
+        }
+      },
+      "shape": [
+        914,
+        13
+      ]
+    },
+    "target_variable": "quality",
+    "test_quality": {
+      "overall_quality": "Good",
+      "quality_issues": [],
+      "missing_stats": {
+        "fixed acidity": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "volatile acidity": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "citric acid": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "residual sugar": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "chlorides": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "free sulfur dioxide": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "total sulfur dioxide": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "density": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "pH": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "sulphates": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "alcohol": {
+          "count": 0,
+          "percentage": 0.0
+        },
+        "Id": {
+          "count": 0,
+          "percentage": 0.0
+        }
+      },
+      "missing_percentage": 0.0,
+      "duplicate_count": 0,
+      "duplicate_percentage": 0.0,
+      "constant_columns": [],
+      "outlier_stats": {
+        "fixed acidity": {
+          "count": 7,
+          "percentage": 3.06,
+          "bounds": [
+            4.1,
+            12.1
+          ]
+        },
+        "volatile acidity": {
+          "count": 2,
+          "percentage": 0.87,
+          "bounds": [
+            0.025000000000000022,
+            1.025
+          ]
+        },
+        "citric acid": {
+          "count": 0,
+          "percentage": 0.0,
+          "bounds": [
+            -0.48000000000000004,
+            0.96
+          ]
+        },
+        "residual sugar": {
+          "count": 25,
+          "percentage": 10.92,
+          "bounds": [
+            0.9999999999999998,
+            3.4000000000000004
+          ]
+        },
+        "chlorides": {
+          "count": 20,
+          "percentage": 8.73,
+          "bounds": [
+            0.04399999999999999,
+            0.11599999999999999
+          ]
+        },
+        "free sulfur dioxide": {
+          "count": 9,
+          "percentage": 3.93,
+          "bounds": [
+            -11.5,
+            40.5
+          ]
+        },
+        "total sulfur dioxide": {
+          "count": 9,
+          "percentage": 3.93,
+          "bounds": [
+            -34.0,
+            118.0
+          ]
+        },
+        "density": {
+          "count": 12,
+          "percentage": 5.24,
+          "bounds": [
+            0.99201,
+            1.00137
+          ]
+        },
+        "pH": {
+          "count": 3,
+          "percentage": 1.31,
+          "bounds": [
+            2.8850000000000002,
+            3.725
+          ]
+        },
+        "sulphates": {
+          "count": 8,
+          "percentage": 3.49,
+          "bounds": [
+            0.2650000000000001,
+            1.025
+          ]
+        },
+        "alcohol": {
+          "count": 2,
+          "percentage": 0.87,
+          "bounds": [
+            6.950000000000001,
+            13.749999999999998
+          ]
+        },
+        "Id": {
+          "count": 0,
+          "percentage": 0.0,
+          "bounds": [
+            -842.0,
+            2470.0
+          ]
+        }
+      },
+      "shape": [
+        229,
+        12
+      ]
+    },
+    "schema_consistency": {
+      "is_consistent": false,
+      "schema_issues": [
+        "Test values outside training range: [{'column': 'density', 'train_range': (0.99007, 1.0032), 'test_range': (0.99084, 1.00369)}, {'column': 'Id', 'train_range': (0, 1595), 'test_range': (1, 1597)}, {'column': 'residual sugar', 'train_range': (0.9, 13.8), 'test_range': (1.2, 15.5)}]"
+      ],
+      "missing_columns": [],
+      "extra_columns": [],
+      "dtype_mismatches": [],
+      "range_issues": [
+        {
+          "column": "density",
+          "train_range": [
+            0.99007,
+            1.0032
+          ],
+          "test_range": [
+            0.99084,
+            1.00369
+          ]
+        },
+        {
+          "column": "Id",
+          "train_range": [
+            0,
+            1595
+          ],
+          "test_range": [
+            1,
+            1597
+          ]
+        },
+        {
+          "column": "residual sugar",
+          "train_range": [
+            0.9,
+            13.8
+          ],
+          "test_range": [
+            1.2,
+            15.5
+          ]
+        }
+      ]
+    },
+    "data_leakage": {
+      "has_leakage": false,
+      "leakage_issues": [],
+      "perfect_correlations": [],
+      "timestamp_columns": []
+    }
+  }
+}

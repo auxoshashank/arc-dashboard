@@ -1,0 +1,6 @@
+Hypothesis Test: Assess the Influence of Functional on SalePrice
+Description: Investigating the relationship between functional property condition and SalePrice.
+
+F-Statistic: 3.5262
+P-Value: 1.8327e-03
+Significance: Significant differences detected.

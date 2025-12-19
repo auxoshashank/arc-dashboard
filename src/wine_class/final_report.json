@@ -1,0 +1,122 @@
+{
+  "report_meta": {
+    "generated_at": "2025-12-11T10:35:02.041347Z",
+    "project_name": "wine_class",
+    "version": "1.0.0"
+  },
+  "problem_overview": {
+    "ml_task_type": "Wine Quality Score Classification (Multi-Class Classification)",
+    "Problem_description": "The goal is to predict the quality score of wine samples based on their physicochemical properties such as acidity, residual sugar, chlorides, sulfur dioxide, density, pH, sulphates, and alcohol content. The quality score ranges from 1 to 10, and the task involves analyzing how these chemical properties influence wine quality and classifying the wine into its respective quality score."
+  },
+  "data_schema": {
+    "target_variable": {
+      "name": "quality",
+      "description": "The quality score of the wine sample, ranging from 1 to 10, representing expert evaluation of wine quality."
+    },
+    "data_description": [
+      {
+        "name": "fixed acidity",
+        "description": "The concentration of fixed acids in the wine, affecting its taste and preservation."
+      },
+      {
+        "name": "volatile acidity",
+        "description": "The concentration of volatile acids, which can contribute to wine spoilage if too high."
+      },
+      {
+        "name": "citric acid",
+        "description": "A natural acid that can add freshness and enhance flavor in wine."
+      },
+      {
+        "name": "residual sugar",
+        "description": "The amount of sugar left after fermentation, influencing sweetness."
+      },
+      {
+        "name": "chlorides",
+        "description": "The concentration of salt in the wine, which can affect taste."
+      },
+      {
+        "name": "free sulfur dioxide",
+        "description": "The amount of free sulfur dioxide, which acts as an antioxidant and antimicrobial agent."
+      },
+      {
+        "name": "total sulfur dioxide",
+        "description": "The total amount of sulfur dioxide, including bound and free forms, used for preservation."
+      },
+      {
+        "name": "density",
+        "description": "The density of the wine, which can indicate sugar and alcohol content."
+      },
+      {
+        "name": "pH",
+        "description": "The acidity level of the wine, influencing taste and stability."
+      },
+      {
+        "name": "sulphates",
+        "description": "The concentration of sulphates, which can enhance flavor and act as a preservative."
+      },
+      {
+        "name": "alcohol",
+        "description": "The alcohol content of the wine, which contributes to its body and flavor."
+      },
+      {
+        "name": "Id",
+        "description": "Unique identifier for each wine sample."
+      }
+    ]
+  },
+  "model_feasibility": {
+    "is_suitable_for_modeling": true,
+    "justification": "The dataset has sufficient structure for modeling, with a defined target variable and a valid data profile. No critical blocking issues were detected."
+  },
+  "model_evaluation_metrics": {
+    "primary_metric": {
+      "name": "Accuracy",
+      "description": "The proportion of correctly classified wine samples out of the total samples, suitable for evaluating multi-class classification performance."
+    },
+    "secondary_metrics": [
+      {
+        "name": "F1 Score (Macro)",
+        "description": "The harmonic mean of precision and recall across all classes, useful for assessing model performance on imbalanced classes."
+      },
+      {
+        "name": "Confusion Matrix",
+        "description": "A matrix showing the counts of true positives, false positives, true negatives, and false negatives for each class, providing detailed insights into classification errors."
+      }
+    ]
+  },
+  "validation_strategy": {
+    "split_method": "Stratified Shuffle Split",
+    "split_ratio": "80/20",
+    "stratification_target": "quality",
+    "description": "The dataset will be split into training and testing sets using stratified shuffle split to ensure that the distribution of quality scores is preserved in both sets."
+  },
+  "submission_format": {
+    "format_type": "CSV",
+    "required_columns": [
+      "Id",
+      "predicted_quality"
+    ],
+    "file_example": "Id,predicted_quality\n0,5\n1,6\n2,5\n3,7\n4,5"
+  },
+  "prediction_strategy": {
+    "method": "Batch Inference",
+    "workflow": "Predictions will be generated in batches after training the model and exported as a CSV file.",
+    "usage_context": "Results will be used for analysis and decision-making in wine quality control processes."
+  },
+  "business_impact_tracking": {
+    "business_value_kpis": [
+      {
+        "kpi_name": "Prediction Accuracy",
+        "description": "Percentage of correctly classified wine samples, indicating the reliability of the model."
+      },
+      {
+        "kpi_name": "Quality Score Distribution Insights",
+        "description": "Understanding the distribution of predicted quality scores to identify trends and areas for improvement."
+      },
+      {
+        "kpi_name": "Production Optimization",
+        "description": "Insights into physicochemical properties influencing quality, enabling better control over production processes."
+      }
+    ]
+  }
+}

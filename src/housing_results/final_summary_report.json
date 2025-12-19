@@ -1,0 +1,160 @@
+{
+  "executive_summary": [
+    "The best model achieved an RMSE score of 0.1221, improving upon previous SOTA results.",
+    "Higher-order interaction features were streamlined to optimize runtime and maintain predictive performance.",
+    "Pipeline profiling and optimization identified bottlenecks and improved runtime efficiency.",
+    "The final solution balances computational cost and predictive accuracy effectively."
+  ],
+  "preprocessing_steps": [
+    "Impute missing values using mean for numerical columns and mode for categorical columns.",
+    "Encode categorical variables using one-hot encoding.",
+    "Scale numerical features using standard scaling.",
+    "Generate higher-order interaction features among domain-specific features.",
+    "Select top features based on mutual information scores."
+  ],
+  "final_features_used": "Selected top features based on mutual information scores, including higher-order interaction features dynamically selected during training.",
+  "best_modelling_results": {
+    "metric": "Root-Mean-Squared-Error (RMSE)",
+    "value": 0.1221,
+    "source_experiment": "Loop 12 Experiment 1"
+  },
+  "model_card": {
+    "model_name": "xgboost.XGBRegressor",
+    "hyperparameters": "{'n_estimators': 3000, 'learning_rate': 0.01, 'max_depth': 4, 'subsample': 0.7, 'colsample_bytree': 0.7, 'random_state': 42, 'n_jobs': -1}",
+    "training_details": "Training performed using K-Fold cross-validation with 7 folds. Features were dynamically selected based on mutual information scores, and higher-order interaction features were included selectively. The target variable 'SalePrice' was log-transformed for regression.",
+    "assumptions_limitations": [
+      "Higher-order interaction features were limited to the top-performing ones based on mutual information scores.",
+      "The pipeline assumes consistent feature types across train and test datasets.",
+      "The model relies on domain-specific feature engineering, which may not generalize to other datasets."
+    ],
+    "code": "```python\nimport pandas as pd\nimport numpy as np\nimport xgboost as xgb\nfrom sklearn.model_selection import KFold\nfrom sklearn.preprocessing import StandardScaler, OneHotEncoder\nfrom sklearn.compose import ColumnTransformer\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.impute import SimpleImputer\nfrom sklearn.metrics import mean_squared_error\nfrom sklearn.feature_selection import mutual_info_regression\nimport os\nimport sys\nimport io\nimport time\nfrom itertools import combinations\n\n# --- Configuration ---\n# Set to True for a quick run on a small subset of data with reduced complexity\nDEBUG = False\n# Set to True to force CPU usage, False to use GPU if available\nFORCE_CPU = False\n\n# --- Optimization Configuration ---\n# Number of top higher-order (HO) features to select based on mutual information\nTOP_HO_FEATURES = 50\n\n# --- Constants ---\nTRAIN_PATH = './workspace_input/train/train.csv'\nTEST_PATH = './workspace_input/test/test.csv'\nSUBMISSION_PATH = 'submission.csv'\nSCORES_PATH = 'scores.csv'\n\nRANDOM_STATE = 42\nN_SPLITS = 7\nN_FEATURES_TO_SELECT = 250\n\n# XGBoost Hyperparameters\nXGB_PARAMS = {\n    'n_estimators': 3000,\n    'learning_rate': 0.01,\n    'max_depth': 4,\n    'subsample': 0.7,\n    'colsample_bytree': 0.7,\n    'random_state': RANDOM_STATE,\n    'n_jobs': -1,\n}\nEARLY_STOPPING_ROUNDS = 50\n\n# --- Profiling Globals ---\nPIPELINE_TIMINGS = {}\n\n# --- Profiling & Optimization Functions ---\n\ndef start_timer(step_name):\n    \"\"\"Starts a timer for a pipeline step.\"\"\"\n    PIPELINE_TIMINGS[step_name] = {'start': time.time(), 'end': None, 'duration': None}\n    print(f\"\\n--- Profiling: Starting '{step_name}' ---\")\n\ndef end_timer(step_name):\n    \"\"\"Ends a timer and calculates the duration.\"\"\"\n    if step_name in PIPELINE_TIMINGS and PIPELINE_TIMINGS[step_name]['start'] is not None:\n        PIPELINE_TIMINGS[step_name]['end'] = time.time()\n        duration = PIPELINE_TIMINGS[step_name]['end'] - PIPELINE_TIMINGS[step_name]['start']\n        PIPELINE_TIMINGS[step_name]['duration'] = duration\n        print(f\"--- Profiling: Finished '{step_name}'. Duration: {duration:.2f} seconds ---\")\n\ndef profile_pipeline_runtime():\n    \"\"\"Generates and prints a report of pipeline execution times and identifies bottlenecks.\"\"\"\n    print(\"\\n--- I. Pipeline Runtime Profile ---\")\n    report = []\n    total_duration = 0\n    \n    step_order = [\n        \"A. Pipeline Optimization\",\n        \"B. Data Loading\",\n        \"C. Initial Feature Engineering\",\n        \"D. EDA\",\n        \"E. Model Training (K-Fold CV)\",\n        \"F. Evaluation & Submission\"\n    ]\n    \n    for step in step_order:\n        if step in PIPELINE_TIMINGS:\n            times = PIPELINE_TIMINGS[step]\n            duration = times.get('duration', 0)\n            report.append(f\"- {step}: {duration:.2f} seconds\")\n            total_duration += duration\n    \n    report.append(f\"\\nTotal Pipeline Duration: {total_duration:.2f} seconds\")\n    \n    if PIPELINE_TIMINGS:\n        valid_steps = {k: v for k, v in PIPELINE_TIMINGS.items() if v.get('duration') is not None}\n        if valid_steps:\n            bottleneck = max(valid_steps, key=lambda k: valid_steps[k]['duration'])\n            bottleneck_duration = valid_steps[bottleneck]['duration']\n            report.append(f\"Potential Bottleneck: '{bottleneck}' took {bottleneck_duration:.2f} seconds.\")\n\n    print(\"\\n\".join(report))\n\ndef optimize_pipeline_components():\n    \"\"\"Adjusts pipeline parameters to manage runtime, especially for debug mode.\"\"\"\n    print(\"--- A. Pipeline Optimization & Configuration ---\")\n    global XGB_PARAMS, N_FEATURES_TO_SELECT, N_SPLITS, TOP_HO_FEATURES\n\n    if DEBUG:\n        print(\"DEBUG MODE ENABLED: Applying optimizations for a quick run.\")\n        XGB_PARAMS['n_estimators'] = 100\n        N_FEATURES_TO_SELECT = 50\n        N_SPLITS = 2\n        TOP_HO_FEATURES = 10 # Reduce HO features in debug mode\n        print(f\" - XGBoost n_estimators capped at: {XGB_PARAMS['n_estimators']}\")\n        print(f\" - Features to select capped at: {N_FEATURES_TO_SELECT}\")\n        print(f\" - Higher-order features to select capped at: {TOP_HO_FEATURES}\")\n        print(f\" - Cross-validation folds reduced to: {N_SPLITS}\")\n    else:\n        print(\"Standard Mode: Using full configuration for best performance.\")\n        print(f\" - XGBoost n_estimators: {XGB_PARAMS['n_estimators']}\")\n        print(f\" - Features to select: {N_FEATURES_TO_SELECT}\")\n        print(f\" - Higher-order features to select: {TOP_HO_FEATURES}\")\n        print(f\" - Cross-validation folds: {N_SPLITS}\")\n\ndef load_data():\n    \"\"\"Loads train and test data from CSV files.\"\"\"\n    print(\"--- B. Data Loading ---\")\n    try:\n        train_df = pd.read_csv(TRAIN_PATH)\n        test_df = pd.read_csv(TEST_PATH)\n        print(f\"Train data loaded: {train_df.shape}\")\n        print(f\"Test data loaded: {test_df.shape}\")\n\n        if DEBUG:\n            print(\"DEBUG: Subsetting data to the first 500 rows.\")\n            train_df = train_df.head(500)\n            test_df = test_df.head(500)\n            print(f\"Debug train data shape: {train_df.shape}\")\n            print(f\"Debug test data shape: {test_df.shape}\")\n\n    except FileNotFoundError as e:\n        print(f\"Error loading data: {e}\", file=sys.stderr)\n        sys.exit(1)\n    return train_df, test_df\n\ndef engineer_initial_features(df):\n    \"\"\"Engineers new features that do not depend on the target variable.\"\"\"\n    print(\"Creating temporal features...\")\n    df['AgeAtSale'] = df['YrSold'] - df['YearBuilt']\n    df['TimeSinceRemodel'] = df['YrSold'] - df['YearRemodAdd']\n    df.loc[df['TimeSinceRemodel'] < 0, 'TimeSinceRemodel'] = 0\n    df.loc[df['AgeAtSale'] < 0, 'AgeAtSale'] = 0\n    df['YrSold'] = df['YrSold'].astype(str)\n    return df\n\ndef create_fold_features(df, neighborhood_stats, y_train=None, is_train=False, top_ho_features_list=None):\n    \"\"\"\n    Creates neighborhood-based and higher-order interaction features.\n    If is_train, it selects the top HO features based on mutual information.\n    Otherwise, it applies a pre-selected list of HO features.\n    \"\"\"\n    # Step 1: Merge neighborhood stats\n    df = pd.merge(df, neighborhood_stats, on='Neighborhood', how='left')\n\n    # Step 2: Define base features and generate all potential HO features\n    base_features = [\n        'OverallQual', 'GrLivArea', 'TotalBsmtSF', 'GarageArea', 'YearBuilt',\n        'AgeAtSale', 'TimeSinceRemodel', 'Neighborhood_Mean_Price', '1stFlrSF', 'FullBath', 'TotRmsAbvGrd'\n    ]\n    base_features = [f for f in base_features if f in df.columns]\n    \n    # Impute base features before creating interactions to prevent NaN propagation\n    for col in base_features:\n        if df[col].isnull().any():\n            median_val = df[col].median()\n            df[col] = df[col].fillna(median_val)\n\n    ho_features_df = pd.DataFrame(index=df.index)\n    \n    # Generate pairwise interactions\n    for f1, f2 in combinations(base_features, 2):\n        feature_name = f'{f1}_x_{f2}'\n        ho_features_df[feature_name] = df[f1] * df[f2]\n\n    # Step 3: Select top features if it's a training run\n    if is_train:\n        if ho_features_df.empty or y_train is None:\n            print(\"Warning: No HO features generated or no target variable provided. Skipping selection.\")\n            return df, [], pd.Series()\n\n        ho_features_df.fillna(0, inplace=True)\n        mi_scores = mutual_info_regression(ho_features_df, y_train, random_state=RANDOM_STATE)\n        mi_series = pd.Series(mi_scores, index=ho_features_df.columns).sort_values(ascending=False)\n        \n        top_features = mi_series.head(TOP_HO_FEATURES).index.tolist()\n        df = pd.concat([df, ho_features_df[top_features]], axis=1)\n        return df, top_features, mi_series\n    \n    # Step 4: Apply pre-selected features if it's a validation/test run\n    else:\n        if top_ho_features_list:\n            for f in top_ho_features_list:\n                if f not in ho_features_df.columns:\n                    ho_features_df[f] = 0\n            df = pd.concat([df, ho_features_df[top_ho_features_list]], axis=1)\n        return df\n\ndef perform_eda(train_df):\n    \"\"\"Performs and prints an Exploratory Data Analysis.\"\"\"\n    print(\"--- D. Exploratory Data Analysis ---\")\n    eda_content = []\n    \n    eda_content.append(\"====== 1. Initial Data Assessment ======\")\n    eda_content.append(f\"\\nTrain data shape: {train_df.shape}\")\n    \n    eda_content.append(\"\\n--- First 5 rows of training data ---\")\n    eda_content.append(train_df.head().to_string())\n    \n    eda_content.append(\"\\n--- Data types and non-null counts (Train) ---\")\n    buffer = io.StringIO()\n    train_df.info(buf=buffer)\n    eda_content.append(buffer.getvalue())\n\n    eda_content.append(\"\\n--- Missing values per column (Train) ---\")\n    missing_train = train_df.isnull().sum()\n    missing_train = missing_train[missing_train > 0].sort_values(ascending=False)\n    eda_content.append(missing_train.to_string())\n\n    eda_content.append(\"\\n--- Unique values per column (Train) ---\")\n    unique_counts = train_df.nunique().sort_values()\n    eda_content.append(unique_counts.to_string())\n\n    eda_content.append(\"\\n====== 2. Target Variable Analysis ('SalePrice') ======\")\n    if 'SalePrice' in train_df.columns:\n        eda_content.append(train_df['SalePrice'].describe().to_string())\n        eda_content.append(f\"\\nSkewness: {train_df['SalePrice'].skew():.2f}\")\n        eda_content.append(f\"Kurtosis: {train_df['SalePrice'].kurt():.2f}\")\n    else:\n        eda_content.append(\"SalePrice not found in the provided dataframe.\")\n\n    eda_content.append(\"\\n====== 3. Higher-Order Feature Analysis ======\")\n    eda_content.append(\"Analysis of higher-order features is performed dynamically within each cross-validation fold.\")\n    eda_content.append(\"The top selected features and their mutual information scores from the first fold will be printed during the model training stage.\")\n    \n    full_eda_report = \"\\n\".join(eda_content)\n    \n    if len(full_eda_report) > 10000:\n        full_eda_report = full_eda_report[:9997] + \"...\"\n\n    print(\"\\n=== Start of EDA part ===\")\n    print(full_eda_report)\n    print(\"=== End of EDA part ===\")\n\ndef main():\n    \"\"\"Main function to run the entire pipeline.\"\"\"\n    \n    start_timer(\"A. Pipeline Optimization\")\n    optimize_pipeline_components()\n    end_timer(\"A. Pipeline Optimization\")\n    \n    start_timer(\"B. Data Loading\")\n    train_df_orig, test_df_orig = load_data()\n    end_timer(\"B. Data Loading\")\n    \n    start_timer(\"C. Initial Feature Engineering\")\n    train_df_orig = engineer_initial_features(train_df_orig.copy())\n    test_df_orig = engineer_initial_features(test_df_orig.copy())\n    end_timer(\"C. Initial Feature Engineering\")\n\n    start_timer(\"D. EDA\")\n    perform_eda(train_df_orig)\n    end_timer(\"D. EDA\")\n\n    print(\"\\n--- Separating Target and Features ---\")\n    y = np.log1p(train_df_orig['SalePrice'])\n    test_ids = test_df_orig['Id']\n    train_features = train_df_orig.drop(['Id', 'SalePrice'], axis=1)\n    test_features = test_df_orig.drop('Id', axis=1)\n    \n    print(\"\\n--- Defining consistent feature types for preprocessing ---\")\n    all_features_df = pd.concat([train_features, test_features], axis=0, ignore_index=True)\n    numerical_features = all_features_df.select_dtypes(include=np.number).columns.tolist()\n    categorical_features = all_features_df.select_dtypes(include=['object', 'category']).columns.tolist()\n    print(f\"Identified {len(numerical_features)} numerical features.\")\n    print(f\"Identified {len(categorical_features)} categorical features.\")\n\n    start_timer(\"E. Model Training (K-Fold CV)\")\n    print(\"--- E. Model Training (K-Fold CV) ---\")\n    kf = KFold(n_splits=N_SPLITS, shuffle=True, random_state=RANDOM_STATE)\n    oof_scores, test_predictions = [], []\n    \n    device = 'cpu'\n    if not FORCE_CPU:\n        try:\n            import torch\n            if torch.cuda.is_available():\n                device = 'cuda'\n                print(\"GPU detected. Using 'cuda' for XGBoost.\")\n            else:\n                print(\"GPU not available. Using 'cpu'.\")\n        except (ImportError, Exception):\n            print(\"PyTorch not found or error in detection. Using 'cpu'.\")\n    else:\n        print(\"CPU usage forced.\")\n\n    for fold, (train_idx, val_idx) in enumerate(kf.split(train_features, y)):\n        print(f\"\\n--- Fold {fold+1}/{N_SPLITS} ---\")\n        \n        X_train, X_val = train_features.iloc[train_idx].copy(), train_features.iloc[val_idx].copy()\n        y_train, y_val = y.iloc[train_idx].copy(), y.iloc[val_idx].copy()\n        \n        print(f\"Fold {fold+1}: Engineering fold-specific features...\")\n        neighborhood_stats = X_train.assign(SalePrice=np.expm1(y_train)).groupby('Neighborhood')['SalePrice'].agg(['mean', 'median', 'std', 'count'])\n        neighborhood_stats.columns = ['Neighborhood_Mean_Price', 'Neighborhood_Median_Price', 'Neighborhood_Std_Price', 'Neighborhood_Count']\n        neighborhood_feature_names = neighborhood_stats.columns.tolist()\n\n        X_train, selected_ho_features, mi_series_ho = create_fold_features(\n            X_train, neighborhood_stats, y_train=y_train, is_train=True\n        )\n        \n        if fold == 0:\n            print(\"\\n--- Higher-Order Feature Analysis (from Fold 1) ---\")\n            print(f\"Selected {len(selected_ho_features)} top HO features out of {len(mi_series_ho)} generated.\")\n            print(\"Top 15 selected HO features and their MI scores:\")\n            print(mi_series_ho.head(15).to_string())\n            print(\"--------------------------------------------------\")\n\n        X_val = create_fold_features(\n            X_val, neighborhood_stats, is_train=False, top_ho_features_list=selected_ho_features\n        )\n        X_test_fold = create_fold_features(\n            test_features.copy(), neighborhood_stats, is_train=False, top_ho_features_list=selected_ho_features\n        )\n\n        X_train, X_val = X_train.align(X_val, join='left', axis=1)\n        X_train, X_test_fold = X_train.align(X_test_fold, join='left', axis=1)\n\n        newly_created_features = neighborhood_feature_names + selected_ho_features\n        fold_numerical_features = numerical_features + newly_created_features\n        \n        fold_numerical_features = [f for f in fold_numerical_features if f in X_train.columns]\n        fold_categorical_features = [f for f in categorical_features if f in X_train.columns]\n\n        numeric_transformer = Pipeline(steps=[('imputer', SimpleImputer(strategy='median')), ('scaler', StandardScaler())])\n        categorical_transformer = Pipeline(steps=[('imputer', SimpleImputer(strategy='most_frequent')), ('onehot', OneHotEncoder(handle_unknown='ignore', sparse_output=False))])\n        \n        preprocessor = ColumnTransformer(transformers=[\n            ('num', numeric_transformer, fold_numerical_features), \n            ('cat', categorical_transformer, fold_categorical_features)\n        ], remainder='drop', n_jobs=-1)\n\n        print(f\"Fold {fold+1}: Preprocessing data...\")\n        X_train_processed = preprocessor.fit_transform(X_train)\n        X_val_processed = preprocessor.transform(X_val)\n        X_test_processed = preprocessor.transform(X_test_fold)\n        \n        processed_feature_names = preprocessor.get_feature_names_out()\n        \n        print(f\"Fold {fold+1}: Selecting features...\")\n        mi_scores = mutual_info_regression(X_train_processed, y_train, random_state=RANDOM_STATE)\n        mi_scores_series = pd.Series(mi_scores, name=\"MI Scores\", index=processed_feature_names).sort_values(ascending=False)\n        \n        actual_n_features_to_select = min(N_FEATURES_TO_SELECT, len(mi_scores_series))\n        fold_feature_set = mi_scores_series.head(actual_n_features_to_select).index.tolist()\n        \n        feature_name_to_idx = {name: i for i, name in enumerate(processed_feature_names)}\n        feature_indices = [feature_name_to_idx[f] for f in fold_feature_set if f in feature_name_to_idx]\n        \n        X_train_final = X_train_processed[:, feature_indices]\n        X_val_final = X_val_processed[:, feature_indices]\n        X_test_final = X_test_processed[:, feature_indices]\n        \n        print(f\"Fold {fold+1}: Selected {len(fold_feature_set)} features from {len(processed_feature_names)}.\")\n\n        print(f\"Fold {fold+1}: Training XGBoost model...\")\n        model = xgb.XGBRegressor(device=device, **XGB_PARAMS)\n        model.fit(X_train_final, y_train, eval_set=[(X_val_final, y_val)], early_stopping_rounds=EARLY_STOPPING_ROUNDS, verbose=False)\n        \n        val_preds_log = model.predict(X_val_final)\n        rmse = np.sqrt(mean_squared_error(y_val, val_preds_log))\n        oof_scores.append(rmse)\n        print(f\"Fold {fold+1} RMSE: {rmse:.5f}, Best Iteration: {model.best_iteration}\")\n        \n        fold_test_preds = model.predict(X_test_final)\n        test_predictions.append(fold_test_preds)\n        \n    end_timer(\"E. Model Training (K-Fold CV)\")\n\n    start_timer(\"F. Evaluation & Submission\")\n    print(\"--- F. Evaluation & Submission ---\")\n    mean_rmse = np.mean(oof_scores)\n    print(f\"\\nAverage Validation RMSE across {N_SPLITS} folds: {mean_rmse:.5f}\")\n\n    scores_df = pd.DataFrame({'Model': ['XGBoost', 'ensemble'], 'Root-Mean-Squared-Error (RMSE)': [mean_rmse, mean_rmse]}).set_index('Model')\n    scores_df.to_csv(SCORES_PATH)\n    print(f\"Scores saved to '{SCORES_PATH}'\")\n    print(scores_df)\n\n    avg_predictions_log = np.mean(test_predictions, axis=0)\n    predictions = np.expm1(avg_predictions_log)\n    predictions[predictions < 0] = 0\n    \n    submission_df = pd.DataFrame({'Id': test_ids, 'SalePrice': predictions})\n    submission_df.to_csv(SUBMISSION_PATH, index=False)\n    print(f\"Submission file created at '{SUBMISSION_PATH}'\")\n    end_timer(\"F. Evaluation & Submission\")\n\n    profile_pipeline_runtime()\n\n    print(\"\\n--- Pipeline finished successfully! ---\")\n\nif __name__ == '__main__':\n    main()\n```"
+  },
+  "experiments_summary": [
+    {
+      "loop": 0,
+      "experiment": 1,
+      "model": "XGBoost",
+      "preprocessing": "Pipeline with imputation, scaling, and one-hot encoding.",
+      "score": 0.1281,
+      "observations": "Baseline model established with efficient execution time."
+    },
+    {
+      "loop": 1,
+      "experiment": 1,
+      "model": "XGBoost",
+      "preprocessing": "Enhanced preprocessing with neighborhood aggregation and temporal features.",
+      "score": 0.1232,
+      "observations": "Improved RMSE due to domain-specific features."
+    },
+    {
+      "loop": 2,
+      "experiment": 1,
+      "model": "XGBoost",
+      "preprocessing": "Added interaction terms between neighborhood-based features and predictors.",
+      "score": 0.1262,
+      "observations": "Interaction features did not improve RMSE."
+    },
+    {
+      "loop": 3,
+      "experiment": 1,
+      "model": "XGBoost",
+      "preprocessing": "Expanded feature interactions to all numerical features.",
+      "score": 0.1259,
+      "observations": "Expanded interactions did not improve RMSE."
+    },
+    {
+      "loop": 4,
+      "experiment": 1,
+      "model": "XGBoost",
+      "preprocessing": "Replaced one-hot encoding with target encoding for high-cardinality features.",
+      "score": 0.1247,
+      "observations": "Target encoding increased computational cost without improving RMSE."
+    },
+    {
+      "loop": 5,
+      "experiment": 1,
+      "model": "XGBoost",
+      "preprocessing": "Recursive feature elimination applied to interaction terms.",
+      "score": 0.1235,
+      "observations": "RFE did not improve RMSE and increased runtime."
+    },
+    {
+      "loop": 6,
+      "experiment": 1,
+      "model": "XGBoost",
+      "preprocessing": "Higher-order interactions among domain-specific features.",
+      "score": 0.123,
+      "observations": "Improved RMSE and reduced runtime compared to previous experiments."
+    },
+    {
+      "loop": 7,
+      "experiment": 1,
+      "model": "XGBoost",
+      "preprocessing": "Interaction terms between domain-specific features and predictors.",
+      "score": 0.1246,
+      "observations": "Additional interaction terms did not improve RMSE."
+    },
+    {
+      "loop": 8,
+      "experiment": 1,
+      "model": "XGBoost",
+      "preprocessing": "Integrated external economic and demographic features.",
+      "score": 0.1235,
+      "observations": "External features did not improve RMSE."
+    },
+    {
+      "loop": 9,
+      "experiment": 1,
+      "model": "XGBoost",
+      "preprocessing": "Refined external feature integration with correlation analysis.",
+      "score": 0.1236,
+      "observations": "Refined external features did not improve RMSE."
+    },
+    {
+      "loop": 10,
+      "experiment": 1,
+      "model": "XGBoost",
+      "preprocessing": "Parallelized feature engineering and hyperparameter tuning.",
+      "score": 0.1233,
+      "observations": "Parallelization increased runtime significantly without improving RMSE."
+    },
+    {
+      "loop": 11,
+      "experiment": 1,
+      "model": "XGBoost",
+      "preprocessing": "SHAP-based feature importance analysis for external features.",
+      "score": 0.1237,
+      "observations": "SHAP-based feature selection did not improve RMSE."
+    },
+    {
+      "loop": 12,
+      "experiment": 1,
+      "model": "XGBoost",
+      "preprocessing": "Pipeline profiling and optimization to address bottlenecks.",
+      "score": 0.1221,
+      "observations": "Improved RMSE and runtime efficiency."
+    },
+    {
+      "loop": 13,
+      "experiment": 1,
+      "model": "XGBoost",
+      "preprocessing": "Switch to Dask for distributed computing.",
+      "score": 0.1221,
+      "observations": "Dask improved runtime efficiency and maintained RMSE."
+    },
+    {
+      "loop": 14,
+      "experiment": 1,
+      "model": "XGBoost",
+      "preprocessing": "Reduced higher-order interaction features based on mutual information.",
+      "score": 0.1243,
+      "observations": "Reduced feature set negatively impacted RMSE."
+    }
+  ],
+  "next_steps_suggestions": [
+    "Investigate alternative feature engineering strategies to further improve RMSE.",
+    "Explore additional external datasets for potential predictive features.",
+    "Optimize runtime efficiency by profiling specific pipeline components.",
+    "Evaluate the impact of reducing cross-validation folds on runtime and performance."
+  ]
+}

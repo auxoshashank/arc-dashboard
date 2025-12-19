@@ -1,0 +1,274 @@
+{
+  "report_meta": {
+    "generated_at": "2025-12-16T10:09:36.119773Z",
+    "project_name": "housing_04_11",
+    "version": "1.0.0"
+  },
+  "problem_overview": {
+    "ml_task_type": "Property Price Regression",
+    "Problem_description": "The task is to predict the final sales price of residential properties in Ames, Iowa using various features such as lot size, neighborhood, building type, overall quality/condition, basement/garage info, and more. This is a supervised regression problem where the target variable is continuous."
+  },
+  "data_schema": {
+    "target_variable": {
+      "name": "SalePrice",
+      "description": "The final sales price of the property in USD, which is the target variable for prediction."
+    },
+    "data_description": [
+      {
+        "name": "MSSubClass",
+        "description": "Type of dwelling involved in the sale, categorized numerically."
+      },
+      {
+        "name": "Neighborhood",
+        "description": "Physical location within Ames city limits."
+      },
+      {
+        "name": "OverallQual",
+        "description": "Rates the overall material and finish of the house on a scale of 1 to 10."
+      },
+      {
+        "name": "GrLivArea",
+        "description": "Above grade (ground) living area in square feet."
+      },
+      {
+        "name": "GarageCars",
+        "description": "Size of garage in car capacity."
+      },
+      {
+        "name": "YearBuilt",
+        "description": "Year the house was originally constructed."
+      },
+      {
+        "name": "LotArea",
+        "description": "Lot size in square feet."
+      },
+      {
+        "name": "Id",
+        "description": "Numeric feature representing 'Id'."
+      },
+      {
+        "name": "MSZoning",
+        "description": "Categorical or text feature indicating 'MSZoning'."
+      },
+      {
+        "name": "LotFrontage",
+        "description": "Numeric feature representing 'LotFrontage'."
+      },
+      {
+        "name": "Street",
+        "description": "Categorical or text feature indicating 'Street'."
+      },
+      {
+        "name": "Alley",
+        "description": "Categorical or text feature indicating 'Alley'."
+      },
+      {
+        "name": "LotShape",
+        "description": "Categorical or text feature indicating 'LotShape'."
+      },
+      {
+        "name": "LandContour",
+        "description": "Categorical or text feature indicating 'LandContour'."
+      },
+      {
+        "name": "Utilities",
+        "description": "Categorical or text feature indicating 'Utilities'."
+      },
+      {
+        "name": "LotConfig",
+        "description": "Categorical or text feature indicating 'LotConfig'."
+      },
+      {
+        "name": "LandSlope",
+        "description": "Categorical or text feature indicating 'LandSlope'."
+      },
+      {
+        "name": "Condition1",
+        "description": "Categorical or text feature indicating 'Condition1'."
+      },
+      {
+        "name": "Condition2",
+        "description": "Categorical or text feature indicating 'Condition2'."
+      },
+      {
+        "name": "BldgType",
+        "description": "Categorical or text feature indicating 'BldgType'."
+      },
+      {
+        "name": "HouseStyle",
+        "description": "Categorical or text feature indicating 'HouseStyle'."
+      },
+      {
+        "name": "OverallCond",
+        "description": "Numeric feature representing 'OverallCond'."
+      },
+      {
+        "name": "YearRemodAdd",
+        "description": "Numeric feature representing 'YearRemodAdd'."
+      },
+      {
+        "name": "RoofStyle",
+        "description": "Categorical or text feature indicating 'RoofStyle'."
+      },
+      {
+        "name": "RoofMatl",
+        "description": "Categorical or text feature indicating 'RoofMatl'."
+      },
+      {
+        "name": "Exterior1st",
+        "description": "Categorical or text feature indicating 'Exterior1st'."
+      },
+      {
+        "name": "Exterior2nd",
+        "description": "Categorical or text feature indicating 'Exterior2nd'."
+      },
+      {
+        "name": "MasVnrType",
+        "description": "Categorical or text feature indicating 'MasVnrType'."
+      },
+      {
+        "name": "MasVnrArea",
+        "description": "Numeric feature representing 'MasVnrArea'."
+      },
+      {
+        "name": "ExterQual",
+        "description": "Categorical or text feature indicating 'ExterQual'."
+      },
+      {
+        "name": "ExterCond",
+        "description": "Categorical or text feature indicating 'ExterCond'."
+      },
+      {
+        "name": "Foundation",
+        "description": "Categorical or text feature indicating 'Foundation'."
+      },
+      {
+        "name": "BsmtQual",
+        "description": "Categorical or text feature indicating 'BsmtQual'."
+      },
+      {
+        "name": "BsmtCond",
+        "description": "Categorical or text feature indicating 'BsmtCond'."
+      },
+      {
+        "name": "BsmtExposure",
+        "description": "Categorical or text feature indicating 'BsmtExposure'."
+      },
+      {
+        "name": "BsmtFinType1",
+        "description": "Categorical or text feature indicating 'BsmtFinType1'."
+      },
+      {
+        "name": "BsmtFinSF1",
+        "description": "Numeric feature representing 'BsmtFinSF1'."
+      },
+      {
+        "name": "BsmtFinType2",
+        "description": "Categorical or text feature indicating 'BsmtFinType2'."
+      },
+      {
+        "name": "BsmtFinSF2",
+        "description": "Numeric feature representing 'BsmtFinSF2'."
+      },
+      {
+        "name": "BsmtUnfSF",
+        "description": "Numeric feature representing 'BsmtUnfSF'."
+      },
+      {
+        "name": "TotalBsmtSF",
+        "description": "Numeric feature representing 'TotalBsmtSF'."
+      },
+      {
+        "name": "Heating",
+        "description": "Categorical or text feature indicating 'Heating'."
+      },
+      {
+        "name": "HeatingQC",
+        "description": "Categorical or text feature indicating 'HeatingQC'."
+      },
+      {
+        "name": "CentralAir",
+        "description": "Categorical or text feature indicating 'CentralAir'."
+      },
+      {
+        "name": "Electrical",
+        "description": "Categorical or text feature indicating 'Electrical'."
+      },
+      {
+        "name": "1stFlrSF",
+        "description": "Numeric feature representing '1stFlrSF'."
+      },
+      {
+        "name": "2ndFlrSF",
+        "description": "Numeric feature representing '2ndFlrSF'."
+      },
+      {
+        "name": "LowQualFinSF",
+        "description": "Numeric feature representing 'LowQualFinSF'."
+      },
+      {
+        "name": "BsmtFullBath",
+        "description": "Numeric feature representing 'BsmtFullBath'."
+      },
+      {
+        "name": "BsmtHalfBath",
+        "description": "Numeric feature representing 'BsmtHalfBath'."
+      }
+    ]
+  },
+  "model_feasibility": {
+    "is_suitable_for_modeling": true,
+    "justification": "The dataset has sufficient structure for modeling, with a defined target variable and a valid data profile. No critical blocking issues were detected."
+  },
+  "model_evaluation_metrics": {
+    "primary_metric": {
+      "name": "Root-Mean-Squared-Error (RMSE) on log-transformed values",
+      "description": "Measures the average squared difference between the logarithm of predicted and actual sale prices, ensuring errors on expensive and inexpensive homes are weighted equally."
+    },
+    "secondary_metrics": [
+      {
+        "name": "Mean Absolute Error (MAE)",
+        "description": "Measures the average absolute difference between predicted and actual sale prices, providing a simpler error metric."
+      },
+      {
+        "name": "R-squared",
+        "description": "Indicates the proportion of variance in the target variable explained by the model."
+      }
+    ]
+  },
+  "validation_strategy": {
+    "split_method": "KFold",
+    "split_ratio": "5-fold",
+    "stratification_target": null,
+    "description": "The dataset will be split into 5 folds for cross-validation to ensure robust evaluation of the model. Stratification is not required as the target variable is continuous."
+  },
+  "submission_format": {
+    "format_type": "CSV",
+    "required_columns": [
+      "Id",
+      "SalePrice"
+    ],
+    "file_example": "Id,SalePrice\n1461,169000.1\n1462,187724.1233\n1463,175221\n..."
+  },
+  "prediction_strategy": {
+    "method": "Batch Inference",
+    "workflow": "Predictions will be generated in batches for the test set and exported as a CSV file.",
+    "usage_context": "Results will be consumed by stakeholders for decision-making in real estate transactions and market analysis."
+  },
+  "business_impact_tracking": {
+    "business_value_kpis": [
+      {
+        "kpi_name": "Prediction Accuracy",
+        "description": "Tracks the RMSE of the model on the test set to ensure accurate property price predictions."
+      },
+      {
+        "kpi_name": "Market Insights",
+        "description": "Provides stakeholders with actionable insights into property pricing trends."
+      },
+      {
+        "kpi_name": "Stakeholder Satisfaction",
+        "description": "Measures the satisfaction of real estate agents, buyers, and sellers with the model's predictions."
+      }
+    ]
+  }
+}

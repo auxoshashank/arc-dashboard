@@ -1,0 +1,18 @@
+Hypothesis Test: Effect of Basement Features on SalePrice
+Description: Investigating the relationship between basement-related features (BsmtQual, BsmtCond) and SalePrice.
+
+BsmtQual and SalePrice Summary:
+                   mean    median            std  count
+BsmtQual                                               
+Ex        321284.680412  318000.0  105894.117116     97
+Fa        118998.275862  112000.0   35325.962940     29
+Gd        203306.054767  193000.0   57302.712174    493
+TA        142313.061420  136900.0   43916.001703    521
+
+BsmtCond and SalePrice Summary:
+                   mean    median           std  count
+BsmtCond                                              
+Fa        121934.076923  118500.0  44453.771213     39
+Gd        210640.981818  191000.0  68159.380529     55
+Po         61000.000000   61000.0           NaN      1
+TA        184295.570335  167500.0  77306.481915   1045

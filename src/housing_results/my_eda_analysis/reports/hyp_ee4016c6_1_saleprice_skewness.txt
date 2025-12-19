@@ -1,0 +1,4 @@
+Hypothesis Test: Distribution of SalePrice
+Description: Investigating the distribution, range, skewness, and transformation needs.
+Skewness: 1.7409
+Recommendation: Log transformation recommended due to high skewness

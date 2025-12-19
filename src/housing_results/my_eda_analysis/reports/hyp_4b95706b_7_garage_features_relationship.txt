@@ -1,0 +1,10 @@
+Hypothesis Test: Effect of Garage Features on SalePrice
+Description: Investigating the relationship and importance of Garage-related features.
+
+Correlation Results:
+             Correlation        P-Value
+GarageArea      0.605008  3.437752e-111
+GarageYrBlt     0.480351   8.416469e-65
+Significance: 
+GarageArea: Significant relationship detected.
+GarageYrBlt: Significant relationship detected.

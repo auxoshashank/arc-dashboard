@@ -1,0 +1,12 @@
+Hypothesis Test: Outlier Detection in LotArea and GrLivArea
+Description: Detect outliers using statistical methods like IQR or Z-Score.
+
+Outlier Analysis:
+
+IQR Method:
+LotArea: {'Lower Bound': 1418.125, 'Upper Bound': 17869.125, 'Number Outliers': 54}
+GrLivArea: {'Lower Bound': 176.375, 'Upper Bound': 2761.375, 'Number Outliers': 23}
+
+Z-Score Method:
+LotArea: {'Number Outliers': 12}
+GrLivArea: {'Number Outliers': 15}

@@ -1,0 +1,10 @@
+Hypothesis Test: Impact of KitchenQual on SalePrice
+Description: Analyzing the significance of kitchen quality in property valuation.
+
+Kitchen Quality and SalePrice Summary:
+                      mean    median            std  count
+KitchenQual                                               
+Ex           330157.493506  319900.0  106190.153070     77
+Fa           107110.937500  111750.0   36437.338467     32
+Gd           211442.302128  202150.0   64256.840616    470
+TA           142098.747029  139000.0   39501.263109    589
