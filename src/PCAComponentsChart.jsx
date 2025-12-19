@@ -11,7 +11,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Scatter, Bar } from 'react-chartjs-2';
-import csvData from './housing_04_11/my_eda_analysis/data/hyp_93542f5a_9_pca_components.csv';
+import csvData from './housing_results/my_eda_analysis/data/hyp_93542f5a_9_pca_components.csv';
 
 // Register Chart.js components
 ChartJS.register(
