@@ -109,6 +109,8 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: source-serif-pro,"Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-weight: 200;
   }
 }
 
@@ -135,4 +137,203 @@
 .markdown-reset,
 .markdown-reset * {
   all: revert;
+}
+
+.container{
+  background: #f5f6f8;
+  border:1px solid #f9f9f9;
+}
+
+.main{
+  background: #fff;
+  border-radius: 15px;
+  border: 1px solid #f1f1f1;
+  height: 90vh;
+}
+
+.menuButtons{
+  background-color: #194c79;
+  width: 65px;
+  height: 100%;
+  border-radius: 15px 0px;
+  border: 1px solid #000;
+}
+
+.bg-background {
+ background-color: #f9f9f9;
+}
+
+.segments{
+  background:url(http://localhost:3000/images/users-267.svg) no-repeat left top;
+  background-size: contain;
+  width: 60px;
+  height: 40px;
+  rotate: -90deg;
+  color:#a8a8a8;
+}
+
+.segments_text{
+  width: 8px;
+  height: 15px;
+  margin-top: 124px;
+  rotate: -90deg;
+  color:#abbbca;
+  margin-left: 10px;
+  font-weight: 100;
+  font-size: 18px;
+}
+
+.segments_text div {
+  width: 100px;
+  font-weight: 100;
+  font-size: 14px;
+  color: #fff;
+  text-transform: lowercase;
+  line-height: 12px;
+}
+
+.listHeading{
+  font-weight: 400;
+}
+
+.studies_text{
+  width: 8px;
+  height: 15px;
+  margin-top: 90px;
+  rotate: -90deg;
+  color:#abbbca;
+  margin-left: 10px;
+  font-weight: 200;
+  font-size: 18px;
+}
+
+.studies_text div {
+  width: 100px;
+  font-weight: 100;
+  font-size: 14px;
+  color: #fff;
+  text-transform: lowercase;
+  line-height: 14px;
+}
+
+.activeNumber {
+  font-size: 20px;
+  font-weight: 500;
+  color:#abbccb;
+}
+
+.activities{
+  background:url(http://localhost:3000/images/bolt-lightning-svgrepo-com.svg) no-repeat left top;
+  background-size: contain;
+  width: 60px;
+  height: 40px;
+  rotate: -90deg;
+  color:#a8a8a8;
+}
+
+
+.personas{
+  background:url(http://localhost:3000/images/head-side-view-black-silhouette-of-male-bald-shape-svgrepo-com.svg) no-repeat left top;
+  background-size: contain;
+  width: 60px;
+  height: 40px;
+  rotate: -90deg;
+  color:#a8a8a8;
+}
+
+.searchBox {
+  background-color: #f9f9f9;
+  border-radius: 20px 20px 20px 20px;
+  height: 40px;
+  width: 300px;
+}
+
+.searchBox:active{
+  outline: none;
+} 
+
+.divider{
+  border-top: 1px solid #5b7998;
+  width: 52px;
+  height: 0px;
+  margin-top: 37px;
+  margin-left: 7px;
+}
+
+.studies{
+  background:url(http://localhost:3000/images/2429310.svg) no-repeat left top;
+  background-size: contain;
+  width: 62px;
+  height: 50px;
+  rotate: -90deg;
+  color:#a8a8a8;
+}
+
+.featureHeading{
+   font-size:24px; 
+   font-weight:100;
+   margin-top:20px;
+}
+
+.segmentHeading {
+   font-size:32px; 
+   font-weight:100;
+   margin-top:20px;
+}
+*, ::after, ::before, ::backdrop, ::file-selector-button{
+  box-sizing: unset!important;
+}
+
+.illustrationIcon {
+  width:50px;
+  height:50px;
+  background-size:auto;
+}
+
+.illustration1{
+  background-position: 0px 0px;
+  background:url(http://localhost:3000/images/icon1.png) no-repeat 0px 0px;
+  width:50px;
+  height:50px;
+  background-size:contain;
+}
+
+.illustration2{
+  background-position: 0px 0px;
+  background:url(http://localhost:3000/images/icon2.png) no-repeat 0px 0px;
+   width:50px;
+  height:50px;
+  background-size:contain;
+}
+
+.illustration3{
+  background-position: 0px 0px;
+  background:url(http://localhost:3000/images/icon3.png) no-repeat 0px 0px;
+   width:50px;
+  height:50px;
+  background-size:contain;
+}
+
+.illustration4{
+  background-position: 0px 0px;
+  background:url(http://localhost:3000/images/icon4.png) no-repeat 0px 0px;
+   width:50px;
+  height:50px;
+  background-size:contain;
+}
+
+.illustration5{
+  background-position: 0px 0px;
+  background:url(http://localhost:3000/images/icon5.png) no-repeat 0px 0px;
+   width:50px;
+  height:50px;
+  background-size:contain;
+}
+
+.illustration6{
+  background-position: 0px 0px;
+  background:url(http://localhost:3000/images/icon6.png) no-repeat 0px 0px;
+   width:50px;
+  height:50px;
+  background-size:contain;
 }
