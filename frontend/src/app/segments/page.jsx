@@ -421,7 +421,7 @@ export default function SegmentPage() {
                   onClick={() => setSelectedSegment(segment)}
                   className={`flex items-start p-4 gap-4 rounded-lg cursor-pointer transition-colors ${
                     selectedSegment.id === segment.id
-                      ? "bg-muted"
+                      ? "selectedHighlight"
                       : "hover:bg-muted/50"
                   }`}
                 >

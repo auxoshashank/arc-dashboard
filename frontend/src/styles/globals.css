@@ -297,6 +297,10 @@
     color: #2f3439;
 }
 
+.selectedHighlight{
+background:oklch(0.94 0.03 131.36);
+}
+
 .sectionHeading {
    font-size:16px; 
    font-weight:500;
