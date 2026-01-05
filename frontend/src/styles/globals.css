@@ -171,6 +171,18 @@
   border: 1px solid #000;
 }
 
+.menuButtons li:hover .segments_text{
+  color:#fff;
+}
+
+.menuButtons li:hover .segments_text div{
+  color: #abbbca;
+}
+
+li:hover .activeNumber {
+  color: #fff;
+}
+
 .bg-background {
  background-color: #f9f9f9;
 }
@@ -211,11 +223,11 @@
 .studies_text{
   width: 8px;
   height: 15px;
-  margin-top: 90px;
+  margin-top: 124px;
   rotate: -90deg;
   color:#abbbca;
   margin-left: 10px;
-  font-weight: 200;
+  font-weight: 100;
   font-size: 18px;
 }
 
@@ -287,6 +299,24 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.plusButton{
+    color: #656565;
+    background-color: #f4f4f4;
+    border: 2px solid #ebf5e3;
+    width: 1px;
+    height: 15px;
+    font-size: 18px;
+    font-weight: 200;
+    width: 1px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.m-top-20{
+  margin-top:20px;
+  margin-bottom:10px;
 }
 
 .featureHeading{

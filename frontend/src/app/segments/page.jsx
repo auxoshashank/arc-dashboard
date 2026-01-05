@@ -11,7 +11,9 @@ import Image from 'next/image';
 import { Chart as ChartJS, CategoryScale, ArcElement, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { Pie } from 'react-chartjs-2';
-import { motion } from "motion/react";
+//import { motion } from "motion/react";
+import Testimonials from './Testimonials';
+import Link from 'next/link'
 
 ChartJS.register(
   CategoryScale,
@@ -127,11 +129,6 @@ const testimonials = [
     role: "E-commerce Manager",
   },
 ];
-
-
-const firstColumn = testimonials.slice(0, 3);
-const secondColumn = testimonials.slice(3, 6);
-const thirdColumn = testimonials.slice(6, 9);
 
 
 export const pieData = {
@@ -364,45 +361,61 @@ export default function SegmentPage() {
       <div className="container mx-auto px-6 py-8">
         <div className="flex items-start justify-between mb-8 main">
           <div className="menuButtons">
-            <ul>             
-              <li class="navLink segments_text">
-                Segments
-                <div><span class="activeNumber">91</span> Active</div>
-              </li>
-              <li class="navLink segments">
+            <ul>    
+              <li>      
+                  <Link href={`/segments`}>
+                    <div class="navLink segments_text">
+                      Segments
+                      <div><span class="activeNumber">91</span> Active</div>
+                    </div>
+                    <div class="navLink segments">
+                    </div>
+                  </Link>
               </li>
               <li class="divider">
               </li>
-              <li class="navLink studies_text">
-                Studies
-                <div><span class="activeNumber">11</span> Active</div>
+              <li>
+                <Link href={`/studies`}>           
+                  <div class="navLink segments_text">
+                    Studies
+                    <div><span class="activeNumber">11</span> Active</div>
+                  </div>
+                  <div class="navLink studies">                    
+                  </div> 
+                </Link>
               </li>
-              <li class="navLink studies">
-                
-              </li> 
-              <li class="divider">
-              </li>             
-
-              <li class="navLink studies_text">
-                Personas
-                <div><span class="activeNumber">103</span> Active</div>
-              </li>
-              <li class="navLink personas">
-                
-              </li> 
               <li class="divider">
               </li>             
-
-              <li class="navLink studies_text">
-                Activities
-                <div><span class="activeNumber">45</span> Active</div>
+              <li>
+                <Link href={`/personas`}>
+                  <div class="navLink segments_text">
+                    Personas
+                    <div><span class="activeNumber">103</span> Active</div>
+                  </div>
+                  <div class="navLink personas">
+                    
+                  </div> 
+                </Link>
               </li>
-              <li class="navLink activities">                
-              </li>                      
+              <li class="divider">
+              </li>             
+              <li>
+                <Link href={`/activities`}>
+                  <div class="navLink segments_text">
+                    Activities
+                    <div><span class="activeNumber">45</span> Active</div>
+                  </div>
+                  <div class="navLink activities">                
+                  </div>
+                </Link>
+              </li>                 
             </ul>
           </div>
           <div className="w-[300px] leftPanel fixedPanel px-6">
-            <h1 className="p-4 featureHeading">Segments</h1>
+            <div class="flexRow">
+              <h1 className="featureHeading m-top-20">Segments</h1>
+              <Button className="plusButton m-top-20" onClick={() => setShowNotification(false)}>+</Button>
+            </div>
             <div className="relative mb-6">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
@@ -461,7 +474,6 @@ export default function SegmentPage() {
                   <div className="p-10 rounded-3xl border shadow-lg shadow-primary/10" >
                     <div className="flex items-center gap-2">                    
                       <div className="flex flex-col">
-                        <div className="sectionHeading">{selectedSegment.name}</div>
                         <div className="flex p-4 gap-8 items-start fixedPanel">   
                             <div className="text-center">
                               <div className="text-8xl mb-4">
@@ -476,6 +488,7 @@ export default function SegmentPage() {
                             </div>
 
                           <div className="flex-1">
+                            <div className="sectionHeading">{selectedSegment.name}</div>
                             <p className="text-base leading-relaxed text-foreground">                      
                               {selectedSegment.fullDescription}
                             </p>
@@ -563,7 +576,7 @@ wing                      page, which you can find from the sidebar.
                     <div className="flex items-center gap-2">                    
                       <div className="flex flex-col">
                         <div className="flex p-4 gap-8 items-start fixedPanel">      
-                          <Testimonials></Testimonials>              
+                          <Testimonials testimonials={testimonials}></Testimonials>              
                         </div>
                       </div>
                     </div>
@@ -620,79 +633,3 @@ function BarChart({ chartData }) {
     </div>
   );
 }
-
-
-
-const Testimonials = () => {
-  return (
-    <section className="relative">
-
-      <div className="z-10 mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-          className="flex flex-col items-center justify-center max-w-[540px] mx-auto"
-        >         
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tighter mt-5 sectionHeading">
-            300+ Personas
-          </h2>
-          <p className="text-center mt-5 opacity-75">
-            Our AI generated personas behave just like humans.
-          </p>
-        </motion.div>
-
-        <div className="flex justify-center gap-6 mt-10 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] overflow-hidden">
-          <TestimonialsColumn testimonials={firstColumn} duration={15} />
-          <TestimonialsColumn testimonials={secondColumn} className="hidden md:block" duration={19} />
-          {/*<TestimonialsColumn testimonials={thirdColumn} className="hidden lg:block" duration={17} />*/}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const TestimonialsColumn = (props) => {
-  return (
-    <div className={props.className}>
-      <motion.div
-        animate={{
-          translateY: "-50%",
-        }}
-        transition={{
-          duration: props.duration || 10,
-          repeat: Infinity,
-          ease: "linear",
-          repeatType: "loop",
-        }}
-        className="flex flex-col gap-6 pb-6"
-      >
-        {[
-          ...new Array(2).fill(0).map((_, index) => (
-            <React.Fragment key={index}>
-              {props.testimonials.map(({ text, image, name, role }, i) => (
-                <div className="p-10 rounded-3xl border shadow-lg shadow-primary/10 max-w-xs w-full" key={i}>
-                  <div>{text}</div>
-                  <div className="flex items-center gap-2 mt-5">
-                    <img
-                      width={40}
-                      height={40}
-                      src={image}
-                      alt={name}
-                      className="h-10 w-10 rounded-full"
-                    />
-                    <div className="flex flex-col">
-                      <div className="font-medium tracking-tight leading-5">{name}</div>
-                      <div className="leading-5 opacity-60 tracking-tight">{role}</div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </React.Fragment>
-          )),
-        ]}
-      </motion.div>
-    </div>
-  );
-};
