@@ -58,7 +58,7 @@ function Header({toggleDropDown, count}){
   return <div>
     <div class="appHeader flexRow">
       <div class="flexRow">
-      <button class="btn"><FontAwesomeIcon icon={faBars} style={{fontSize:16, marginTop:5}}/></button>
+      <button class="btn"><FontAwesomeIcon icon={faBars} style={{fontSize:30, marginTop:0}}/></button>
       <div class="logo"></div> 
       </div>
       {/*<div class="searchBox">
@@ -66,7 +66,7 @@ function Header({toggleDropDown, count}){
         <button class="searchBtn"><FontAwesomeIcon icon={faSearch} /></button>
       </div>*/}
       <div>
-        <button class="btn bellIcon"><FontAwesomeIcon style={{fontSize:18, marginTop: 5}} icon={faBell}/></button>
+        <button class="btn bellIcon"><FontAwesomeIcon style={{fontSize:22, marginTop: 8}} icon={faBell}/></button>
         <UserLogin count={count} toggleDropDown={toggleDropDown}/>
       </div>
 
@@ -79,11 +79,11 @@ function LeftPanel(){
     {<ul class="navMenu">
       <li>
         <div class="addAction">
-        <Link to="/"><FontAwesomeIcon style={{"color" : '#fff', fontSize: 14, marginTop:5}} icon={faPlus} /></Link>
+        <Link to="/"><FontAwesomeIcon style={{"color" : '#fff', fontSize: 18, marginTop:5}} icon={faPlus} /></Link>
         </div>
       </li>
       <li class="iconMenu">
-        <Link to="/business" ><FontAwesomeIcon style={{"color" : 'rgba(255,255,255,0.5)',  marginLeft:5, fontSize: 20}}  icon={faList} /></Link>
+        <Link to="/business" ><FontAwesomeIcon style={{"color" : 'rgba(0, 0, 0, 0.5)',  marginLeft:5, fontSize: 24}}  icon={faList} /></Link>
       </li>
     </ul>}
   </div>
@@ -146,8 +146,9 @@ export default function App() {
   return (
     <>
     <Header toggleDropDown={toggleDropDownUser} count={countUser} />
-    <div class="flexRow">
-     <BrowserRouter>
+    <BrowserRouter>
+    <TopNavigation activeLink={activeLink}></TopNavigation>                    
+    <div class="flexRow margin-top-1">
      <LeftPanel />
      <div className="main" onClick={(event) => {
           if (event.target.className!=="dropdown-item" && event.target.className!=="userLogin" && event.target.className!=="dropdown-btn"){
@@ -155,10 +156,7 @@ export default function App() {
             toggleDropDownUser(false);
           };
           event.stopPropagation();
-        }}>
-        <div class="flexRow">
-            <TopNavigation activeLink={activeLink}></TopNavigation>                    
-        </div>
+        }}>       
         <div class="flexRow">
             <Routes>
                 <Route path="/" element={<MainPanel toggleExpand={toggleExpanded} toggleDropDown={toggleDropDown} count={count} isExpanded = {isExpanded} />} />
@@ -169,9 +167,9 @@ export default function App() {
                 <Route path="/ml" element={<MLEngine applyActiveLink={applyActiveLink} />} />                
             </Routes>                         
         </div>
-      </div>
-      </BrowserRouter>
+      </div>      
     </div>
+    </BrowserRouter>
 
       <button class="go-to-top" onClick={scrollToTop}>
         <FontAwesomeIcon icon={faArrowUp} /> 
