@@ -346,6 +346,14 @@ pre {
   font-size: 18px;
 }
 
+.css-zioonp-MuiAlert-message{
+  font-size: 16px;
+}
+
+.MuiTreeItem-label MuiSimpleTreeView-itemLabel {
+  font-size: 18px!important;
+}
+
 .css-1mbxq6w-MuiTreeItem-label{
   font-size: 16px!important;
   padding: 3px;
