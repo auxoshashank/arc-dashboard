@@ -5,7 +5,8 @@
    min-height: calc(100vh);
    border-radius: 10px 0px 0px 0px;
    box-sizing: border-box;
-   border-radius: 10px 0px 0px 0px; 
+   border-radius: 0px 0px 0px 0px; 
+   border-left: 1px solid #ccc;
 }
 
 .App {
@@ -16,7 +17,6 @@
   height: calc(100vh);
   width: 60px; 
   background-color: #f6f5f5;
-  border-right: 1px solid #dad6d6;
   position: sticky;
 }
 
@@ -25,7 +25,7 @@
   background-color:#00345d;
   top:0px;
   left:50px;
-  padding: 15px 0px;
+  padding: 12px 0px;
   box-sizing: border-box;
 }
 
@@ -131,12 +131,13 @@ ul.navMenu li {
 
 ul.navMenu li:hover {
   color: #ffffff;
-}                                                            
+}
 
 ul.navMenu li:first-child{
   color: #fff;
   font-size: 12px;
   padding:0px;
+  height: 75px;
 }
 
 ul.navMenu li .iconItem{
@@ -199,6 +200,11 @@ pre {
   border:none!important;
 }
 
+#projectText {
+    font-size: 16px;
+    border:1px solid #333;
+    resize: none;
+}
 
 #search_query{
   width:400px;
@@ -220,7 +226,6 @@ pre {
    overflow: hidden;
    box-sizing: border-box;
 }
-
 
 .css-1wle3ir-MuiTypography-root, .css-956xpl-MuiTypography-root {
     font-family: unset!important;
@@ -338,7 +343,7 @@ pre {
 }
 
 .iconMenu{
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .css-1mbxq6w-MuiTreeItem-label{
@@ -440,7 +445,7 @@ pre {
 
 .borderBottom{
   font-weight: 500;
-  font-size: 18px;
+  font-size: 20px;
   color: #333;
 }
 
@@ -662,4 +667,14 @@ pre {
 
 .go-to-bottom:hover {
   opacity: 1;
+}
+
+.create-btn{
+  background-color: #01345c;
+  color:#fff;
+  width: 200px;
+  height:50px;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-left:10px;
 }

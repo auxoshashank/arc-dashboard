@@ -34,10 +34,10 @@
 
 
 .dropdown-menu-right {
-  right: 7px;
-  width: 150px; 
-  top: 37px;
-  left: unset!important;
+  right: 13px;
+  width: 150px;
+  top: 58px;
+  left: unset !important;
 }
 
 .dropdown-item {
@@ -45,7 +45,7 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  font-size: 14px;
+  font-size: 16px;
   cursor: pointer;
   color: rgb(114, 114, 114);
   border-bottom:1px solid #f3f3f3;
@@ -71,6 +71,7 @@
 #queryText{
   height:100px;
   width:100%;
+  font-size: 16px;
   outline:none;
   resize: none;
   border:none!important;

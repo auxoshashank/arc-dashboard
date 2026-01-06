@@ -107,7 +107,7 @@ export default function DeepResearcher({ applyActiveLink }) {
                         </div>
                         </div>
                         </>
-              ) : ((isLoaded && Object.keys(jsonData).length <1) ? <><p style={{padding:10}}> <FontAwesomeIcon icon={faArrowPointer} />Please select a project</p></> : <><CardSkeleton amount={1} /></>)}
+              ) : ((isLoaded && Object.keys(jsonData).length <1) ? <><p style={{padding:10, fontSize: 18}}> <FontAwesomeIcon icon={faArrowPointer} />Please select a project</p></> : <><CardSkeleton amount={1} /></>)}
                   </CardContent>    
                 </Card>
           </div>

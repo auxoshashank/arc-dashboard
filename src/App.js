@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { useState , Fragment} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faBell,faArrowUp, faCoffee, faFolder, faSearch, faUser, faBackspace, faCalendarAlt, faPaperclip, faAnchor, faAlarmClock, faUmbrella, faPaintbrush, faHand, faHandPointer, faTree, faCaretDown, faCode, faChartBar, faSquareRootVariable, faHandPointDown, faCaretUp, faCaretRight, faArrowRight, faArrowDown, faAngleRight, faAngleDown, faList, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faBell,faArrowUp, faCoffee, faFolder, faSearch, faUser, faBackspace, faCalendarAlt, faPaperclip, faAnchor, faAlarmClock, faUmbrella, faPaintbrush, faHand, faHandPointer, faTree, faCaretDown, faCode, faChartBar, faSquareRootVariable, faHandPointDown, faCaretUp, faCaretRight, faArrowRight, faArrowDown, faAngleRight, faAngleDown, faList, faPlus, faMessage, faComment, faComments } from '@fortawesome/free-solid-svg-icons';
 import ChatGPTInterface from './ChatGPTInterface';
 import 'react-loading-skeleton/dist/skeleton.css'
 import UserLogin from './UserLogin';
@@ -13,6 +13,7 @@ import { counter } from '@fortawesome/fontawesome-svg-core';
 import DeepResearcher from './DeepResearcher';
 import MLEngine from './MLEngine';
 import EDAEngine from './EDAEngine';
+import CreateProject from './CreateProject';
 import TopNavigation from './TopNavigation';
 
 function MainPanel({toggleExpand, count, isExpanded, toggleDropDown}){
@@ -79,11 +80,14 @@ function LeftPanel(){
     {<ul class="navMenu">
       <li>
         <div class="addAction">
-        <Link to="/"><FontAwesomeIcon style={{"color" : '#fff', fontSize: 18, marginTop:5}} icon={faPlus} /></Link>
+        <Link to="/create"><FontAwesomeIcon style={{"color" : '#fff', fontSize: 18, marginTop:5}} icon={faPlus} /></Link>
         </div>
       </li>
       <li class="iconMenu">
-        <Link to="/business" ><FontAwesomeIcon style={{"color" : 'rgba(0, 0, 0, 0.5)',  marginLeft:5, fontSize: 24}}  icon={faList} /></Link>
+        <Link to="/"><FontAwesomeIcon style={{"color" : 'rgba(0, 0, 0, 0.5)',  marginLeft:5, fontSize: 24}}  icon={faComments} /></Link>
+      </li>
+      <li class="iconMenu">
+        <Link to="/business"><FontAwesomeIcon style={{"color" : 'rgba(0, 0, 0, 0.5)',  marginLeft:5, fontSize: 24}}  icon={faList} /></Link>
       </li>
     </ul>}
   </div>
@@ -159,7 +163,8 @@ export default function App() {
         }}>       
         <div class="flexRow">
             <Routes>
-                <Route path="/" element={<MainPanel toggleExpand={toggleExpanded} toggleDropDown={toggleDropDown} count={count} isExpanded = {isExpanded} />} />
+                <Route path="/" element={<MainPanel toggleExpand={toggleExpanded} toggleDropDown={toggleDropDown} count={count} isExpanded = {isExpanded} />} />                
+                <Route path="/create" element={<CreateProject />} />
                 <Route path="/auxo-dashboard" element={<MainPanel toggleExpand={toggleExpanded} toggleDropDown={toggleDropDown} count={count} isExpanded = {isExpanded} />} />
                 <Route path="/business" element={<BusinessDiscovery applyActiveLink={applyActiveLink} />} />
                 <Route path="/researcher" element={<DeepResearcher  applyActiveLink={applyActiveLink} />} />
