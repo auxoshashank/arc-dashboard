@@ -4,10 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown , faFile, faImage, faPaperclip, faSun } from '@fortawesome/free-solid-svg-icons';
 import { Send, Paperclip, X } from 'lucide-react';
 
-const Dropdown = ({count, toggleDropDown}) => {
+const Dropdown = ({count, files, setFiles, toggleDropDown}) => {
   const [open, setOpen] = useState(count);
   const [message, setMessage] = useState('');
-  const [files, setFiles] = useState([]);
   const [messages, setMessages] = useState([]);
   const fileInputRef = useRef(null);
   const textareaRef = useRef(null);
@@ -60,12 +59,12 @@ const Dropdown = ({count, toggleDropDown}) => {
     <div class="flexRow">
       <div className="dropdown">
         <button className="dropdown-btn" onClick={() => {/*setOpen(!open);*/ toggleDropDown(true);}}>
-          <FontAwesomeIcon style={{fontSize:12}} icon={faPaperclip} /> Attach  <FontAwesomeIcon style={{fontSize:12}} icon={faAngleDown} /> 
+          <FontAwesomeIcon style={{fontSize:12}} icon={faPaperclip} /> Attach  <FontAwesomeIcon style={{fontSize:16}} icon={faAngleDown} /> 
         </button>
 
         {open && (
           <ul className="dropdown-menu">
-            <li className="dropdown-item"><FontAwesomeIcon style={{fontSize:12, marginTop:2}} icon={faFile}/>          
+            <li className="dropdown-item"><FontAwesomeIcon style={{fontSize:16, marginTop:2}} icon={faFile}/>          
             <input
                 ref={fileInputRef}
                 type="file"
@@ -75,8 +74,8 @@ const Dropdown = ({count, toggleDropDown}) => {
                 visibility="hidden"
             />          
             </li>
-            <li className="dropdown-item"><FontAwesomeIcon style={{fontSize:12, marginTop:2}} icon={faImage} /> &nbsp;Image</li>
-            <li className="dropdown-item"><FontAwesomeIcon style={{fontSize:12, marginTop:2}} icon={faSun} /> &nbsp;Others</li>         
+            {/*<li className="dropdown-item"><FontAwesomeIcon style={{fontSize:16, marginTop:2}} icon={faImage} /> &nbsp;Image</li>
+            <li className="dropdown-item"><FontAwesomeIcon style={{fontSize:16, marginTop:2}} icon={faSun} /> &nbsp;Others</li>*/}       
           </ul>
         )}     
       </div>

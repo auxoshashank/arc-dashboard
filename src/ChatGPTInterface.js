@@ -2,15 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Send } from 'lucide-react';
 import Dropdown from './Dropdown';
 
-export default function ChatGPTInterface({toggleLoaded, toggleDropDown, isLoaded, count}) {
-  const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([]);
+export default function ChatGPTInterface({files, setFiles, toggleLoaded, toggleDropDown, isLoaded, count, message, setMessage}) {
   const textareaRef = useRef(null);
   const messagesEndRef = useRef(null);
 
-  useEffect(() => {
-    /*messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });*/
-  }, [messages]);
+  /*useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);*/
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -19,7 +17,7 @@ export default function ChatGPTInterface({toggleLoaded, toggleDropDown, isLoaded
     }
   }, [message]);
 
-  const sendMessage = () => {
+  /*const sendMessage = () => {
     if (message.trim()) {
       const userMsg = message;
       setMessages(prev => [...prev, { text: userMsg, sender: 'user' }]);
@@ -32,14 +30,14 @@ export default function ChatGPTInterface({toggleLoaded, toggleDropDown, isLoaded
         }]);
       }, 800);
     }
-  };
+  };*/
 
-  const handleKeyDown = (e) => {
+  /*const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
     }
-  };
+  };*/
 
   return (
     <>
@@ -49,23 +47,23 @@ export default function ChatGPTInterface({toggleLoaded, toggleDropDown, isLoaded
                   ref={textareaRef}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Ask ARM..."
+                  /*onKeyDown={handleKeyDown}*/
+                  placeholder="Enter Description"
                   rows={1}
                   id="queryText"                             
                 />
                 <div class="flexRow borderTop">
-                  <Dropdown count={count} toggleDropDown={toggleDropDown}/>
-                  <button
+                  <Dropdown count={count} files={files} setFiles={setFiles} toggleDropDown={toggleDropDown}/>
+                  {/*<button
                     onClick={sendMessage}
                     className="send-btn"
                   >
                     <Send size={18} />
-                  </button>
+                  </button>*/}
                 </div>     
               </div>          
           </div>
-          {messages.length === 0 ? (
+          {/*messages.length === 0 ? (
                     <p></p>
                   ) : (
                     <div className="input-box">    
@@ -86,7 +84,7 @@ export default function ChatGPTInterface({toggleLoaded, toggleDropDown, isLoaded
                         </div>}
                       </div>
                     </div>           
-          )}
+          )*/}
     </>
   );
 }
