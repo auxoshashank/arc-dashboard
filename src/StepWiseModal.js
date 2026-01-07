@@ -226,17 +226,22 @@ export default function HorizontalNonLinearStepper() {
               {/*Step {activeStep + 1}*/}
               {(activeStep == 0) ? (<Create name={name} setName={setName}></Create>) : 
                (activeStep == 1) ? (<ChatGPTInterface files={files} setFiles={setFiles} message = {msg} setMessage = {setMsg} toggleDropDown={toggleDropDown} count = {count} toggleLoaded={toggleLoaded} isLoaded = {isLoaded}></ChatGPTInterface>) :
-               (activeStep == 2) ? (<div style={{width:"100%", background: "#fff", border: "1px solid #ccc", borderRadius: "10px"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
+               (activeStep == 2) ? (<div style={{width:"100%", background: "#fff", border: "1px solid #ccc", borderRadius: "10px", height:"200px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
                 <span class="borderBottom" style={{fontWeight: 200,  fontSize: 16}}> 
                   Please click NEXT to run the business analysis for this project .
                 </span>
                 </div></div>): 
-               (activeStep == 3) ? (<div style={{width:"100%", background: "#fff", border: "1px solid #ccc", borderRadius: "10px"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
+               (activeStep == 3) ? (<div style={{width:"100%", background: "#fff", border: "1px solid #ccc", borderRadius: "10px", height:"200px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
+                <span class="borderBottom" style={{fontWeight: 200,  fontSize: 16}}> 
+                  Please click NEXT to run the Research Query for this project.
+                </span>
+                </div></div>) : 
+               (activeStep == 4) ? (<div style={{width:"100%", background: "#fff", border: "1px solid #ccc", borderRadius: "10px", height:"200px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
                 <span class="borderBottom" style={{fontWeight: 200,  fontSize: 16}}> 
                   Please click NEXT to run the EDA for this project.
                 </span>
                 </div></div>) : 
-               (activeStep == 3) ? (<div style={{width:"100%", background: "#fff", border: "1px solid #ccc", borderRadius: "10px"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
+               (activeStep == 5) ? (<div style={{width:"100%", background: "#fff", border: "1px solid #ccc", borderRadius: "10px", height:"200px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
                 <span class="borderBottom" style={{fontWeight: 200,  fontSize: 16}}> 
                   Please click NEXT to run the ML for this project.
                 </span>
@@ -256,7 +261,7 @@ export default function HorizontalNonLinearStepper() {
               <Button variant="contained" onClick={handleNext} sx={{ mr: 1 }}>
                 Next
               </Button>              
-              {activeStep !== steps.length &&
+              {/*activeStep !== steps.length &&
                 (completed[activeStep] ? (
                   <Typography variant="caption" sx={{ display: 'inline-block' }}>
                     Step {activeStep + 1} already completed
@@ -267,7 +272,7 @@ export default function HorizontalNonLinearStepper() {
                       ? 'Finish'
                       : 'Complete Step'}
                   </Button>
-                ))}
+                ))*/}
             </Box>
           </React.Fragment>
         )}
