@@ -1,0 +1,10 @@
+Hypothesis Test: Non-Linear Relationship Between GarageArea and SalePrice
+Description: Investigating polynomial relationships of GarageArea with SalePrice for large garages.
+
+Sample Polynomial Transformation Data:
+ GarageArea  GarageArea^2  SalePrice
+      294.0       86436.0     145000
+      380.0      144400.0     178000
+        0.0           0.0      85000
+      240.0       57600.0     175000
+      308.0       94864.0     127000

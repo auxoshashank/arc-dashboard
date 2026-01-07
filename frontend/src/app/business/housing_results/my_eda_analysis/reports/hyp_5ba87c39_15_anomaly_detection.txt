@@ -1,0 +1,8 @@
+Hypothesis Test: Anomaly Detection in SalePrice
+Description: Apply Isolation Forest and Z-Score methods to identify unusual SalePrice values.
+
+Isolation Forest Results:
+Number of anomalies detected: 12
+
+Z-Score Results:
+Number of anomalies detected (Z-Score): 17

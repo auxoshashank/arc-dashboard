@@ -1,0 +1,76 @@
+{
+  "EDA": {
+    "steps": [
+      "Step 1: Perform domain-specific visualizations such as geospatial mapping, correlation heatmaps, and conditional density plots.",
+      "Step 2: Conduct statistical tests like ANOVA, chi-square, Kolmogorov-Smirnov, and Shapiro-Wilk to assess feature relevance.",
+      "Step 3: Apply anomaly detection methods including Isolation Forest, Z-Score analysis, and Mahalanobis Distance.",
+      "Step 4: Explore advanced interaction analysis using pairwise interaction plots, polynomial feature analysis, and partial dependence plots.",
+      "Step 5: Utilize dimensionality reduction techniques such as PCA, feature clustering, autoencoders, and recursive feature elimination."
+    ],
+    "notes": [
+      "Note 1: Geospatial analysis can reveal spatial trends and neighborhood effects on property prices.",
+      "Note 2: Correlation heatmaps with hierarchical clustering help identify multicollinearity and variable groups.",
+      "Note 3: Anomaly detection is critical for identifying outliers that may distort model predictions.",
+      "Note 4: Interaction terms and partial dependence plots provide insights into feature relationships and their impact on sale prices.",
+      "Note 5: Dimensionality reduction simplifies datasets while retaining critical information for predictive modeling."
+    ]
+  },
+  "FeatureEngineering": {
+    "steps": [
+      "Step 1: Apply domain-guided feature transformations such as logarithmic scaling, age-based metrics, and ratio features.",
+      "Step 2: Create interaction terms and polynomial features to capture non-linear relationships.",
+      "Step 3: Use encoding techniques like target encoding, ordinal encoding, and frequency encoding for categorical variables.",
+      "Step 4: Perform feature selection using tree-based models, clustering, and recursive feature elimination.",
+      "Step 5: Engineer temporal and spatial features such as sale trends, geospatial distances, and spatial smoothing."
+    ],
+    "notes": [
+      "Note 1: Logarithmic transformations are effective for skewed features, aligning with real estate pricing patterns.",
+      "Note 2: Interaction terms between location and quality reveal localized pricing patterns.",
+      "Note 3: Encoding techniques enhance representation of categorical variables, capturing nuanced relationships.",
+      "Note 4: Feature selection should incorporate domain constraints to retain meaningful predictors.",
+      "Note 5: Temporal and spatial features provide critical insights into seasonal and location-based price variations."
+    ]
+  },
+  "Modeling": {
+    "steps": [
+      "Step 1: Implement advanced regression algorithms such as Gradient Boosting Machines, Elastic Net Regression, and Bayesian Ridge Regression.",
+      "Step 2: Use ensemble methods like stacking to combine predictions from multiple base models.",
+      "Step 3: Optimize hyperparameters using Bayesian search for efficient tuning.",
+      "Step 4: Apply cross-validation strategies such as stratified k-fold and nested cross-validation for robust evaluation.",
+      "Step 5: Incorporate novel techniques for model interpretation, including SHAP values, counterfactual analysis, and partial dependence plots."
+    ],
+    "notes": [
+      "Note 1: Gradient Boosting Machines excel in handling structured data and categorical variables natively.",
+      "Note 2: Elastic Net Regression balances feature selection and coefficient shrinkage for high-dimensional datasets.",
+      "Note 3: Bayesian Ridge Regression quantifies prediction uncertainty, useful for rare or unique properties.",
+      "Note 4: Stacking models leverage strengths of diverse algorithms to improve predictive accuracy.",
+      "Note 5: SHAP values and partial dependence plots enhance interpretability and stakeholder communication."
+    ]
+  },
+  "EvaluationMetrics": {
+    "steps": [
+      "Step 1: Use RMSE on a logarithmic scale to evaluate models on skewed sale price distributions.",
+      "Step 2: Complement RMSE with Mean Absolute Percentage Error (MAPE) for relative accuracy.",
+      "Step 3: Implement SHAP values for detailed feature importance analysis.",
+      "Step 4: Perform counterfactual analysis to evaluate the impact of feature changes on predictions.",
+      "Step 5: Use partial dependence plots to identify global trends and feature interactions."
+    ],
+    "notes": [
+      "Note 1: Log-transformed RMSE ensures fair evaluation across all price ranges.",
+      "Note 2: MAPE provides intuitive metrics for stakeholders preferring relative accuracy.",
+      "Note 3: SHAP values quantify feature contributions to individual predictions.",
+      "Note 4: Counterfactual analysis offers actionable insights for property improvement.",
+      "Note 5: Partial dependence plots reveal non-linear relationships and global feature effects."
+    ]
+  },
+  "References": [
+    "Reference 1: Chandola et al., 2009 (https://doi.org/10.1145/1541880.1541882)",
+    "Reference 2: Kuhn & Johnson, 2019 (https://doi.org/10.1007/978-1-4614-6849-3)",
+    "Reference 3: Hastie et al., 2009 (https://doi.org/10.1007/978-0-387-84858-7)",
+    "Reference 4: Willmott & Matsuura, 2005 (https://doi.org/10.1016/j.envsoft.2004.03.007)",
+    "Reference 5: Geopandas documentation (https://geopandas.org/en/stable/)",
+    "Reference 6: Scikit-learn PCA documentation (https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html)",
+    "Reference 7: SHAP documentation (https://shap.readthedocs.io/en/latest/)",
+    "Reference 8: Interpretable ML book on PDP (https://christophm.github.io/interpretable-ml-book/pdp.html)"
+  ]
+}

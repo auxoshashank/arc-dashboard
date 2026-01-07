@@ -1,0 +1,46 @@
+Hypothesis Test: Impact of LotArea Outliers on Neighborhood-Specific Sale Prices
+Description: Analyzing the effect of LotArea outliers on SalePrice by Neighborhood.
+
+Grouped Data:
+Neighborhood  Outlier      LotArea     SalePrice
+     Blmngtn    False  3320.133333 191468.400000
+     Blueste     True  1300.000000 124000.000000
+      BrDale    False  1810.461538 100915.384615
+     BrkSide    False  7016.977273 120347.727273
+     BrkSide     True 21384.000000 223500.000000
+     ClearCr    False 11890.400000 208500.000000
+     ClearCr     True 59592.111111 236666.666667
+     CollgCr    False  9753.321739 201112.008696
+     Crawfor    False 10621.609756 210532.609756
+     Crawfor     True 21705.000000 226000.000000
+     Edwards    False  9038.783133 124377.710843
+     Edwards     True 36362.750000 201180.000000
+     Gilbert    False 10386.725806 193538.983871
+     Gilbert     True 22439.000000 258575.000000
+      IDOTRR    False  7488.807692 106623.076923
+     MeadowV    False  2306.600000 101890.000000
+     Mitchel    False  9735.028571 158931.028571
+     Mitchel     True 26128.200000 143230.000000
+       NAmes    False  9936.805714 145736.485714
+       NAmes     True 23747.500000 196166.666667
+     NPkVill    False  3297.714286 144392.857143
+      NWAmes    False 11433.935484 187767.822581
+      NWAmes     True 19499.000000 216350.000000
+     NoRidge    False 12244.166667 313003.600000
+     NoRidge     True 37436.000000 425000.000000
+     NridgHt    False 10828.033333 310073.816667
+     NridgHt     True 20431.000000 437154.000000
+     OldTown    False  8144.584270 127221.438202
+     OldTown     True 20668.000000 385000.000000
+       SWISU    False  8290.333333 144823.047619
+      Sawyer    False  9820.092593 135765.425926
+      Sawyer     True 20858.750000 151750.000000
+     SawyerW    False  9968.568182 180457.590909
+     Somerst    False  7718.926471 223512.676471
+     Somerst     True 20896.000000 423000.000000
+     StoneBr    False  8181.052632 290216.526316
+     StoneBr     True 53504.000000 538000.000000
+      Timber    False 11998.478261 231578.826087
+      Timber     True 99683.200000 257130.000000
+     Veenker    False 11748.500000 235312.500000
+     Veenker     True 50271.000000 385000.000000

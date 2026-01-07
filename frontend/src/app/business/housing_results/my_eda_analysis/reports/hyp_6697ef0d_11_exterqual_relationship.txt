@@ -1,0 +1,10 @@
+Hypothesis Test: Effect of ExterQual on SalePrice
+Description: Investigating the impact of exterior quality on property valuation.
+
+ExterQual and SalePrice Summary:
+                    mean    median            std  count
+ExterQual                                               
+Ex         352199.119048  353459.5  102435.025302     42
+Fa          94072.727273   85000.0   42845.398607     11
+Gd         230836.077320  220500.0   72067.804176    388
+TA         146536.671252  140000.0   43393.254454    727

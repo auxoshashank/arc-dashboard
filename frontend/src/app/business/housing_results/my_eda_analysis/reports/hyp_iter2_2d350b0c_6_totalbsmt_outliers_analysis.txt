@@ -1,0 +1,6 @@
+Hypothesis Test: Impact of TotalBsmtSF Outliers on SalePrice
+Description: Investigating whether outliers in basement size distort the relationship to SalePrice.
+
+Number of Outliers: 47
+Lower Bound: 41.12
+Upper Bound: 2054.12

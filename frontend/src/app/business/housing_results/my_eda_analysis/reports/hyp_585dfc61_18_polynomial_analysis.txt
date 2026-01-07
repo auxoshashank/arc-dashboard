@@ -1,0 +1,10 @@
+Hypothesis Test: Polynomial Feature Analysis for GrLivArea
+Description: Using polynomial transformations to capture non-linear relationships with SalePrice.
+
+Polynomial Features Created:
+ GrLivArea  GrLivArea^2  SalePrice
+    1314.0    1726596.0     145000
+    1571.0    2468041.0     178000
+     796.0     633616.0      85000
+    1768.0    3125824.0     175000
+    1691.0    2859481.0     127000

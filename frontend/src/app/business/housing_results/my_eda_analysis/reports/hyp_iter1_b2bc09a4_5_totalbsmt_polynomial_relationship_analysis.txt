@@ -1,0 +1,10 @@
+Hypothesis Test: Explore the Non-Linear Relationship Between TotalBsmtSF and SalePrice
+Description: Polynomial transformation applied to capture diminishing returns of larger basements.
+
+Sample Polynomial Transformation Data:
+ TotalBsmtSF  TotalBsmtSF^2  SalePrice
+      1314.0      1726596.0     145000
+       799.0       638401.0     178000
+       796.0       633616.0      85000
+       731.0       534361.0     175000
+      1026.0      1052676.0     127000

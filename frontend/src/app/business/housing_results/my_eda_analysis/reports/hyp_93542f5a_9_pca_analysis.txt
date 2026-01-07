@@ -1,0 +1,14 @@
+Hypothesis Test: Dimensionality Reduction for Numerical Features
+Description: Applying PCA to numerical features to retain critical information.
+
+Explained Variance Ratio (Top 10 components):
+Component 1: 0.9831
+Component 2: 0.0044
+Component 3: 0.0030
+Component 4: 0.0026
+Component 5: 0.0024
+Component 6: 0.0017
+Component 7: 0.0015
+Component 8: 0.0004
+Component 9: 0.0003
+Component 10: 0.0002

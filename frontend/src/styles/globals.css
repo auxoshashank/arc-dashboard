@@ -188,82 +188,16 @@ li:hover .activeNumber {
  background-color: #f9f9f9;
 }
 
-.segments{
-  background:url(http://localhost:3000/images/users-267.svg) no-repeat left top;
-  background-size: contain;
-  width: 60px;
-  height: 40px;
-  rotate: -90deg;
-  color:#a8a8a8;
-}
-
-.segments_text{
+.arc_text{
   width: 8px;
   height: 15px;
   margin-top: 100px;
   rotate: -90deg;
-  color:#abbbca;
+  color:#d1dbe5;
   margin-left: 10px;
-  font-weight: 100;
-  font-size: 18px;
-}
-
-.segments_text div {
-  width: 100px;
-  font-weight: 100;
-  font-size: 14px;
-  color: #fff;
-  text-transform: lowercase;
-  line-height: 12px;
-}
-
-.listHeading{
-  font-weight: 400;
-}
-
-.studies_text{
-  width: 8px;
-  height: 15px;
-  margin-top: 124px;
-  rotate: -90deg;
-  color:#abbbca;
-  margin-left: 10px;
-  font-weight: 100;
-  font-size: 18px;
-}
-
-.studies_text div {
-  width: 100px;
-  font-weight: 100;
-  font-size: 14px;
-  color: #fff;
-  text-transform: lowercase;
-  line-height: 14px;
-}
-
-.activeNumber {
-  font-size: 20px;
-  font-weight: 500;
-  color:#abbccb;
-}
-
-.activities{
-  background:url(http://localhost:3000/images/bolt-lightning-svgrepo-com.svg) no-repeat left top;
-  background-size: contain;
-  width: 60px;
-  height: 40px;
-  rotate: -90deg;
-  color:#a8a8a8;
-}
-
-
-.personas{
-  background:url(http://localhost:3000/images/head-side-view-black-silhouette-of-male-bald-shape-svgrepo-com.svg) no-repeat left top;
-  background-size: contain;
-  width: 60px;
-  height: 40px;
-  rotate: -90deg;
-  color:#a8a8a8;
+  font-weight: 300;
+  line-height: 22px;
+  font-size: 16px;
 }
 
 .searchBox {
@@ -336,6 +270,7 @@ background:oklch(0.94 0.03 131.36);
    font-size:16px; 
    font-weight:500;
    margin-top:10px;
+   border-bottom:1px solid #ebebeb;
    padding-bottom:10px;
    text-align: left;
    color:#404040;
@@ -374,6 +309,14 @@ background:oklch(0.94 0.03 131.36);
   height:50px;
   background-size:auto;
   border-radius: 50%;
+}
+
+.studyIcon {
+  width:50px;
+  height:50px;
+  background-size:auto;
+  border-radius: 50%;
+  background-color: #ffd598;
 }
 
 .illustration1{
@@ -426,4 +369,12 @@ background:oklch(0.94 0.03 131.36);
 
 .standard-chart{
   max-width: 700px;
+}
+
+
+.chatTextBox {
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 15px;
+  padding:10px;
 }

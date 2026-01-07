@@ -1,0 +1,6 @@
+Hypothesis Test: Impact of LotFrontage on SalePrice
+Description: Analyze the relationship between LotFrontage and SalePrice to determine its significance in property valuation.
+
+Correlation Coefficient: 0.3301
+P-Value: 1.3211e-25
+Significance: Significant relationship detected.

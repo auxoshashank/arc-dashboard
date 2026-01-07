@@ -1,0 +1,6 @@
+Hypothesis Test: Examine the Relationship Between LotArea and SalePrice for Outliers
+Description: Investigate whether the outliers in LotArea have a disproportionate impact on SalePrice
+
+Number of Outliers: 54
+Lower Bound: 1418.12
+Upper Bound: 17869.12

@@ -1,0 +1,10 @@
+Hypothesis Test: Explore the Relationship Between Total Rooms Above Ground and SalePrice
+Description: Investigating linear and non-linear relationships of TotRmsAbvGrd with SalePrice.
+
+Sample Polynomial Transformation Data:
+ TotRmsAbvGrd  TotRmsAbvGrd^2  SalePrice
+          5.0            25.0     145000
+          7.0            49.0     178000
+          4.0            16.0      85000
+          7.0            49.0     175000
+          6.0            36.0     127000

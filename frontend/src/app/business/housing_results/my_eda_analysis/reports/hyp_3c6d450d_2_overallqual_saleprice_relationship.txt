@@ -1,0 +1,5 @@
+Hypothesis Test: Impact of OverallQual on SalePrice
+Description: Analyzing the relationship and predictive power of OverallQual attribute.
+Correlation Coefficient: 0.7856
+P-Value: 2.5961e-245
+Significance: Strong relationship identified.

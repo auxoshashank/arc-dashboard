@@ -1,0 +1,6 @@
+Hypothesis Test: Analyze the Impact of PoolQC on High-End Properties
+Description: Exploring the significance of pool quality impact on luxury properties.
+
+F-Statistic: 0.2002
+P-Value: 8.4503e-01
+Significance: No significant differences detected among PoolQC categories.

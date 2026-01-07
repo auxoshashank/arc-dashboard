@@ -1,0 +1,16 @@
+Hypothesis Test: Interaction between OverallQual and GrLivArea
+Description: Exploring interaction between OverallQual and GrLivArea on SalePrice.
+
+Interaction Matrix:
+
+OverallQual
+1      619.000000
+2      438.000000
+3     1156.750000
+4     1118.670455
+5     1259.590909
+6     1479.237942
+7     1703.178295
+8     1939.459259
+9     2096.111111
+10    3128.769231

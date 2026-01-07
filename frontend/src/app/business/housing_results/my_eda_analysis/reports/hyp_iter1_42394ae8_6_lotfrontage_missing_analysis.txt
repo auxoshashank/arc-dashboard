@@ -1,0 +1,6 @@
+Hypothesis Test: Evaluate the Impact of Missing Data in LotFrontage on SalePrice
+Description: Analyzing differences in SalePrice for properties with and without LotFrontage data.
+
+T-Statistic: 0.1811
+P-Value: 8.5640e-01
+Significance: No significant difference detected.
