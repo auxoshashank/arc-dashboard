@@ -324,19 +324,7 @@ export default function HorizontalNonLinearStepper() {
               <Box sx={{ flex: '1 1 auto' }} />
               <Button variant="contained" onClick={handleNext} sx={{ mr: 1 }}>
                 Next
-              </Button>              
-              {/*activeStep !== steps.length &&
-                (completed[activeStep] ? (
-                  <Typography variant="caption" sx={{ display: 'inline-block' }}>
-                    Step {activeStep + 1} already completed
-                  </Typography>
-                ) : (
-                  <Button onClick={handleComplete}>
-                    {completedSteps() === totalSteps() - 1
-                      ? 'Finish'
-                      : 'Complete Step'}
-                  </Button>
-                ))*/}
+              </Button>
             </Box>
           </React.Fragment>
         )}

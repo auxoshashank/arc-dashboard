@@ -10,22 +10,11 @@ import TextField from '@mui/material/TextField';
 import HorizontalNonLinearStepper from './StepWiseModal';
 
 export default function CreateProject() {
-  const [message, setMessage] = useState('');
-  const textareaRef = useRef(null);
-  const [name, setName] = useState('');
-  const [isSuccess, setIsSuccess] = useState(false);
-
   return (
-    <>
-        {isSuccess ?
-            <Stack sx={{ width: '100%' }} spacing={2}>
-              <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
-                The Project has been created.
-              </Alert>
-            </Stack> : ''}
+    <>        
         <div style={{width:"100%", height:"100vh", marginTop: "10px"}}>
           <HorizontalNonLinearStepper></HorizontalNonLinearStepper>           
-        </div>   
+        </div>        
     </>  
   );
 }

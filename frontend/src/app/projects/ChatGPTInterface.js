@@ -41,7 +41,7 @@ export default function ChatGPTInterface({files, setFiles, toggleLoaded, toggleD
 
   return (
     <>
-          <div className="input-box">
+          <div className="input-box margin-5">
               <div className="curvedPanel fullWidth padding-5 chatTextBox">
                 <textarea
                   ref={textareaRef}

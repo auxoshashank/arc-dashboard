@@ -96,8 +96,8 @@ export default function SegmentPage() {
                   </div>                
                 </Link>
               </li>
-              <li class="eda">
-              </li>             
+              <li class="divider">
+              </li>        
               <li>
                 <Link href={`/eda`}>
                   <div class="navLink arc_text">
