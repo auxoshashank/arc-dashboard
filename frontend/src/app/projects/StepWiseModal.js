@@ -209,11 +209,7 @@ export default function HorizontalNonLinearStepper({loadProjects}) {
         body: JSON.stringify(data)
       });
 
-      if (!response.ok) {
-        throw new Error('Something went wrong');
-      }
-
-      response = await fetch(`http://127.0.0.1:8000/api/${module_name}/clarify/${project_id}`, {
+      response = await fetch(`http://127.0.0.1:8000/api/${module_name}/clarify/${projectId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -221,16 +217,13 @@ export default function HorizontalNonLinearStepper({loadProjects}) {
         body: JSON.stringify({})
       });
 
-
-      response = await fetch(`http://127.0.0.1:8000/api/${module_name}/approve/${project_id}`, {
+      response = await fetch(`http://127.0.0.1:8000/api/${module_name}/approve/${projectId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({})
       });
-
-      const result = await response.json();
 
       if (module_name == 'business-analysis')
         setIsRunBusiness(true);

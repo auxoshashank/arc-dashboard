@@ -15,13 +15,14 @@ import { Pie } from 'react-chartjs-2';
 import Testimonials from './Testimonials';
 import Link from 'next/link'
 import CreateProject from './CreateProject';
+import JsonList from '../business/JsonList';
 
 export default function SegmentPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSegment, setSelectedSegment] = useState({});
   const [activeTab, setActiveTab] = useState("details");
   const [activeTabChart, setActiveTabChart] = useState("agegroup");
-  const [showNotification, setShowNotification] = useState(true);
+  const [showCreate, setShowCreate] = useState(false);
 
   const [chartData, setChartData] = useState({});
   const [projectsData, setProjectsData] = useState([]);
@@ -47,8 +48,8 @@ export default function SegmentPage() {
         setProjectsData(result.projects);
       } catch (error) {
       }
-  };
-
+    };
+    
   useEffect(() => {    
     loadProjects();
   }, []);
@@ -122,7 +123,7 @@ export default function SegmentPage() {
           <div className="w-[200px] leftPanel fixedPanel px-6">
             <div class="flexRow">
               <h1 className="featureHeading m-top-20">Projects</h1>
-              {/*<Button className="plusButton m-top-20" onClick={() => setShowNotification(false)}>+</Button>*/}
+              <Button className="plusButton m-top-20" onClick={() => setShowCreate(true)}>+</Button>
             </div>
             <div className="relative mb-6">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -139,7 +140,7 @@ export default function SegmentPage() {
               {filteredSegments.map((segment) => (
                 <div
                   key={segment.project_id}
-                  onClick={() => setSelectedSegment(segment)}
+                  onClick={() => {setSelectedSegment(segment); setShowCreate(false);}}
                   className={`flex items-start p-4 gap-4 rounded-lg cursor-pointer transition-colors ${
                     selectedSegment.project_id === segment.project_id
                       ? "selectedHighlight"
@@ -166,10 +167,18 @@ export default function SegmentPage() {
 
           <div className="flex-1 w-[1250px] mainPanel">    
 
-            <div className="sectionHeading p-4">New Project</div>
+            {showCreate ? <>
+              <div className="sectionHeading p-4">New Project</div>
+              <CreateProject loadProjects={loadProjects}></CreateProject>
+            </> : 
+            <>
+             <div className="sectionHeading p-4">Project Details</div>
+             <div className="p-4">
+              <JsonList data={selectedSegment} keyId="main"/>
+             </div>
+            </>
+            }
 
-            <CreateProject loadProjects={loadProjects}></CreateProject>
-          
           </div>
         </div>
       </div>
