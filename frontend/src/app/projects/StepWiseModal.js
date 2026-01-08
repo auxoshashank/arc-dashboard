@@ -8,6 +8,9 @@ import Typography from '@mui/material/Typography';
 import Create from './Create';
 import ChatGPTInterface from './ChatGPTInterface';
 import { useState , Fragment} from 'react';
+import Alert from '@mui/material/Alert';
+import CheckIcon from '@mui/icons-material/Check';
+import Stack from '@mui/material/Stack';
 
 const steps = ['Create Project', 'Upload Data', 'Business Analysis', 'Research Query', 'EDA', 'ML Engine'];
 
@@ -23,6 +26,12 @@ export default function HorizontalNonLinearStepper() {
   const [name, setName] = useState('');
   const [msg, setMsg] = useState('');
   const [files, setFiles] = useState([]);
+  const [isProjectCreated, setIsProjectCreated] = useState(false);
+  const [isDataUploaded, setIsDataUploaded] = useState(false);
+  const [isRunBusiness, setIsRunBusiness] = useState(false);
+  const [isRunResearch, setIsRunResearch] = useState(false);
+  const [isRunEDA, setIsRunEDA] = useState(false);
+  const [isRunML, setIsRunML] = useState(false);
 
   const totalSteps = () => {
     return steps.length;
@@ -132,6 +141,7 @@ export default function HorizontalNonLinearStepper() {
         throw new Error('Something went wrong');
       }
       //setIsSuccess(true);
+      setIsDataUploaded(true);
       const result = await response.json();
       //setMessage('User successfully added!');
     } catch (error) {
@@ -162,6 +172,8 @@ export default function HorizontalNonLinearStepper() {
 
       setProjectId(result["project_id"]);
       
+      setIsProjectCreated(true);
+
       //setMessage('User successfully added!');
     } catch (error) {
       //setIsSuccess(true);
@@ -189,8 +201,15 @@ export default function HorizontalNonLinearStepper() {
       //setIsSuccess(true);
       const result = await response.json();
 
-      setProjectId(result["project_id"]);
-      
+      if (module_name == 'business-analysis')
+        setIsRunBusiness(true);
+      else if (module_name == 'research-query')
+        setIsRunResearch(true);
+      else if (module_name == 'eda')
+        setIsRunEDA('eda');
+      else if (module_name == 'ml-engine')
+        setIsRunML('ml-engine');
+
       //setMessage('User successfully added!');
     } catch (error) {
       //setIsSuccess(true);
@@ -199,7 +218,51 @@ export default function HorizontalNonLinearStepper() {
   };
   
   return (
-    <Box sx={{ width: '100%' }}>
+    <>
+    {(isProjectCreated ? 
+    <Stack sx={{ width: '100%' }} spacing={2}>
+        <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+        Project created successfully.
+        </Alert>
+    </Stack> : null)}
+    
+     {(isDataUploaded ? 
+    <Stack sx={{ width: '100%' }} spacing={2}>
+        <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+        Data uploaded successfully.
+        </Alert>
+    </Stack> : null)}
+
+     {(isRunBusiness ? 
+    <Stack sx={{ width: '100%' }} spacing={2}>
+        <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+        Business Analytics Engine triggered successfully.
+        </Alert>
+    </Stack> : null)}
+
+     {(isRunEDA ? 
+    <Stack sx={{ width: '100%' }} spacing={2}>
+        <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+        EDA Engine triggered successfully.
+        </Alert>
+    </Stack> : null)}
+
+    {(isRunResearch ? 
+    <Stack sx={{ width: '100%' }} spacing={2}>
+        <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+        Researcher Engine triggered successfully.
+        </Alert>
+    </Stack> : null)}
+
+    {(isRunML ? 
+    <Stack sx={{ width: '100%' }} spacing={2}>
+        <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+        ML Engine triggered successfully.
+        </Alert>
+    </Stack> : null)}
+
+    <Box sx={{ width: '100%', marginTop: '10px' }}>
+          
       <Stepper nonLinear activeStep={activeStep}>
         {steps.map((label, index) => (
           <Step key={label} completed={completed[index]}>
@@ -210,6 +273,7 @@ export default function HorizontalNonLinearStepper() {
         ))}
       </Stepper>
       <div>
+
         {allStepsCompleted() ? (
           <React.Fragment>
             <Typography sx={{ mt: 2, mb: 1 }}>
@@ -278,5 +342,6 @@ export default function HorizontalNonLinearStepper() {
         )}
       </div>
     </Box>
+    </>
   );
 }

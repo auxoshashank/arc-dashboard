@@ -15,7 +15,7 @@ import { Pie } from 'react-chartjs-2';
 import Link from 'next/link'
 import BusinessDiscovery from './BusinessDiscovery';
 
-export default function SegmentPage() {
+export default function Business() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSegment, setSelectedSegment] = useState({});
   const [activeTab, setActiveTab] = useState("details");
@@ -57,10 +57,13 @@ export default function SegmentPage() {
       {/* Header */}
       <div className="border-b bg-white">
         <div className="px-6 py-4">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">        
+            <span style={{fontWeight:400, fontSize:18}}>ARC</span>
             <span>Home</span>
             <span>&gt;</span>
-            <span>Projects</span>                      
+            <span>Projects</span> 
+            <span>&gt;</span>
+            <span>Business Analysis</span>                              
           </div>
         </div>
       </div>
@@ -79,7 +82,7 @@ export default function SegmentPage() {
               <li class="divider">
               </li>
               <li>      
-                  <Link href={`/business_analysis`}>
+                  <Link href={`/business`}>
                     <div class="navLink arc_text">
                       Business Discovery
                     </div>
@@ -88,16 +91,16 @@ export default function SegmentPage() {
               <li class="divider">
               </li>
               <li>
-                <Link href={`/studies`}>           
+                <Link href={`/researcher`}>           
                   <div class="navLink arc_text">
                     Deep Researcher
                   </div>                
                 </Link>
               </li>
               <li class="divider">
-              </li>             
+              </li>                    
               <li>
-                <Link href={`/personas`}>
+                <Link href={`/eda`}>
                   <div class="navLink arc_text">
                     EDA Engine                    
                   </div>                 
@@ -106,19 +109,19 @@ export default function SegmentPage() {
               <li class="divider">
               </li>             
               <li>
-                <Link href={`/activities`}>
+                <Link href={`/ml`}>
                   <div class="navLink arc_text">
                     ML Engine                    
                   </div>                  
                 </Link>
-              </li>   
+              </li>
               <li class="divider">
               </li>               
             </ul>
           </div>
           <div className="w-[200px] leftPanel fixedPanel px-6">
             <div class="flexRow">
-              <h1 className="featureHeading m-top-20">Projects</h1>
+              <h1 className="featureHeading m-top-20">Business Discovery</h1>
               {/*<Button className="plusButton m-top-20" onClick={() => setShowNotification(false)}>+</Button>*/}
             </div>
             <div className="relative mb-6">
@@ -161,7 +164,7 @@ export default function SegmentPage() {
             </div>
           </div>
 
-          <div className="flex-1 w-[1250px] px-8 mainPanel">    
+          <div className="flex-1 w-[1250px] mainPanel">    
 
             <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6 mt-6">
               <div class="flexRow">

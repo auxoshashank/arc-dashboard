@@ -204,7 +204,7 @@ li:hover .activeNumber {
   background-color: #f1f1f1;
   border-radius: 20px 20px 20px 20px;
   height: 40px;
-  width: 250px;
+  width: 150px;
   border: 0px;
   outline:none;
 }
@@ -270,7 +270,6 @@ background:oklch(0.94 0.03 131.36);
    font-size:16px; 
    font-weight:500;
    margin-top:10px;
-   border-bottom:1px solid #ebebeb;
    padding-bottom:10px;
    text-align: left;
    color:#404040;
@@ -377,4 +376,116 @@ background:oklch(0.94 0.03 131.36);
   background-color: #fff;
   border-radius: 15px;
   padding:10px;
+}
+
+
+
+
+.css-1wle3ir-MuiTypography-root, .css-956xpl-MuiTypography-root {
+    font-family: unset!important;
+    font-weight: unset!important;
+    font-size:unset!important;
+    line-height: unset!important;
+    letter-spacing: unset!important;
+    color: unset!important;
+}
+
+.projectPanel *{
+  font-size: 16px;
+}
+
+.projectPanel > .css-1j74uew-MuiPaper-root-MuiCard-root{
+  background:#f0eee9;
+  height: 100%;
+}
+
+.cardPanel{
+  width: 80%;
+}
+
+.card{
+  background-color: #fff;
+  padding:0px 20px 0px 20px;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  box-shadow: 1px 2px 2px #e5e5e5;
+  width: 100%;
+  font-size: 14px;
+  height: 240px;
+}
+
+.cardLong{
+  min-height: 800px;
+  width: 100%;
+  margin-left: 10px;
+}
+
+.width-30{
+  width: 32%;
+}
+
+
+
+
+.MuiTreeItem-label MuiSimpleTreeView-itemLabel {
+  font-size: 18px!important;
+}
+
+.css-1mbxq6w-MuiTreeItem-label{
+  font-size: 16px!important;
+  padding: 3px;
+  font-family: unset!important; 
+  font-weight: unset!important;
+}
+
+.flexStart{
+  justify-content: flex-start!important;
+}
+
+.css-jq3mgl-MuiTreeItem-root{
+  width: 100%;
+}
+
+.codeBlock{
+  background:rgb(245 245 245);
+  border:1px solid rgb(228 228 228);
+  padding:10px;
+}
+
+.textInfo{
+  font-size:16px;
+  border-radius:10px;
+  margin-right:10px;
+  margin-top:10px;
+  margin-bottom:10px;
+  background-color: #f4f4f4;
+  width: 100%;
+  box-sizing: border-box;
+  padding:4px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  overflow: hidden;
+  inline-size: 98%;  
+}
+
+.textInfo ul{
+  overflow: hidden;
+  inline-size: 97%;  
+}
+
+.codeEditor{
+  background-color:#000;
+  padding:10px;
+  box-sizing:border-box;
+  height:132px; 
+  color:#fff;
+  border-radius:10px;
+  border: 0px;
+  width: 100%;
+  font-size:16px;
+  font-weight: 100;
+}
+
+.margin-top-20{
+  margin-top:20px;
 }

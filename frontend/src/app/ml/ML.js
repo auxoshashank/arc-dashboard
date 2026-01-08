@@ -3,17 +3,17 @@ import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import { faBars, faBell, faCoffee, faFolder, faSearch, faUser, faBackspace, faCalendarAlt, faPaperclip, faAnchor, faAlarmClock, faUmbrella, faPaintbrush, faHand, faHandPointer, faTree, faCaretDown, faCode, faChartBar, faSquareRootVariable, faHandPointDown, faCaretUp, faCaretRight, faArrowRight, faArrowDown, faAngleRight, faAngleDown, faList, faFile, faArrowPointer, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import housing_final_report from './housing_results/final_report.json';
+import housing_final_report from './final_summary_report.json';
 //import housing_descriptionFile from './housing_04_11/description.md';
 
-import JsonList from './JsonList';
+import JsonList from '../business/JsonList';
 import ReactMarkdown from 'react-markdown';
-import ExpandableCard from './ExpandableCard';
+import ExpandableCard from '../business/ExpandableCard';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 
-export default function BusinessDiscovery(view) {
+export default function DeepResearcher(view) {
   const [details, setDetails] = useState({});
   const [jsonData, setJsonData] = useState(housing_final_report);
   const [mrkdown, setMrkdown] = useState('');

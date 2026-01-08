@@ -23,7 +23,7 @@ export default function CreateProject() {
                 The Project has been created.
               </Alert>
             </Stack> : ''}
-        <div style={{width:"100%", height:"100vh", marginTop: "50px"}}>            
+        <div style={{width:"100%", height:"100vh", marginTop: "10px"}}>
           <HorizontalNonLinearStepper></HorizontalNonLinearStepper>           
         </div>   
     </>  

@@ -12,11 +12,10 @@ import { Chart as ChartJS, CategoryScale, ArcElement, LinearScale, BarElement, T
 import { Bar } from 'react-chartjs-2';
 import { Pie } from 'react-chartjs-2';
 //import { motion } from "motion/react";
-import Testimonials from './Testimonials';
 import Link from 'next/link'
-import CreateProject from './CreateProject';
+import EDA from './EDA';
 
-export default function SegmentPage() {
+export default function Business() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSegment, setSelectedSegment] = useState({});
   const [activeTab, setActiveTab] = useState("details");
@@ -58,11 +57,13 @@ export default function SegmentPage() {
       {/* Header */}
       <div className="border-b bg-white">
         <div className="px-6 py-4">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">        
             <span style={{fontWeight:400, fontSize:18}}>ARC</span>
             <span>Home</span>
             <span>&gt;</span>
-            <span>Projects</span>                         
+            <span>Projects</span> 
+            <span>&gt;</span>
+            <span>EDA</span>                              
           </div>
         </div>
       </div>
@@ -79,7 +80,7 @@ export default function SegmentPage() {
                   </Link>
               </li>
               <li class="divider">
-              </li>                          
+              </li>
               <li>      
                   <Link href={`/business`}>
                     <div class="navLink arc_text">
@@ -95,6 +96,8 @@ export default function SegmentPage() {
                     Deep Researcher
                   </div>                
                 </Link>
+              </li>
+              <li class="divider">
               </li>
               <li class="eda">
               </li>             
@@ -120,7 +123,7 @@ export default function SegmentPage() {
           </div>
           <div className="w-[200px] leftPanel fixedPanel px-6">
             <div class="flexRow">
-              <h1 className="featureHeading m-top-20">Projects</h1>
+              <h1 className="featureHeading m-top-20">EDA</h1>
               {/*<Button className="plusButton m-top-20" onClick={() => setShowNotification(false)}>+</Button>*/}
             </div>
             <div className="relative mb-6">
@@ -165,10 +168,26 @@ export default function SegmentPage() {
 
           <div className="flex-1 w-[1250px] mainPanel">    
 
-            <div className="sectionHeading p-4">New Project</div>
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6 mt-6">
+              <div class="flexRow">
+                <div className="sectionHeading p-4">{selectedSegment.display_name}</div>               
+                <div>              
+                <TabsList>
+                  <TabsTrigger value="details">List View</TabsTrigger>
+                </TabsList>
+                <TabsList>
+                  <TabsTrigger value="card">Card View</TabsTrigger>
+                </TabsList>
+                </div>
+              </div>
 
-            <CreateProject></CreateProject>
-          
+              <TabsContent value="details">
+                  <EDA view="list" />
+              </TabsContent>
+              <TabsContent value="card">
+                  <EDA view="card" />
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       </div>

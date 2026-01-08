@@ -58,6 +58,7 @@ export default function PlaygroundSidebar({
   return (
     <aside className="bg-grey flex h-full w-65 flex-col border-r bg-[#F5F6F8] p-4">
       {!isCollapsed && (
+        <>
         <div className="mb-3 flex items-center justify-between">
           {/* <TabSwitch
           onSelectTab={setSelectedTabIdx}
@@ -74,8 +75,13 @@ export default function PlaygroundSidebar({
             }}
           >
             Clear
-          </p>
+          </p>         
         </div>
+        <div>Business Discovery</div>
+        <div>Deep Researcher</div>
+        <div>EDA Engine</div>
+        <div>Machine Learning</div>
+        </>
       )}
 
       <div className="flex h-full flex-col justify-between overflow-hidden">
