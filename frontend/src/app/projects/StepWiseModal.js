@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Create from './Create';
 import ChatGPTInterface from './ChatGPTInterface';
-import { useState , Fragment} from 'react';
+import { useState , Fragment, useEffect} from 'react';
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
 import Stack from '@mui/material/Stack';
@@ -49,28 +49,37 @@ export default function HorizontalNonLinearStepper() {
     return completedSteps() === totalSteps();
   };
 
-  const handleNext = () => {
-    const newActiveStep =
-      isLastStep() && !allStepsCompleted()
-        ? // It's the last step, but not all steps have been completed,
-          // find the first step that has been completed
-          steps.findIndex((step, i) => !(i in completed))
-        : activeStep + 1;
-    setActiveStep(newActiveStep);
-
-    if (newActiveStep == 1)
-        handleSubmit();
-    else if (newActiveStep == 2)
-        handleDataUpload();
-    else if (newActiveStep == 3)
-        runBusinessAnalysis('business-analysis');
-    else if (newActiveStep == 4)
-        runBusinessAnalysis('research-query');
-    else if (newActiveStep == 5)
-        runBusinessAnalysis('eda');
-     else if (newActiveStep == 6)
-        runBusinessAnalysis('ml-engine');
+  const handleNext = async () => {
+    if (activeStep == 0)
+        await handleSubmit();
+    else if (activeStep == 1)
+        await handleDataUpload();
+    else if (activeStep == 2)
+        await runBusinessAnalysis('business-analysis');
+    else if (activeStep == 3)
+        await runBusinessAnalysis('research-query');
+    else if (activeStep == 4)
+        await runBusinessAnalysis('eda');
+     else if (activeStep == 5)
+        await runBusinessAnalysis('ml-engine');
   };
+
+  useEffect(() => {
+       if ((isProjectCreated && activeStep == 0) ||
+          (isDataUploaded && activeStep == 1) ||
+          (isRunBusiness && activeStep == 2) ||
+          (isRunResearch && activeStep == 3) ||
+          (isRunEDA && activeStep == 4) ||
+          (isRunML && activeStep == 5)) {
+              var newActiveStep = 1;
+              isLastStep() && !allStepsCompleted()
+                  ? // It's the last step, but not all steps have been completed,
+                    // find the first step that has been completed
+                    steps.findIndex((step, i) => !(i in completed))
+                  : activeStep + 1;
+              setActiveStep(newActiveStep);      
+      }
+  }, [isProjectCreated]);
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -145,13 +154,12 @@ export default function HorizontalNonLinearStepper() {
       const result = await response.json();
       //setMessage('User successfully added!');
     } catch (error) {
-      //setIsSuccess(true);
+      setIsDataUploaded(false);
       //setMessage('Error posting data');
     }
   };
 
   const handleSubmit = async () => {
-    //event.preventDefault();
 
     const data = { "display_name":name, "msg":msg };
 
@@ -167,22 +175,19 @@ export default function HorizontalNonLinearStepper() {
       if (!response.ok) {
         throw new Error('Something went wrong');
       }
-      //setIsSuccess(true);
+
       const result = await response.json();
 
       setProjectId(result["project_id"]);
       
       setIsProjectCreated(true);
 
-      //setMessage('User successfully added!');
     } catch (error) {
-      //setIsSuccess(true);
-      //setMessage('Error posting data');
+      setIsProjectCreated(false);
     }
   };
 
   const runBusinessAnalysis = async (module_name) => {
-    //event.preventDefault();
 
     const data = { "project_id":projectId };
 
@@ -198,7 +203,6 @@ export default function HorizontalNonLinearStepper() {
       if (!response.ok) {
         throw new Error('Something went wrong');
       }
-      //setIsSuccess(true);
       const result = await response.json();
 
       if (module_name == 'business-analysis')
@@ -206,14 +210,18 @@ export default function HorizontalNonLinearStepper() {
       else if (module_name == 'research-query')
         setIsRunResearch(true);
       else if (module_name == 'eda')
-        setIsRunEDA('eda');
+        setIsRunEDA(true);
       else if (module_name == 'ml-engine')
-        setIsRunML('ml-engine');
-
-      //setMessage('User successfully added!');
+        setIsRunML(true);
     } catch (error) {
-      //setIsSuccess(true);
-      //setMessage('Error posting data');
+       if (module_name == 'business-analysis')
+        setIsRunBusiness(false);
+      else if (module_name == 'research-query')
+        setIsRunResearch(false);
+      else if (module_name == 'eda')
+        setIsRunEDA(false);
+      else if (module_name == 'ml-engine')
+        setIsRunML(false);
     }
   };
   
@@ -322,9 +330,11 @@ export default function HorizontalNonLinearStepper() {
                 Back
               </Button>
               <Box sx={{ flex: '1 1 auto' }} />
+              {              
               <Button variant="contained" onClick={handleNext} sx={{ mr: 1 }}>
                 Next
               </Button>
+              }
             </Box>
           </React.Fragment>
         )}
