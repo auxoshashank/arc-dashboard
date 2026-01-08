@@ -31,6 +31,28 @@ export default function SegmentPage() {
     segment.display_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  var loadDetails = async (segment) => {
+    setSelectedSegment(segment); 
+    setShowCreate(false);
+
+    /*try {
+        const response = await fetch('http://127.0.0.1:8000/api/projects', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Something went wrong');
+        }
+        //setIsSuccess(true);
+        const result = await response.json();
+        setProjectsData(result.projects);
+    } catch (error) {
+    }*/
+  }
+
   var loadProjects = async () => {
       try {
         const response = await fetch('http://127.0.0.1:8000/api/projects', {
@@ -140,7 +162,7 @@ export default function SegmentPage() {
               {filteredSegments.map((segment) => (
                 <div
                   key={segment.project_id}
-                  onClick={() => {setSelectedSegment(segment); setShowCreate(false);}}
+                  onClick={() => {loadDetails(segment)}}
                   className={`flex items-start p-4 gap-4 rounded-lg cursor-pointer transition-colors ${
                     selectedSegment.project_id === segment.project_id
                       ? "selectedHighlight"
