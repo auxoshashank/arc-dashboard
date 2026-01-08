@@ -166,7 +166,7 @@ export default function Business() {
 
           <div className="flex-1 w-[1250px] mainPanel">    
 
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6 mt-6">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6 mt-1">
               <div class="flexRow">
                 <div className="sectionHeading p-4">{selectedSegment.display_name}</div>               
                 <div>              
