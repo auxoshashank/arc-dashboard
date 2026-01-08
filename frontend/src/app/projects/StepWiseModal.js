@@ -14,7 +14,7 @@ import Stack from '@mui/material/Stack';
 
 const steps = ['Create Project', 'Upload Data', 'Business Analysis', 'Research Query', 'EDA', 'ML Engine'];
 
-export default function HorizontalNonLinearStepper() {
+export default function HorizontalNonLinearStepper({loadProjects}) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
   const [isLoaded, setIsLoaded] = useState(0);
@@ -64,22 +64,31 @@ export default function HorizontalNonLinearStepper() {
         await runBusinessAnalysis('ml-engine');
   };
 
-  useEffect(() => {
+
+  const createNew = async () => {
+    setActiveStep(0);
+    setName('');
+    setIsProjectCreated(false);
+    setIsDataUploaded(false);
+    setIsRunBusiness(false);
+    setIsRunResearch(false);
+    setIsRunEDA(false);
+    setIsRunML(false);
+  };
+
+  useEffect(() => {              
        if ((isProjectCreated && activeStep == 0) ||
           (isDataUploaded && activeStep == 1) ||
           (isRunBusiness && activeStep == 2) ||
           (isRunResearch && activeStep == 3) ||
           (isRunEDA && activeStep == 4) ||
           (isRunML && activeStep == 5)) {
-              var newActiveStep = 1;
-              isLastStep() && !allStepsCompleted()
-                  ? // It's the last step, but not all steps have been completed,
-                    // find the first step that has been completed
-                    steps.findIndex((step, i) => !(i in completed))
-                  : activeStep + 1;
-              setActiveStep(newActiveStep);      
+              var newActiveStep = activeStep + 1;
+              setActiveStep(newActiveStep);
+              if (isRunML)
+                loadProjects();
       }
-  }, [isProjectCreated]);
+  }, [isProjectCreated, isDataUploaded, isRunBusiness, isRunResearch, isRunEDA, isRunML]);
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -150,8 +159,8 @@ export default function HorizontalNonLinearStepper() {
         throw new Error('Something went wrong');
       }
       //setIsSuccess(true);
-      setIsDataUploaded(true);
       const result = await response.json();
+      setIsDataUploaded(true);
       //setMessage('User successfully added!');
     } catch (error) {
       setIsDataUploaded(false);
@@ -211,8 +220,9 @@ export default function HorizontalNonLinearStepper() {
         setIsRunResearch(true);
       else if (module_name == 'eda')
         setIsRunEDA(true);
-      else if (module_name == 'ml-engine')
+      else if (module_name == 'ml-engine'){
         setIsRunML(true);
+      }
     } catch (error) {
        if (module_name == 'business-analysis')
         setIsRunBusiness(false);
@@ -226,43 +236,43 @@ export default function HorizontalNonLinearStepper() {
   };
   
   return (
-    <>
-    {(isProjectCreated ? 
+    <>  
+    {((isProjectCreated && activeStep == 1) ? 
     <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
         Project created successfully.
         </Alert>
     </Stack> : null)}
     
-     {(isDataUploaded ? 
+    {((isDataUploaded && activeStep == 2) ? 
     <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
         Data uploaded successfully.
         </Alert>
     </Stack> : null)}
 
-     {(isRunBusiness ? 
+     {((isRunBusiness && activeStep == 3)? 
     <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
         Business Analytics Engine triggered successfully.
         </Alert>
-    </Stack> : null)}
+    </Stack> : null)}  
 
-     {(isRunEDA ? 
-    <Stack sx={{ width: '100%' }} spacing={2}>
-        <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
-        EDA Engine triggered successfully.
-        </Alert>
-    </Stack> : null)}
-
-    {(isRunResearch ? 
+    {((isRunResearch && activeStep == 4)? 
     <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
         Researcher Engine triggered successfully.
         </Alert>
     </Stack> : null)}
 
-    {(isRunML ? 
+   {((isRunEDA && activeStep == 5)? 
+    <Stack sx={{ width: '100%' }} spacing={2}>
+        <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+        EDA Engine triggered successfully.
+        </Alert>
+    </Stack> : null)}
+
+    {((isRunML && activeStep == 6)? 
     <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
         ML Engine triggered successfully.
@@ -271,6 +281,7 @@ export default function HorizontalNonLinearStepper() {
 
     <Box sx={{ width: '100%', marginTop: '10px' }}>
           
+      {(activeStep < 6) ? 
       <Stepper nonLinear activeStep={activeStep}>
         {steps.map((label, index) => (
           <Step key={label} completed={completed[index]}>
@@ -279,7 +290,7 @@ export default function HorizontalNonLinearStepper() {
             </StepButton>
           </Step>
         ))}
-      </Stepper>
+      </Stepper>: (<div class="p-4">Congratulations, all steps are completed for your project.</div>)}
       <div>
 
         {allStepsCompleted() ? (
@@ -321,6 +332,7 @@ export default function HorizontalNonLinearStepper() {
                }            
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+              {(activeStep < 6) ?
               <Button
                 color="inherit"
                 disabled={activeStep === 0}
@@ -328,12 +340,16 @@ export default function HorizontalNonLinearStepper() {
                 sx={{ mr: 1 }}
               >
                 Back
-              </Button>
+              </Button> : null}
               <Box sx={{ flex: '1 1 auto' }} />
               {              
+              (activeStep < 6  ? 
               <Button variant="contained" onClick={handleNext} sx={{ mr: 1 }}>
                 Next
-              </Button>
+              </Button> :
+              <Button variant="contained" onClick={createNew} sx={{ mr: 1 }}>
+                Create New Project
+              </Button>)
               }
             </Box>
           </React.Fragment>

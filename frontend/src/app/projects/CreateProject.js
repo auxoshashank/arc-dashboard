@@ -9,11 +9,11 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import HorizontalNonLinearStepper from './StepWiseModal';
 
-export default function CreateProject() {
+export default function CreateProject({loadProjects}) {
   return (
     <>        
         <div style={{width:"100%", height:"100vh", marginTop: "10px"}}>
-          <HorizontalNonLinearStepper></HorizontalNonLinearStepper>           
+          <HorizontalNonLinearStepper loadProjects={loadProjects}></HorizontalNonLinearStepper>           
         </div>        
     </>  
   );

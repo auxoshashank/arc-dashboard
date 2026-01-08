@@ -30,8 +30,7 @@ export default function SegmentPage() {
     segment.display_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  useEffect(() => {
-    var loadProjects = async () => {
+  var loadProjects = async () => {
       try {
         const response = await fetch('http://127.0.0.1:8000/api/projects', {
           method: 'GET',
@@ -48,7 +47,9 @@ export default function SegmentPage() {
         setProjectsData(result.projects);
       } catch (error) {
       }
-    };
+  };
+
+  useEffect(() => {    
     loadProjects();
   }, []);
 
@@ -167,7 +168,7 @@ export default function SegmentPage() {
 
             <div className="sectionHeading p-4">New Project</div>
 
-            <CreateProject></CreateProject>
+            <CreateProject loadProjects={loadProjects}></CreateProject>
           
           </div>
         </div>
