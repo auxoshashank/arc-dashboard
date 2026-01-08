@@ -13,7 +13,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 
-export default function DeepResearcher(view) {
+export default function DeepResearcher({view,data}) {
   const [details, setDetails] = useState({});
   const [jsonData, setJsonData] = useState(housing_final_report);
   const [mrkdown, setMrkdown] = useState('');
@@ -23,8 +23,8 @@ export default function DeepResearcher(view) {
   const [isLoaded, setIsLoaded] = useState(true);
 
   useEffect(() => {
-    setIsView(view["view"]);
-  }, [view]);
+    setIsView(view);
+  }, [view, data]);
 
   return (
     <>
@@ -36,7 +36,7 @@ export default function DeepResearcher(view) {
                       (isLoaded && Object.keys(jsonData).length >1) ? (
                         <>
                         <div class="flexRow fullWidth fullHeight">
-                          <div style={{"marginRight":"10px", "width":"20%", "paddingTop":10}}>
+                          <div style={{"marginRight":"10px", "width":"25%", "paddingTop":10}}>
                             <SimpleTreeView>
                               <TreeItem itemId="report" label="Report" expandedItems>
                                 {Object.keys(jsonData).map(each => {
@@ -52,7 +52,7 @@ export default function DeepResearcher(view) {
                             </SimpleTreeView>
                           </div>
 
-                          <div style={{"width":"80%", "textAlign":"left"}}>
+                          <div style={{"width":"70%", "textAlign":"left"}}>
                           <>     
                           <CardActions disableSpacing>  
                             <h3 class="borderBottom"> 

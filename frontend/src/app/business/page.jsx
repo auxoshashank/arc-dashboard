@@ -16,19 +16,17 @@ import BusinessDiscovery from './BusinessDiscovery';
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
 import ErrorIcon from '@mui/icons-material/Error';
+import Clear from '@mui/icons-material/Clear';
 import Button from '@mui/material/Button';
-
 import Stack from '@mui/material/Stack';
 
 export default function Business() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSegment, setSelectedSegment] = useState({});
   const [activeTab, setActiveTab] = useState("details");
-  const [activeTabChart, setActiveTabChart] = useState("agegroup");
   const [status, setStatus] = useState('');
-
-  const [chartData, setChartData] = useState({});
   const [projectsData, setProjectsData] = useState([]);
+  const [detailsData, setDetailsData] = useState([]);
 
   const filteredSegments = projectsData.filter((segment) =>
     segment.display_name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -104,7 +102,7 @@ export default function Business() {
   var loadDetails = async (segment) => {
     setSelectedSegment(segment); 
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/business-analysis/status/${segment.project_id}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/business-analysis/result/${segment.project_id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -114,8 +112,8 @@ export default function Business() {
         if (!response.ok) {
           throw new Error('Something went wrong');
         }
-        //setIsSuccess(true);
         const result = await response.json();
+        setDetailsData(result);
     } catch (error) {
     }
   }
@@ -240,7 +238,7 @@ export default function Business() {
                 </div>                   
                 <div className="mt-2">
                 <Button variant="outlined" color="inherit" onClick={()=>{clarifyProject(selectedSegment)}} sx={{ mr: 1 }}>
-                    <CheckIcon fontSize="inherit" /> &nbsp; Clarify
+                    <Clear fontSize="inherit" /> &nbsp; Clarify
                 </Button>
                 <Button variant="outlined" color="inherit" onClick={()=>{approveProject(selectedSegment)}} sx={{ mr: 1 }}>
                     <CheckIcon fontSize="inherit" /> &nbsp; Approve 
@@ -266,10 +264,10 @@ export default function Business() {
                 }
               </Stack>             
               <TabsContent value="details">                   
-                  <BusinessDiscovery view="list" />
+                  <BusinessDiscovery view={"list"} data={detailsData}/>
               </TabsContent>
               <TabsContent value="card">                  
-                  <BusinessDiscovery view="card" />
+                  <BusinessDiscovery view={"card"} data={detailsData}/>
               </TabsContent>
             </Tabs>
           </div>
