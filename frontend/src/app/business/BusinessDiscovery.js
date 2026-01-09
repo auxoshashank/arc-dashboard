@@ -15,7 +15,7 @@ import CardActions from '@mui/material/CardActions';
 
 export default function BusinessDiscovery({view, data}) {
   const [details, setDetails] = useState({});
-  const [jsonData, setJsonData] = useState(housing_final_report);
+  const [jsonData, setJsonData] = useState({});
   const [mrkdown, setMrkdown] = useState('');
   const [heading, setHeading] = useState('Description');
   const [showMarkdown, setShowMarkdown] = useState(true);
@@ -24,6 +24,7 @@ export default function BusinessDiscovery({view, data}) {
 
   useEffect(() => {
     setIsView(view);
+    setJsonData(housing_final_report);
     //setJsonData(data);
   }, [view, data]);
 
@@ -40,7 +41,7 @@ export default function BusinessDiscovery({view, data}) {
                           <div style={{"marginRight":"10px", "width":"25%", "paddingTop":10}}>
                             <SimpleTreeView>
                               <TreeItem itemId="report" label="Report" expandedItems>
-                                {Object.keys(jsonData).map(each => {
+                                {Object.keys(jsonData).filter(each => ['report_meta'].indexOf(each)<0).map(each => {
                                 return (
                                   <>
                                     <div class="flexRow flexStart">

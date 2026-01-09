@@ -33,6 +33,7 @@ export default function Business() {
   );
 
   useEffect(() => {
+    setSelectedSegment({});
     var loadProjects = async () => {
       try {
         const response = await fetch('http://127.0.0.1:8000/api/projects', {
@@ -233,7 +234,11 @@ export default function Business() {
 
           <div className="flex-1 w-[1250px] mainPanel">            
             <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6 mt-1">
-              <div class="flexRow">
+               {
+              (Object.keys(selectedSegment).length ? 
+                (
+                <>
+                <div class="flexRow">
                 <div className="sectionHeading p-4">{selectedSegment.display_name}                  
                 </div>                   
                 <div className="mt-2">
@@ -251,9 +256,9 @@ export default function Business() {
                   <TabsTrigger value="card">Card View</TabsTrigger>
                 </TabsList>
                 </div>
-              </div>
+                </div>
 
-              <Stack sx={{ width: '100%' }} spacing={2}>
+               <Stack sx={{ width: '100%' }} spacing={2}>
                 {status.toUpperCase() == 'FAILED' ?                  
                   <Alert icon={<ErrorIcon fontSize="inherit" />} severity="error">
                   STATUS - {status.toUpperCase()}
@@ -262,13 +267,17 @@ export default function Business() {
                   STATUS - {status.toUpperCase()}
                   </Alert>
                 }
-              </Stack>             
+              </Stack>
+                    
               <TabsContent value="details">                   
                   <BusinessDiscovery view={"list"} data={detailsData}/>
               </TabsContent>
               <TabsContent value="card">                  
                   <BusinessDiscovery view={"card"} data={detailsData}/>
               </TabsContent>
+              </>
+              ) : null)
+              }
             </Tabs>
           </div>
         </div>

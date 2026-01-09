@@ -39,7 +39,7 @@ export default function DeepResearcher({view,data}) {
                           <div style={{"marginRight":"10px", "width":"25%", "paddingTop":10}}>
                             <SimpleTreeView>
                               <TreeItem itemId="report" label="Report" expandedItems>
-                                {Object.keys(jsonData).map(each => {
+                                {Object.keys(jsonData).filter(each => ['report_meta'].indexOf(each)<0).map(each => {
                                 return (
                                   <>
                                     <div class="flexRow flexStart">
@@ -75,21 +75,8 @@ export default function DeepResearcher({view,data}) {
               (Object.keys(jsonData).length>0) ? 
                 (
                   <>
-                    <div class="margin-10 flexRow">            
-                      <div style={{width:"33%"}}>            
-                        <ExpandableCard txt={jsonData["data_schema"]} heading={"Data Schema"} myheight={500}></ExpandableCard>            
-                      </div>
-                      <div style={{width:"66%"}}>
-                        <div class="flexRow">
-                          <div style={{width:"49%"}}>
-                            {(Object.keys(jsonData).length >1) ? <ExpandableCard txt={jsonData["business_impact_tracking"]} heading={"Business Impact Tracking"}></ExpandableCard>
-                            :null}
-                          </div>
-                          <div style={{width:"49%"}}>
-                            {(Object.keys(jsonData).length >2) ? <ExpandableCard txt={jsonData["problem_overview"]}  heading={"Problem Overview"}></ExpandableCard>
-                            :null}
-                          </div>
-                        </div>
+                    <div class="margin-10 flexRow">
+                      <div style={{width:"66%"}}>                        
                         <div class="margin-top-20 flexRow">              
                           <div style={{width:"49%"}}>
                             {(Object.keys(jsonData).length >3) ? <ExpandableCard txt={jsonData[Object.keys(jsonData)[3]]}  heading={Object.keys(jsonData)[3]}></ExpandableCard>

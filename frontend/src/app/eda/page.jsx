@@ -32,6 +32,7 @@ export default function Business() {
   );
 
   useEffect(() => {
+    setSelectedSegment({});
     var loadProjects = async () => {
       try {
         const response = await fetch('http://127.0.0.1:8000/api/projects', {
@@ -231,7 +232,9 @@ export default function Business() {
           </div>
 
           <div className="flex-1 w-[1250px] mainPanel">    
-
+            {
+              (Object.keys(selectedSegment).length ? 
+                (<>
             <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6 mt-1">
               <div class="flexRow">
                 <div className="sectionHeading p-4">{selectedSegment.display_name}</div>               
@@ -271,6 +274,8 @@ export default function Business() {
                   <EDA view={"card"} />
               </TabsContent>
             </Tabs>
+            </>) : null)
+            }
           </div>
         </div>
       </div>
