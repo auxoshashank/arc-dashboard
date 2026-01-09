@@ -149,22 +149,35 @@ export default function HorizontalNonLinearStepper({loadProjects}) {
     }
     
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/projects/${projectId}/upload/data`, {
+      const response1 = await fetch(`http://127.0.0.1:8000/api/projects/${projectId}/upload/data`, {
         method: 'POST',
         headers: {},
         body: formData
       });
 
-      if (!response.ok) {
+      if (!response1.ok) {
         throw new Error('Something went wrong');
       }
-      //setIsSuccess(true);
-      const result = await response.json();
+      const result = await response1.json();
       setIsDataUploaded(true);
-      //setMessage('User successfully added!');
     } catch (error) {
       setIsDataUploaded(false);
-      //setMessage('Error posting data');
+    }
+
+    try {
+      const response2 = await fetch(`http://127.0.0.1:8000/api/projects/${projectId}/chat`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          "text": msg
+        })
+      });
+
+      if (!response2.ok) {
+        throw new Error('Something went wrong');
+      }
+      const result = await response2.json();
+    } catch (error) {
     }
   };
 
@@ -207,22 +220,6 @@ export default function HorizontalNonLinearStepper({loadProjects}) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
-      });
-
-      response = await fetch(`http://127.0.0.1:8000/api/${module_name}/clarify/${projectId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({})
-      });
-
-      response = await fetch(`http://127.0.0.1:8000/api/${module_name}/approve/${projectId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({})
       });
 
       if (module_name == 'business-analysis')
