@@ -180,7 +180,7 @@ export default function SegmentPage() {
                       {segment.display_name}
                     </h3>
                     <p className="text-sm line-clamp-2">
-                      {segment.display_name}
+                      Created On - {new Date(segment.created_at).toLocaleDateString()}
                     </p>
                   </div>
                 </div>

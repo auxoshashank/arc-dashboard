@@ -57,13 +57,14 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
   };
 
   const handleNext = async () => {  
+    
     if (!id && activeStep == 0)
         await handleSubmit();
     else if (!id && activeStep == 1){
         await handleDataUpload();
     }
     else if (id && activeStep == 0){
-      getStatus('research_query', setResearchStatus);
+      getStatus('research-query', setResearchStatus);
       await runModule('business-analysis');
     }
     else if (id && activeStep == 1){
@@ -141,12 +142,21 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
 
 
   const handleBack = () => {
-    if (id && activeStep==1)
+    if (id && activeStep==1){
+      setIsRunResearch(false);
+      setIsRunBusiness(false);
       getStatus('business-analysis', setBusinessStatus);     
-    if (id && activeStep==2)
-      getStatus('research_query', setResearchStatus);
-    if (id && activeStep==3)
-      getStatus('eda-engine', setEdaStatus);   
+    }
+    if (id && activeStep==2){
+      setIsRunEDA(false);
+      setIsRunResearch(false);
+      getStatus('research-query', setResearchStatus);
+    }
+    if (id && activeStep==3){
+      setIsRunML(false);
+      setIsRunEDA(false);
+      getStatus('eda-engine', setEdaStatus);
+    }
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -158,7 +168,7 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
     if (id && step==0)
       getStatus('business-analysis', setBusinessStatus);
     if (id && step==1)
-      getStatus('research_query', setResearchStatus);
+      getStatus('research-query', setResearchStatus);
     if (id && step==2)
       getStatus('eda-engine', setEdaStatus);
     if (id && step==3)
