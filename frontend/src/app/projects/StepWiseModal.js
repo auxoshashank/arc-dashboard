@@ -12,9 +12,7 @@ import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
 import Stack from '@mui/material/Stack';
 
-const steps = ['Create Project', 'Upload Data', 'Business Analysis', 'Research Query', 'EDA', 'ML Engine'];
-
-export default function HorizontalNonLinearStepper({loadProjects}) {
+export default function HorizontalNonLinearStepper({id, loadProjects}) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
   const [isLoaded, setIsLoaded] = useState(0);
@@ -25,6 +23,8 @@ export default function HorizontalNonLinearStepper({loadProjects}) {
   const [activeLink, setActiveLink] = useState('');
   const [name, setName] = useState('');
   const [msg, setMsg] = useState('');
+  const [steps, setSteps] = useState(['Create Project', 'Upload Data']);
+
   const [files, setFiles] = useState([]);
   const [isProjectCreated, setIsProjectCreated] = useState(false);
   const [isDataUploaded, setIsDataUploaded] = useState(false);
@@ -32,6 +32,11 @@ export default function HorizontalNonLinearStepper({loadProjects}) {
   const [isRunResearch, setIsRunResearch] = useState(false);
   const [isRunEDA, setIsRunEDA] = useState(false);
   const [isRunML, setIsRunML] = useState(false);
+
+  const [businessStatus, setBusinessStatus] = useState('');
+  const [researchStatus, setResearchStatus] = useState('');
+  const [mlStatus, setMlStatus] = useState('');
+  const [edaStatus, setEdaStatus] = useState('');
 
   const totalSteps = () => {
     return steps.length;
@@ -49,19 +54,31 @@ export default function HorizontalNonLinearStepper({loadProjects}) {
     return completedSteps() === totalSteps();
   };
 
-  const handleNext = async () => {
-    if (activeStep == 0)
+  const handleNext = async () => {  
+    if (!id && activeStep == 0)
         await handleSubmit();
-    else if (activeStep == 1)
+    else if (!id && activeStep == 1){
         await handleDataUpload();
-    else if (activeStep == 2)
-        await runBusinessAnalysis('business-analysis');
-    else if (activeStep == 3)
-        await runBusinessAnalysis('research-query');
-    else if (activeStep == 4)
-        await runBusinessAnalysis('eda');
-     else if (activeStep == 5)
-        await runBusinessAnalysis('ml-engine');
+    }
+    else if (id && activeStep == 0){
+      getStatus('research_query', setResearchStatus);
+      if (!isRunBusiness)
+        await runModule('business-analysis');
+    }
+    else if (id && activeStep == 1){
+      getStatus('eda-engine', setEdaStatus);
+      if (!isRunResearch)
+        await runModule('research-query');
+    }
+    else if (id && activeStep == 2){
+      getStatus('ml-engine', setMlStatus);
+      if (!isRunEDA)
+        await runModule('eda');
+    }
+    else if (id && activeStep == 3){
+      if (!isRunML)
+        await runModule('ml-engine');
+    }
   };
 
 
@@ -76,34 +93,69 @@ export default function HorizontalNonLinearStepper({loadProjects}) {
     setIsRunML(false);
   };
 
-  useEffect(() => {              
-       if ((isProjectCreated && activeStep == 0) ||
-          (isDataUploaded && activeStep == 1) ||
-          (isRunBusiness && activeStep == 2) ||
-          (isRunResearch && activeStep == 3) ||
-          (isRunEDA && activeStep == 4) ||
-          (isRunML && activeStep == 5)) {
+  useEffect(() => {
+       if ((!id && isProjectCreated && activeStep == 0) ||
+          (!id && isDataUploaded && activeStep == 1) ||
+          (id && isRunBusiness && activeStep == 0) ||
+          (id && isRunResearch && activeStep == 1) ||
+          (id && isRunEDA && activeStep == 2) ||
+          (id && isRunML && activeStep == 3)) {
               var newActiveStep = activeStep + 1;
               setActiveStep(newActiveStep);
-              if (isRunML)
+              if ((id && isRunML) || (!id && isDataUploaded))
                 loadProjects();
       }
   }, [isProjectCreated, isDataUploaded, isRunBusiness, isRunResearch, isRunEDA, isRunML]);
 
+
+  const getStatus = async (module_name, setStatusFun) => {    
+    try {
+      const response1 = await fetch(`http://127.0.0.1:8000/api/${module_name}/status/${projectId}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'}
+      });
+
+      if (!response1.ok) {
+        throw new Error('Something went wrong');
+      }
+      const result = await response1.json();
+     
+      setStatusFun(result.status ? result.status : 'NOT YET STARTED');
+
+    } catch (error) {
+      setStatusFun('NOT YET STARTED');
+    }
+  };
+
+  useEffect(() => {      
+    if (id){
+      setProjectId(id);
+      setSteps(['Business Analysis', 'Research Query', 'EDA', 'ML Engine']);
+      getStatus('business-analysis', setBusinessStatus);     
+    }
+  }, [id]);
+
+
   const handleBack = () => {
+    if (id && activeStep==1)
+      getStatus('business-analysis', setBusinessStatus);     
+    if (id && activeStep==2)
+      getStatus('research_query', setResearchStatus);
+    if (id && activeStep==3)
+      getStatus('eda-engine', setEdaStatus);   
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   const handleStep = (step) => () => {
+    if (id && step==0)
+      getStatus('business-analysis', setBusinessStatus);
+    if (id && step==1)
+      getStatus('research_query', setResearchStatus);
+    if (id && step==2)
+      getStatus('eda-engine', setEdaStatus);
+    if (id && step==3)
+      getStatus('ml-engine', setMlStatus);
     setActiveStep(step);
-  };
-
-  const handleComplete = () => {
-    setCompleted({
-      ...completed,
-      [activeStep]: true,
-    });
-    handleNext();
   };
 
   const handleReset = () => {
@@ -118,27 +170,6 @@ export default function HorizontalNonLinearStepper({loadProjects}) {
   function toggleDropDown(val) {
     setCount(val);
   }
-
-  function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function scrollToBottom() {
-    window.scrollTo(0, (window.document.body.scrollHeight - window.innerHeight));
-  }
-
-
-  function toggleDropDownUser(val) {
-    setCountUser(val);
-  }
-
-  function toggleExpanded(isExpanded){
-    setIsExpanded(isExpanded => !isExpanded);
-  };
-
-  function applyActiveLink(myLink){
-    setActiveLink(myLink);
-  };
 
   const handleDataUpload = async () => {
 
@@ -209,7 +240,7 @@ export default function HorizontalNonLinearStepper({loadProjects}) {
     }
   };
 
-  const runBusinessAnalysis = async (module_name) => {
+  const runModule = async (module_name) => {
 
     const data = { "project_id":projectId };
 
@@ -222,8 +253,9 @@ export default function HorizontalNonLinearStepper({loadProjects}) {
         body: JSON.stringify(data)
       });
 
-      if (module_name == 'business-analysis')
-        setIsRunBusiness(true);
+      if (module_name == 'business-analysis'){
+          setIsRunBusiness(true);
+      }
       else if (module_name == 'research-query')
         setIsRunResearch(true);
       else if (module_name == 'eda')
@@ -287,8 +319,7 @@ export default function HorizontalNonLinearStepper({loadProjects}) {
         </Alert>
     </Stack> : null)}
 
-    <Box sx={{ width: '100%', marginTop: '10px' }}>
-          
+    <Box sx={{ width: '50%', margin: '10px auto' }}>
       {(activeStep < 6) ? 
       <Stepper nonLinear activeStep={activeStep}>
         {steps.map((label, index) => (
@@ -299,8 +330,7 @@ export default function HorizontalNonLinearStepper({loadProjects}) {
           </Step>
         ))}
       </Stepper>: (<div class="p-4">Congratulations, all steps are completed for your project.</div>)}
-      <div>
-
+        <div>
         {allStepsCompleted() ? (
           <React.Fragment>
             <Typography sx={{ mt: 2, mb: 1 }}>
@@ -313,34 +343,34 @@ export default function HorizontalNonLinearStepper({loadProjects}) {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
-              {/*Step {activeStep + 1}*/}
-              {(activeStep == 0) ? (<Create name={name} setName={setName}></Create>) : 
-               (activeStep == 1) ? (<ChatGPTInterface files={files} setFiles={setFiles} message = {msg} setMessage = {setMsg} toggleDropDown={toggleDropDown} count = {count} toggleLoaded={toggleLoaded} isLoaded = {isLoaded}></ChatGPTInterface>) :
-               (activeStep == 2) ? (<div style={{width:"100%", background: "#fff", borderRadius: "10px", height:"200px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
+            <Typography sx={{ mt: 2, mb: 1, py: 1 }}>              
+              {(!id && activeStep == 0) ? (<Create name={name} setName={setName}></Create>) : 
+               (!id && activeStep == 1) ? (<ChatGPTInterface files={files} setFiles={setFiles} message = {msg} setMessage = {setMsg} toggleDropDown={toggleDropDown} count = {count} toggleLoaded={toggleLoaded} isLoaded = {isLoaded}></ChatGPTInterface>) :
+               (id && activeStep == 0) ? (<div style={{width:"100%", background: "#fff", borderRadius: "10px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
                 <span class="borderBottom" style={{fontWeight: 200,  fontSize: 16}}> 
-                  Please click NEXT to run the business analysis for this project .
+                  Status - {businessStatus}
                 </span>
-                </div></div>): 
-               (activeStep == 3) ? (<div style={{width:"100%", background: "#fff", borderRadius: "10px", height:"200px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
+                </div></div>):
+               (id && activeStep == 1) ? (<div style={{width:"100%", background: "#fff", borderRadius: "10px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
                 <span class="borderBottom" style={{fontWeight: 200,  fontSize: 16}}> 
-                  Please click NEXT to run the Research Query for this project.
-                </span>
-                </div></div>) : 
-               (activeStep == 4) ? (<div style={{width:"100%", background: "#fff", borderRadius: "10px", height:"200px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
-                <span class="borderBottom" style={{fontWeight: 200,  fontSize: 16}}> 
-                  Please click NEXT to run the EDA for this project.
+                  Status - {researchStatus}
                 </span>
                 </div></div>) : 
-               (activeStep == 5) ? (<div style={{width:"100%", background: "#fff", borderRadius: "10px", height:"200px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
+               (id && activeStep == 2) ? (<div style={{width:"100%", background: "#fff", borderRadius: "10px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
                 <span class="borderBottom" style={{fontWeight: 200,  fontSize: 16}}> 
-                  Please click NEXT to run the ML for this project.
+                  Status - {edaStatus}
+                </span>
+                </div></div>) : 
+               (id && activeStep == 3) ? (<div style={{width:"100%", background: "#fff", borderRadius: "10px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
+                <span class="borderBottom" style={{fontWeight: 200,  fontSize: 16}}> 
+                 Status - {mlStatus}
                 </span>
                 </div></div>) : null
                }            
             </Typography>
+            {activeStep}
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-              {(activeStep < 6) ?
+              {(!id && activeStep < 2) || (id && activeStep < 5) ?
               <Button
                 color="inherit"
                 disabled={activeStep === 0}
@@ -351,18 +381,28 @@ export default function HorizontalNonLinearStepper({loadProjects}) {
               </Button> : null}
               <Box sx={{ flex: '1 1 auto' }} />
               {              
-              (activeStep < 6  ? 
+              (!id && activeStep < 2) ? 
               <Button variant="contained" onClick={handleNext} sx={{ mr: 1 }}>
                 Next
               </Button> :
+              (!id ? 
               <Button variant="contained" onClick={createNew} sx={{ mr: 1 }}>
                 Create New Project
-              </Button>)
+              </Button> : null)
+              }
+              {
+              (
+                (id && activeStep<5) ? 
+                  <Button variant="contained" onClick={handleNext} sx={{ mr: 1 }}>
+                    Trigger and Next
+                  </Button> :
+                  null
+              )
               }
             </Box>
           </React.Fragment>
         )}
-      </div>
+        </div>
     </Box>
     </>
   );

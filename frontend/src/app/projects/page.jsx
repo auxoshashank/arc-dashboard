@@ -16,6 +16,7 @@ import Testimonials from './Testimonials';
 import Link from 'next/link'
 import CreateProject from './CreateProject';
 import JsonList from '../business/JsonList';
+import ProjectJourney from './ProjectJourney';
 
 export default function SegmentPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -142,7 +143,7 @@ export default function SegmentPage() {
               </li>               
             </ul>
           </div>
-          <div className="w-[200px] leftPanel fixedPanel px-6">
+          <div className="w-[300px] leftPanel fixedPanel px-6">
             <div class="flexRow">
               <h1 className="featureHeading m-top-20">Projects</h1>
               <Button className="plusButton m-top-20" onClick={() => setShowCreate(true)}>+</Button>
@@ -187,16 +188,16 @@ export default function SegmentPage() {
             </div>
           </div>
 
-          <div className="flex-1 w-[1250px] mainPanel">    
+          <div className="flex-1 w-[1100px] mainPanel">    
 
             {showCreate ? <>
               <div className="sectionHeading p-4">New Project</div>
               <CreateProject loadProjects={loadProjects}></CreateProject>
             </> : 
             <>
-             <div className="sectionHeading p-4">Project Details</div>
+             <div className="sectionHeading p-4">{selectedSegment.display_name}</div>
              <div className="p-4">
-              <JsonList data={selectedSegment} keyId="main"/>
+              <ProjectJourney loadProjects={loadProjects} id={selectedSegment.project_id}></ProjectJourney>
              </div>
             </>
             }

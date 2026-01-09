@@ -20,7 +20,7 @@ export default function Create({name, setName}) {
   };
 
   return (
-        <div style={{width:"100%", "height":"200px", boxSizing:"border-box", background: "#fff", padding:"20px"}}>
+        <div style={{width:"100%", "height":"200px", boxSizing:"border-box", background: "#fff"}}>
 
             <div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
                 <span class="borderBottom" style={{fontWeight: 200,  fontSize: 16}}> 

@@ -25,6 +25,8 @@ export default function Business() {
   const [selectedSegment, setSelectedSegment] = useState({});
   const [activeTab, setActiveTab] = useState("details");
   const [status, setStatus] = useState('');
+  const [stage, setStage] = useState('');
+
   const [projectsData, setProjectsData] = useState([]);
   const [detailsData, setDetailsData] = useState([]);
 
@@ -102,6 +104,25 @@ export default function Business() {
   
   var loadDetails = async (segment) => {
     setSelectedSegment(segment); 
+   
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/business-analysis/status/${segment.project_id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Something went wrong');
+        }
+        const result = await response.json();
+        
+        (result.status ? setStatus(result.status) : setStatus(null));
+        (result.stage ? setStage(result.stage) : setStage(null));
+    } catch (error) {
+    }
+
     try {
         const response = await fetch(`http://127.0.0.1:8000/api/business-analysis/result/${segment.project_id}`, {
           method: 'GET',
@@ -242,12 +263,17 @@ export default function Business() {
                 <div className="sectionHeading p-4">{selectedSegment.display_name}                  
                 </div>                   
                 <div className="mt-2">
+               
+                {stage == 'awaiting_clarification' ? 
                 <Button variant="outlined" color="inherit" onClick={()=>{clarifyProject(selectedSegment)}} sx={{ mr: 1 }}>
                     <Clear fontSize="inherit" /> &nbsp; Clarify
-                </Button>
-                <Button variant="outlined" color="inherit" onClick={()=>{approveProject(selectedSegment)}} sx={{ mr: 1 }}>
-                    <CheckIcon fontSize="inherit" /> &nbsp; Approve 
-                </Button>
+                </Button> : null}
+                
+                {stage == 'awaiting_approval' ? 
+                  <Button variant="outlined" color="inherit" onClick={()=>{approveProject(selectedSegment)}} sx={{ mr: 1 }}>
+                      <CheckIcon fontSize="inherit" /> &nbsp; Approve 
+                  </Button> : 
+                null}
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <TabsList>
                   <TabsTrigger value="details">List View</TabsTrigger>
