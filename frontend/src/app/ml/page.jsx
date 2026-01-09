@@ -188,7 +188,7 @@ export default function Business() {
               </li>               
             </ul>
           </div>
-          <div className="w-[200px] leftPanel fixedPanel px-6">
+          <div className="w-[300px] leftPanel fixedPanel px-6">
             <div class="flexRow">
               <h1 className="featureHeading m-top-20">ML</h1>
               {/*<Button className="plusButton m-top-20" onClick={() => setShowNotification(false)}>+</Button>*/}
@@ -233,7 +233,7 @@ export default function Business() {
             </div>
           </div>
 
-          <div className="flex-1 w-[1250px] mainPanel">    
+          <div className="flex-1 w-[1050px] mainPanel">    
             {
               (Object.keys(selectedSegment).length ? 
                 (<>

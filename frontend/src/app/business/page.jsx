@@ -208,7 +208,7 @@ export default function Business() {
               </li>               
             </ul>
           </div>
-          <div className="w-[200px] leftPanel fixedPanel px-6">
+          <div className="w-[300px] leftPanel fixedPanel px-6">
             <div class="flexRow">
               <h1 className="featureHeading m-top-20">Business Discovery</h1>
               {/*<Button className="plusButton m-top-20" onClick={() => setShowNotification(false)}>+</Button>*/}
@@ -253,7 +253,7 @@ export default function Business() {
             </div>
           </div>
 
-          <div className="flex-1 w-[1250px] mainPanel">            
+          <div className="flex-1 w-[1050px] mainPanel">            
             <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6 mt-1">
                {
               (Object.keys(selectedSegment).length ? 

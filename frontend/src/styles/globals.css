@@ -267,10 +267,11 @@ background:oklch(0.94 0.03 131.36);
 }
 
 .sectionHeading {
-   font-size:16px; 
+   font-size:18px; 
    font-weight:500;
    margin-top:10px;
    padding-bottom:10px;
+   border-bottom:1px solid #ececec;
    text-align: left;
    color:#404040;
 }

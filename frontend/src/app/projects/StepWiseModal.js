@@ -10,6 +10,8 @@ import ChatGPTInterface from './ChatGPTInterface';
 import { useState , Fragment, useEffect} from 'react';
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
+import Info from '@mui/icons-material/Info';
+
 import Stack from '@mui/material/Stack';
 
 export default function HorizontalNonLinearStepper({id, loadProjects}) {
@@ -62,22 +64,18 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
     }
     else if (id && activeStep == 0){
       getStatus('research_query', setResearchStatus);
-      if (!isRunBusiness)
-        await runModule('business-analysis');
+      await runModule('business-analysis');
     }
     else if (id && activeStep == 1){
       getStatus('eda-engine', setEdaStatus);
-      if (!isRunResearch)
-        await runModule('research-query');
+      await runModule('research-query');
     }
     else if (id && activeStep == 2){
       getStatus('ml-engine', setMlStatus);
-      if (!isRunEDA)
-        await runModule('eda');
+      await runModule('eda');
     }
     else if (id && activeStep == 3){
-      if (!isRunML)
-        await runModule('ml-engine');
+      await runModule('ml-engine');
     }
   };
 
@@ -90,8 +88,12 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
     setIsRunBusiness(false);
     setIsRunResearch(false);
     setIsRunEDA(false);
-    setIsRunML(false);
+    setIsRunML(false);    
   };
+
+  useEffect(() => {
+    createNew();
+  },[id])
 
   useEffect(() => {
        if ((!id && isProjectCreated && activeStep == 0) ||
@@ -100,10 +102,12 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
           (id && isRunResearch && activeStep == 1) ||
           (id && isRunEDA && activeStep == 2) ||
           (id && isRunML && activeStep == 3)) {
-              var newActiveStep = activeStep + 1;
-              setActiveStep(newActiveStep);
-              if ((id && isRunML) || (!id && isDataUploaded))
-                loadProjects();
+              if (id && activeStep<3){
+                var newActiveStep = activeStep + 1;
+                setActiveStep(newActiveStep);               
+              }
+              if ((!id && isDataUploaded))
+                  loadProjects();
       }
   }, [isProjectCreated, isDataUploaded, isRunBusiness, isRunResearch, isRunEDA, isRunML]);
 
@@ -120,10 +124,10 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
       }
       const result = await response1.json();
      
-      setStatusFun(result.status ? result.status : 'NOT YET STARTED');
+      setStatusFun(result.status ? result.status.toUpperCase() : 'NOT STARTED');
 
     } catch (error) {
-      setStatusFun('NOT YET STARTED');
+      setStatusFun('NOT STARTED');
     }
   };
 
@@ -147,6 +151,10 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
   };
 
   const handleStep = (step) => () => {
+    setIsRunBusiness(false);
+    setIsRunEDA(false);
+    setIsRunResearch(false);
+    setIsRunML(false);
     if (id && step==0)
       getStatus('business-analysis', setBusinessStatus);
     if (id && step==1)
@@ -253,9 +261,8 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
         body: JSON.stringify(data)
       });
 
-      if (module_name == 'business-analysis'){
-          setIsRunBusiness(true);
-      }
+      if (module_name == 'business-analysis')
+        setIsRunBusiness(true);
       else if (module_name == 'research-query')
         setIsRunResearch(true);
       else if (module_name == 'eda')
@@ -291,28 +298,28 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
         </Alert>
     </Stack> : null)}
 
-     {((isRunBusiness && activeStep == 3)? 
+    {((isRunBusiness && activeStep == 1)? 
     <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
         Business Analytics Engine triggered successfully.
         </Alert>
     </Stack> : null)}  
 
-    {((isRunResearch && activeStep == 4)? 
+    {((isRunResearch && activeStep == 2)? 
     <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
         Researcher Engine triggered successfully.
         </Alert>
     </Stack> : null)}
 
-   {((isRunEDA && activeStep == 5)? 
+   {((isRunEDA && activeStep == 3)? 
     <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
         EDA Engine triggered successfully.
         </Alert>
     </Stack> : null)}
 
-    {((isRunML && activeStep == 6)? 
+    {((isRunML && activeStep == 3)? 
     <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
         ML Engine triggered successfully.
@@ -346,29 +353,40 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
             <Typography sx={{ mt: 2, mb: 1, py: 1 }}>              
               {(!id && activeStep == 0) ? (<Create name={name} setName={setName}></Create>) : 
                (!id && activeStep == 1) ? (<ChatGPTInterface files={files} setFiles={setFiles} message = {msg} setMessage = {setMsg} toggleDropDown={toggleDropDown} count = {count} toggleLoaded={toggleLoaded} isLoaded = {isLoaded}></ChatGPTInterface>) :
-               (id && activeStep == 0) ? (<div style={{width:"100%", background: "#fff", borderRadius: "10px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
-                <span class="borderBottom" style={{fontWeight: 200,  fontSize: 16}}> 
-                  Status - {businessStatus}
-                </span>
-                </div></div>):
-               (id && activeStep == 1) ? (<div style={{width:"100%", background: "#fff", borderRadius: "10px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
-                <span class="borderBottom" style={{fontWeight: 200,  fontSize: 16}}> 
-                  Status - {researchStatus}
-                </span>
+               (id && activeStep == 0) ? (
+               <div style={{width:"100%", background: "#fff", borderRadius: "10px", padding:"20px", boxSizing:"border-box"}}>
+                  <div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10 }}>
+                   <Stack sx={{ width: '100%' }} spacing={2}>
+                      <Alert icon={<Info fontSize="inherit" />} severity="info">
+                      Status : {businessStatus}
+                      </Alert>
+                   </Stack>
+                  </div>
+                </div>
+                ):
+               (id && activeStep == 1) ? (<div style={{width:"100%", background: "#fff", borderRadius: "10px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10 }}>
+                   <Stack sx={{ width: '100%' }} spacing={2}>
+                      <Alert icon={<Info fontSize="inherit" />} severity="info">
+                      Status : {researchStatus}
+                      </Alert>
+                   </Stack>
                 </div></div>) : 
-               (id && activeStep == 2) ? (<div style={{width:"100%", background: "#fff", borderRadius: "10px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
-                <span class="borderBottom" style={{fontWeight: 200,  fontSize: 16}}> 
-                  Status - {edaStatus}
-                </span>
+               (id && activeStep == 2) ? (<div style={{width:"100%", background: "#fff", borderRadius: "10px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10 }}>
+                  <Stack sx={{ width: '100%' }} spacing={2}>
+                      <Alert icon={<Info fontSize="inherit" />} severity="info">
+                      Status : {edaStatus}
+                      </Alert>
+                   </Stack>
                 </div></div>) : 
-               (id && activeStep == 3) ? (<div style={{width:"100%", background: "#fff", borderRadius: "10px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10, paddingLeft:20 }}>
-                <span class="borderBottom" style={{fontWeight: 200,  fontSize: 16}}> 
-                 Status - {mlStatus}
-                </span>
+               (id && activeStep == 3) ? (<div style={{width:"100%", background: "#fff", borderRadius: "10px", padding:"20px", boxSizing:"border-box"}}><div style={{paddingBottom:0, cursor: "pointer", paddingRight:10, paddingTop:10,marginTop:10, paddingBottom:10 }}>
+                 <Stack sx={{ width: '100%' }} spacing={2}>
+                      <Alert icon={<Info fontSize="inherit" />} severity="info">
+                      Status : {mlStatus}
+                      </Alert>
+                   </Stack>
                 </div></div>) : null
                }            
             </Typography>
-            {activeStep}
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               {(!id && activeStep < 2) || (id && activeStep < 5) ?
               <Button
@@ -392,12 +410,22 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
               }
               {
               (
-                (id && activeStep<5) ? 
+                ((id && activeStep==0) || 
+                 (id && activeStep==1) ||
+                 (id && activeStep==2) 
+                ) ? 
                   <Button variant="contained" onClick={handleNext} sx={{ mr: 1 }}>
-                    Trigger and Next
+                    Trigger and Proceed
                   </Button> :
                   null
               )
+              }
+
+              {
+                 ((id && activeStep==3) ?  <Button variant="contained" onClick={handleNext} sx={{ mr: 1 }}>
+                    Trigger
+                  </Button> :
+                  null)
               }
             </Box>
           </React.Fragment>
