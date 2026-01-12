@@ -67,9 +67,9 @@ export default function Main() {
           },
           data: JSON.stringify({
             "answers": {
-              "additionalProp1": "string",
-              "additionalProp2": "string",
-              "additionalProp3": "string"
+              "additionalProp1": "",
+              "additionalProp2": "",
+              "additionalProp3": ""
             }
           })
         });
@@ -87,10 +87,14 @@ export default function Main() {
   var approveProject = async (segment) => {
      try {
         const response = await fetch(`http://127.0.0.1:8000/api/research-query/approve/${segment.project_id}`, {
-          method: 'GET',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json'
-          }
+          },
+          data: JSON.stringify({
+            "approved": true,
+            "feedback": ""
+          })
         });
 
         if (!response.ok) {
