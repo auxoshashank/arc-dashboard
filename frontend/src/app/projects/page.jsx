@@ -180,6 +180,7 @@ export default function SegmentPage() {
             <>
              <div className="sectionHeading p-4">{selectedSegment.display_name}</div>
              <div className="p-4">
+              <p class="pb-10">The project has gone through the following steps:</p>
               <ProjectJourney loadProjects={loadProjects} id={selectedSegment.project_id}></ProjectJourney>
              </div>
             </>
