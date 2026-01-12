@@ -19,8 +19,8 @@ const Dropdown = ({count, files, setFiles, toggleDropDown}) => {
   const handleFileSelect = (e) => {
     const selectedFiles = Array.from(e.target.files);
     setFiles(prev => [...prev, ...selectedFiles]);
-    //setOpen(false);
-    //toggleDropDown(false);
+    setOpen(false);
+    toggleDropDown(false);
   };
 
   const removeFile = (index) => {

@@ -97,9 +97,7 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
   },[id])
 
   useEffect(() => {
-       if ((!id && isProjectCreated && activeStep == 0) ||
-          (!id && isDataUploaded && activeStep == 1) ||
-          (id && isRunBusiness && activeStep == 0) ||
+      if ((id && isRunBusiness && activeStep == 0) ||
           (id && isRunResearch && activeStep == 1) ||
           (id && isRunEDA && activeStep == 2) ||
           (id && isRunML && activeStep == 3)) {
@@ -107,9 +105,14 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
                 var newActiveStep = activeStep + 1;
                 setActiveStep(newActiveStep);               
               }
-              if ((!id && isDataUploaded))
-                  loadProjects();
-      }
+            }
+        if ((!id && isProjectCreated && activeStep == 0) || (!id && isDataUploaded && activeStep == 1)) {
+                newActiveStep = activeStep + 1;
+                setActiveStep(newActiveStep);
+        }
+        if ((!id && isDataUploaded)){
+            loadProjects();
+        }
   }, [isProjectCreated, isDataUploaded, isRunBusiness, isRunResearch, isRunEDA, isRunML]);
 
 
@@ -336,29 +339,26 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
         </Alert>
     </Stack> : null)}
 
-    <Box sx={{ width: '50%', margin: '10px auto' }}>
-      {(activeStep < 6) ? 
-      <Stepper nonLinear activeStep={activeStep}>
-        {steps.map((label, index) => (
-          <Step key={label} completed={completed[index]}>
-            <StepButton color="inherit" onClick={handleStep(index)}>
-              {label}
-            </StepButton>
-          </Step>
-        ))}
-      </Stepper>: (<div class="p-4">Congratulations, all steps are completed for your project.</div>)}
+    <Box sx={{ width: '50%', margin: '10px auto' }}>    
+       {(!id && activeStep<2 || id) ? (
+        <Stepper nonLinear activeStep={activeStep}>
+          {steps.map((label, index) => (
+            <Step key={label} completed={completed[index]}>
+              <StepButton color="inherit" onClick={handleStep(index)}>
+                {label}
+              </StepButton>
+            </Step>
+          ))}
+        </Stepper>
+          )               
+        :
+        (
+        <div class="circle-loader load-complete" style={{"marginLeft": 100}}>
+          <div class="checkmark draw"></div>
+        </div>
+        )}
         <div>
-        {allStepsCompleted() ? (
-          <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-              <Box sx={{ flex: '1 1 auto' }} />
-              <Button onClick={handleReset}>Reset</Button>
-            </Box>
-          </React.Fragment>
-        ) : (
+
           <React.Fragment>
             <Typography sx={{ mt: 2, mb: 1, py: 1 }}>              
               {(!id && activeStep == 0) ? (<Create name={name} setName={setName}></Create>) : 
@@ -413,11 +413,9 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
               <Button variant="contained" onClick={handleNext} sx={{ mr: 1 }}>
                 Next
               </Button> :
-              (!id ? 
-              <Button variant="contained" onClick={createNew} sx={{ mr: 1 }}>
-                Create New Project
-              </Button> : null)
+              null
               }
+                        
               {
               (
                 ((id && activeStep==0) || 
@@ -438,8 +436,7 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
                   null)
               }
             </Box>
-          </React.Fragment>
-        )}
+          </React.Fragment>        
         </div>
     </Box>
     </>
