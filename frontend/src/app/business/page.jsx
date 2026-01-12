@@ -10,7 +10,6 @@ import Image from 'next/image';
 import { Chart as ChartJS, CategoryScale, ArcElement, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { Pie } from 'react-chartjs-2';
-//import { motion } from "motion/react";
 import Link from 'next/link'
 import BusinessDiscovery from './BusinessDiscovery';
 import Alert from '@mui/material/Alert';
@@ -85,12 +84,16 @@ export default function Business() {
   }
   
   var approveProject = async (segment) => {
-     try {
+     try {      
         const response = await fetch(`http://127.0.0.1:8000/api/business-analysis/approve/${segment.project_id}`, {
-          method: 'GET',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json'
-          }
+          },
+          data: JSON.stringify({
+            "approved": true,
+            "feedback": ""
+          })
         });
 
         if (!response.ok) {
@@ -135,7 +138,10 @@ export default function Business() {
           throw new Error('Something went wrong');
         }
         const result = await response.json();
-        setDetailsData(result);
+        if (result.detail && result.detail.toLowerCase().includes('not ready')){
+          setDetailsData([]);
+        }
+        setDetailsData(result["final_report_json"]);
     } catch (error) {
     }
   }
@@ -228,7 +234,7 @@ export default function Business() {
               {filteredSegments.map((segment) => (
                 <div
                   key={segment.project_id}
-                  onClick={() => loadDetails(segment)}
+                  onClick={async () => { await loadDetails(segment); }}
                   className={`flex items-start p-4 gap-4 rounded-lg cursor-pointer transition-colors ${
                     selectedSegment.project_id === segment.project_id
                       ? "selectedHighlight"
@@ -294,7 +300,7 @@ export default function Business() {
                   </Alert>
                 }
               </Stack>
-                    
+
               <TabsContent value="details">                   
                   <BusinessDiscovery view={"list"} data={detailsData}/>
               </TabsContent>

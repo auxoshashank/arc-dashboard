@@ -3,8 +3,6 @@ import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import { faBars, faBell, faCoffee, faFolder, faSearch, faUser, faBackspace, faCalendarAlt, faPaperclip, faAnchor, faAlarmClock, faUmbrella, faPaintbrush, faHand, faHandPointer, faTree, faCaretDown, faCode, faChartBar, faSquareRootVariable, faHandPointDown, faCaretUp, faCaretRight, faArrowRight, faArrowDown, faAngleRight, faAngleDown, faList, faFile, faArrowPointer, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import housing_final_report from './housing_results/final_report.json';
-//import housing_descriptionFile from './housing_04_11/description.md';
 
 import JsonList from './JsonList';
 import ReactMarkdown from 'react-markdown';
@@ -24,8 +22,7 @@ export default function BusinessDiscovery({view, data}) {
 
   useEffect(() => {
     setIsView(view);
-    setJsonData(housing_final_report);
-    //setJsonData(data);
+    setJsonData(data ? data : {});
   }, [view, data]);
 
   return (

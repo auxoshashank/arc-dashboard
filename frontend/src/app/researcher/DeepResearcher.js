@@ -3,9 +3,6 @@ import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import { faBars, faBell, faCoffee, faFolder, faSearch, faUser, faBackspace, faCalendarAlt, faPaperclip, faAnchor, faAlarmClock, faUmbrella, faPaintbrush, faHand, faHandPointer, faTree, faCaretDown, faCode, faChartBar, faSquareRootVariable, faHandPointDown, faCaretUp, faCaretRight, faArrowRight, faArrowDown, faAngleRight, faAngleDown, faList, faFile, faArrowPointer, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import housing_final_report from './deepresearch_report.json';
-//import housing_descriptionFile from './housing_04_11/description.md';
-
 import JsonList from '../business/JsonList';
 import ReactMarkdown from 'react-markdown';
 import ExpandableCard from '../business/ExpandableCard';
@@ -24,8 +21,7 @@ export default function DeepResearcher({view, data}) {
 
   useEffect(() => {
     setIsView(view);
-    setJsonData(housing_final_report);
-    //setJsonData(data);
+    setJsonData(data);
   }, [view, data]);
 
   return (
@@ -70,7 +66,7 @@ export default function DeepResearcher({view, data}) {
                           </div>
                         </div>
                         </>
-                      ) : ((isLoaded && Object.keys(jsonData).length <1) ? <><p style={{padding:10, fontSize: 18}}> <FontAwesomeIcon icon={faArrowPointer} />Please select a project</p></> : <></>)}
+                      ) : ((isLoaded && Object.keys(jsonData).length <1) ? <><p style={{padding:10, fontSize: 18}}> <FontAwesomeIcon icon={faArrowPointer} />No data found</p></> : <></>)}
                   
           </div> : 
             

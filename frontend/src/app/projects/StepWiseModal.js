@@ -415,7 +415,7 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
               </Button> :
               null
               }
-                        
+
               {
               (
                 ((id && activeStep==0) || 
@@ -423,7 +423,7 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
                  (id && activeStep==2) 
                 ) ? 
                   <Button variant="contained" onClick={handleNext} sx={{ mr: 1 }}>
-                    Trigger and Proceed
+                    Proceed
                   </Button> :
                   null
               )
@@ -431,7 +431,7 @@ export default function HorizontalNonLinearStepper({id, loadProjects}) {
 
               {
                  ((id && activeStep==3) ?  <Button variant="contained" onClick={handleNext} sx={{ mr: 1 }}>
-                    Trigger
+                    Complete
                   </Button> :
                   null)
               }

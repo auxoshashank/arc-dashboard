@@ -133,9 +133,14 @@ export default function Main() {
 
         if (!response.ok) {
           throw new Error('Something went wrong');
-        }
+        }       
+
         const result = await response.json();
-        setDetailsData(result);
+        if (result.detail && result.detail.toLowerCase().includes('not ready')){
+          setDetailsData([]);
+        }
+        setDetailsData(result["final_report_json"]);
+
     } catch (error) {
     }
   }
