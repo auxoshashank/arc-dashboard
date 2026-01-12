@@ -20,12 +20,15 @@ import Clear from '@mui/icons-material/Clear';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
-export default function Business() {
+export default function Main() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSegment, setSelectedSegment] = useState({});
   const [activeTab, setActiveTab] = useState("details");
   const [status, setStatus] = useState('');
+  const [stage, setStage] = useState('');
+
   const [projectsData, setProjectsData] = useState([]);
+  const [detailsData, setDetailsData] = useState([]);
 
   const filteredSegments = projectsData.filter((segment) =>
     segment.display_name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -54,24 +57,6 @@ export default function Business() {
     loadProjects();
   }, []);
 
-  var loadDetails = async (segment) => {
-    setSelectedSegment(segment); 
-    try {
-        const response = await fetch(`http://127.0.0.1:8000/api/eda/result/${segment.project_id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error('Something went wrong');
-        }
-        const result = await response.json();
-        setDetailsData(result);
-    } catch (error) {
-    }
-  }
 
   var clarifyProject = async (segment) => {
      try {
@@ -116,6 +101,45 @@ export default function Business() {
     } catch (error) {
     }
   }
+  
+  var loadDetails = async (segment) => {
+    setSelectedSegment(segment); 
+    try {
+        alert(`http://127.0.0.1:8000/api/eda/status/${segment.project_id}`);
+        const response = await fetch(`http://127.0.0.1:8000/api/eda/status/${segment.project_id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Something went wrong');
+        }
+        const result = await response.json();
+        
+        (result.status ? setStatus(result.status) : setStatus(null));
+        (result.stage ? setStage(result.stage) : setStage(null));
+    } catch (error) {
+    }
+
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/eda/result/${segment.project_id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Something went wrong');
+        }
+        const result = await response.json();
+        setDetailsData(result);
+    } catch (error) {
+    }
+  }
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -128,7 +152,7 @@ export default function Business() {
             <span>&gt;</span>
             <span>Projects</span> 
             <span>&gt;</span>
-            <span>EDA</span>                              
+            <span>Business Analysis</span>                              
           </div>
         </div>
       </div>
@@ -163,9 +187,7 @@ export default function Business() {
                 </Link>
               </li>
               <li class="divider">
-              </li>
-              <li class="eda">
-              </li>             
+              </li>                    
               <li>
                 <Link href={`/eda`}>
                   <div class="navLink arc_text">
@@ -181,14 +203,14 @@ export default function Business() {
                     ML Engine                    
                   </div>                  
                 </Link>
-              </li>   
+              </li>
               <li class="divider">
               </li>               
             </ul>
           </div>
           <div className="w-[300px] leftPanel fixedPanel px-6">
             <div class="flexRow">
-              <h1 className="featureHeading m-top-20">EDA</h1>
+              <h1 className="featureHeading m-top-20">EDA Engine</h1>
               {/*<Button className="plusButton m-top-20" onClick={() => setShowNotification(false)}>+</Button>*/}
             </div>
             <div className="relative mb-6">
@@ -231,22 +253,28 @@ export default function Business() {
             </div>
           </div>
 
-          <div className="flex-1 w-[1050px] mainPanel">    
-            {
-              (Object.keys(selectedSegment).length ? 
-                (<>
+          <div className="flex-1 w-[1050px] mainPanel">            
             <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6 mt-1">
-              <div class="flexRow">
-                <div className="sectionHeading p-4">{selectedSegment.display_name}</div>               
-                <div class="mt-2">   
+               {
+              (Object.keys(selectedSegment).length ? 
+                (
+                <>
+                <div class="flexRow">
+                <div className="sectionHeading p-4">{selectedSegment.display_name}                  
+                </div>                   
+                <div className="mt-2">
+               
+                {stage == 'awaiting_clarification' ? 
                 <Button variant="outlined" color="inherit" onClick={()=>{clarifyProject(selectedSegment)}} sx={{ mr: 1 }}>
                     <Clear fontSize="inherit" /> &nbsp; Clarify
-                </Button>
-                <Button variant="outlined" color="inherit" onClick={()=>{approveProject(selectedSegment)}} sx={{ mr: 1 }}>
-                    <CheckIcon fontSize="inherit" /> &nbsp; Approve 
-                </Button>
+                </Button> : null}
+                
+                {stage == 'awaiting_approval' ? 
+                  <Button variant="outlined" color="inherit" onClick={()=>{approveProject(selectedSegment)}} sx={{ mr: 1 }}>
+                      <CheckIcon fontSize="inherit" /> &nbsp; Approve 
+                  </Button> : 
+                null}
                 &nbsp;&nbsp;&nbsp;&nbsp;
-
                 <TabsList>
                   <TabsTrigger value="details">List View</TabsTrigger>
                 </TabsList>
@@ -254,9 +282,9 @@ export default function Business() {
                   <TabsTrigger value="card">Card View</TabsTrigger>
                 </TabsList>
                 </div>
-              </div>
+                </div>
 
-              <Stack sx={{ width: '100%' }} spacing={2}>
+               <Stack sx={{ width: '100%' }} spacing={2}>
                 {status.toUpperCase() == 'FAILED' ?                  
                   <Alert icon={<ErrorIcon fontSize="inherit" />} severity="error">
                   STATUS - {status.toUpperCase()}
@@ -265,17 +293,18 @@ export default function Business() {
                   STATUS - {status.toUpperCase()}
                   </Alert>
                 }
-              </Stack>   
-
-              <TabsContent value="details">
-                  <EDA view={"list"} />
+              </Stack>
+                    
+              <TabsContent value="details">                   
+                  <EDA view={"list"} data={detailsData}/>
               </TabsContent>
-              <TabsContent value="card">
-                  <EDA view={"card"} />
+              <TabsContent value="card">                  
+                  <EDA view={"card"} data={detailsData}/>
               </TabsContent>
+              </>
+              ) : null)
+              }
             </Tabs>
-            </>) : null)
-            }
           </div>
         </div>
       </div>

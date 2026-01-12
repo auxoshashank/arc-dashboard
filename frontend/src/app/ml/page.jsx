@@ -20,13 +20,15 @@ import Clear from '@mui/icons-material/Clear';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
-export default function Business() {
+export default function Main() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSegment, setSelectedSegment] = useState({});
   const [activeTab, setActiveTab] = useState("details");
+  const [status, setStatus] = useState('');
+  const [stage, setStage] = useState('');
 
   const [projectsData, setProjectsData] = useState([]);
-  const [status, setStatus] = useState('');
+  const [detailsData, setDetailsData] = useState([]);
 
   const filteredSegments = projectsData.filter((segment) =>
     segment.display_name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -56,10 +58,9 @@ export default function Business() {
   }, []);
 
 
-
   var clarifyProject = async (segment) => {
      try {
-        const response = await fetch(`http://127.0.0.1:8000/api/ml-engine/clarify/${segment.project_id}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/ml/clarify/${segment.project_id}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -82,10 +83,48 @@ export default function Business() {
     } catch (error) {
     }
   }
+  
+  var approveProject = async (segment) => {
+     try {
+        const response = await fetch(`http://127.0.0.1:8000/api/ml/approve/${segment.project_id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Something went wrong');
+        }
+        //setIsSuccess(true);
+        const result = await response.json();        
+    } catch (error) {
+    }
+  }
+  
   var loadDetails = async (segment) => {
     setSelectedSegment(segment); 
+   
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/eda/result/${segment.project_id}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/ml/status/${segment.project_id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Something went wrong');
+        }
+        const result = await response.json();
+        
+        (result.status ? setStatus(result.status) : setStatus(null));
+        (result.stage ? setStage(result.stage) : setStage(null));
+    } catch (error) {
+    }
+
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/ml/result/${segment.project_id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -101,23 +140,6 @@ export default function Business() {
     }
   }
 
-  var approveProject = async (segment) => {
-     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/ml-engine/approve/${segment.project_id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error('Something went wrong');
-        }
-        //setIsSuccess(true);
-        const result = await response.json();        
-    } catch (error) {
-    }
-  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -130,7 +152,7 @@ export default function Business() {
             <span>&gt;</span>
             <span>Projects</span> 
             <span>&gt;</span>
-            <span>ML</span>                              
+            <span>Business Analysis</span>                              
           </div>
         </div>
       </div>
@@ -165,9 +187,7 @@ export default function Business() {
                 </Link>
               </li>
               <li class="divider">
-              </li>
-              <li class="eda">
-              </li>             
+              </li>                    
               <li>
                 <Link href={`/eda`}>
                   <div class="navLink arc_text">
@@ -183,7 +203,7 @@ export default function Business() {
                     ML Engine                    
                   </div>                  
                 </Link>
-              </li>   
+              </li>
               <li class="divider">
               </li>               
             </ul>
@@ -208,7 +228,7 @@ export default function Business() {
               {filteredSegments.map((segment) => (
                 <div
                   key={segment.project_id}
-                  onClick={() => loadDetails(segment)}                  
+                  onClick={() => loadDetails(segment)}
                   className={`flex items-start p-4 gap-4 rounded-lg cursor-pointer transition-colors ${
                     selectedSegment.project_id === segment.project_id
                       ? "selectedHighlight"
@@ -233,32 +253,38 @@ export default function Business() {
             </div>
           </div>
 
-          <div className="flex-1 w-[1050px] mainPanel">    
-            {
-              (Object.keys(selectedSegment).length ? 
-                (<>
+          <div className="flex-1 w-[1050px] mainPanel">            
             <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6 mt-1">
-              <div class="flexRow">
-                <div className="sectionHeading p-4">{selectedSegment.display_name}</div>               
+               {
+              (Object.keys(selectedSegment).length ? 
+                (
+                <>
+                <div class="flexRow">
+                <div className="sectionHeading p-4">{selectedSegment.display_name}                  
+                </div>                   
                 <div className="mt-2">
-                  <Button variant="outlined" color="inherit" onClick={()=>{clarifyProject(selectedSegment)}} sx={{ mr: 1 }}>
-                      <Clear fontSize="inherit" /> &nbsp; Clarify
-                  </Button>
+               
+                {stage == 'awaiting_clarification' ? 
+                <Button variant="outlined" color="inherit" onClick={()=>{clarifyProject(selectedSegment)}} sx={{ mr: 1 }}>
+                    <Clear fontSize="inherit" /> &nbsp; Clarify
+                </Button> : null}
+                
+                {stage == 'awaiting_approval' ? 
                   <Button variant="outlined" color="inherit" onClick={()=>{approveProject(selectedSegment)}} sx={{ mr: 1 }}>
                       <CheckIcon fontSize="inherit" /> &nbsp; Approve 
-                  </Button>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <TabsList>
-                    <TabsTrigger value="details">List View</TabsTrigger>
-                  </TabsList>
-                  <TabsList>
-                    <TabsTrigger value="card">Card View</TabsTrigger>
-                  </TabsList>
+                  </Button> : 
+                null}
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <TabsList>
+                  <TabsTrigger value="details">List View</TabsTrigger>
+                </TabsList>
+                <TabsList>
+                  <TabsTrigger value="card">Card View</TabsTrigger>
+                </TabsList>
                 </div>
-              </div>
+                </div>
 
-
-              <Stack sx={{ width: '100%' }} spacing={2}>
+               <Stack sx={{ width: '100%' }} spacing={2}>
                 {status.toUpperCase() == 'FAILED' ?                  
                   <Alert icon={<ErrorIcon fontSize="inherit" />} severity="error">
                   STATUS - {status.toUpperCase()}
@@ -267,18 +293,18 @@ export default function Business() {
                   STATUS - {status.toUpperCase()}
                   </Alert>
                 }
-              </Stack>   
-
-              <TabsContent value="details">
-                  <ML view={"list"} />
+              </Stack>
+                    
+              <TabsContent value="details">                   
+                  <ML view={"list"} data={detailsData}/>
               </TabsContent>
-              <TabsContent value="card">
-                  <ML view={"card"} />
+              <TabsContent value="card">                  
+                  <ML view={"card"} data={detailsData}/>
               </TabsContent>
-            </Tabs>
-            </>
+              </>
               ) : null)
               }
+            </Tabs>
           </div>
         </div>
       </div>
