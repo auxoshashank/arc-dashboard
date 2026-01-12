@@ -13,9 +13,9 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 
-export default function DeepResearcher({view,data}) {
+export default function DeepResearcher({view, data}) {
   const [details, setDetails] = useState({});
-  const [jsonData, setJsonData] = useState(housing_final_report);
+  const [jsonData, setJsonData] = useState({});
   const [mrkdown, setMrkdown] = useState('');
   const [heading, setHeading] = useState('Description');
   const [showMarkdown, setShowMarkdown] = useState(true);
@@ -24,6 +24,8 @@ export default function DeepResearcher({view,data}) {
 
   useEffect(() => {
     setIsView(view);
+    setJsonData(housing_final_report);
+    //setJsonData(data);
   }, [view, data]);
 
   return (
@@ -76,31 +78,31 @@ export default function DeepResearcher({view,data}) {
                 (
                   <>
                     <div class="margin-10 flexRow">            
-                      <div style={{width:"33%"}}>            
-                        <ExpandableCard txt={jsonData["FeatureEngineering"]} heading={"Data Schema"} myheight={500}></ExpandableCard>            
-                      </div>
-                      <div style={{width:"66%"}}>
-                        <div class="flexRow">
-                          <div style={{width:"49%"}}>
-                            {(Object.keys(jsonData).length >1) ? <ExpandableCard txt={jsonData["Modeling"]} heading={"Business Impact Tracking"}></ExpandableCard>
-                            :null}
-                          </div>
-                          <div style={{width:"49%"}}>
-                            {(Object.keys(jsonData).length >2) ? <ExpandableCard txt={jsonData["References"]}  heading={"Problem Overview"}></ExpandableCard>
-                            :null}
-                          </div>
-                        </div>
-                        <div class="margin-top-20 flexRow">              
-                          <div style={{width:"49%"}}>
-                            {(Object.keys(jsonData).length >3) ? <ExpandableCard txt={jsonData[Object.keys(jsonData)[3]]}  heading={Object.keys(jsonData)[3]}></ExpandableCard>
-                            :null}
-                          </div>
-                          <div style={{width:"49%"}}>
-                            {(Object.keys(jsonData).length >4) ? <ExpandableCard txt={jsonData[Object.keys(jsonData)[4]]}  heading={Object.keys(jsonData)[4]}></ExpandableCard>
-                            :null}
-                          </div>
-                        </div>
-                      </div>
+                                          <div style={{width:"33%"}}>            
+                                            <ExpandableCard txt={jsonData["FeatureEngineering"]} heading={"Data Schema"} myheight={500}></ExpandableCard>            
+                                          </div>
+                                          <div style={{width:"66%"}}>
+                                            <div class="flexRow">
+                                              <div style={{width:"49%"}}>
+                                                {(Object.keys(jsonData).length >1) ? <ExpandableCard txt={jsonData["Modeling"]} heading={"Business Impact Tracking"}></ExpandableCard>
+                                                :null}
+                                              </div>
+                                              <div style={{width:"49%"}}>
+                                                {(Object.keys(jsonData).length >2) ? <ExpandableCard txt={jsonData["References"]}  heading={"Problem Overview"}></ExpandableCard>
+                                                :null}
+                                              </div>
+                                            </div>
+                                            <div class="margin-top-20 flexRow">              
+                                              <div style={{width:"49%"}}>
+                                                {(Object.keys(jsonData).length >3) ? <ExpandableCard txt={jsonData[Object.keys(jsonData)[3]]}  heading={Object.keys(jsonData)[3]}></ExpandableCard>
+                                                :null}
+                                              </div>
+                                              <div style={{width:"49%"}}>
+                                                {(Object.keys(jsonData).length >4) ? <ExpandableCard txt={jsonData[Object.keys(jsonData)[4]]}  heading={Object.keys(jsonData)[4]}></ExpandableCard>
+                                                :null}
+                                              </div>
+                                            </div>
+                                          </div>
                     </div>
                   </>
                 )
